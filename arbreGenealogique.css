@@ -1,0 +1,94 @@
+* {margin: 0; padding: 0;}
+
+.tree ul {
+    padding-top: 20px; /*décale le haut de l'arbre pour pas qu'il soit collé en haut de la fenêtre*/
+    position: relative; /*le décalage n'est pas fixe*/
+	transition: all 0.5s; 
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s; 
+}
+
+.tree li {
+    float: left; /* Permet que les objets soient décalés sinon ils sont tous alignés verticalement*/
+    text-align: center;
+	list-style-type: none; /*pas de puces devants nos elements de liste*/
+	position: relative;
+	padding: 20px 5px 0 5px;
+	
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+/* création des traits horizontaux à gauche (before) et à droite (after)*/
+.tree li::before, .tree li::after{ 
+	content: '';
+	position: absolute; top: 0; right: 50%;
+	border-top: 1px solid #ccc; /*couleur de la ligne*/
+	width: 50%; height: 20px;
+}
+
+/*création des traits verticaux*/
+.tree li::after{ 
+	right: auto; left: 50%;
+	border-left: 1px solid #ccc; /*couleur de la ligne*/
+}
+
+/*On enleve les traits de ceux qui n'ont pas de fères et soeurs*/
+.tree li:only-child::after, .tree li:only-child::before {
+    display: none;
+}
+
+/*Enlève l'espace au dessus de ceux qui n'ont pas de parents*/
+.tree li:only-child{ padding-top: 0;}
+
+/*Enlève le trait de gauche sur les ainés et inversement pour la droite*/
+.tree li:first-child::before, .tree li:last-child::after{
+	border: 0 none;
+}
+
+.tree li:last-child::before{
+	border-right: 1px solid #ccc; /*ajout des traits verticaux sur les enfants tout à droites*/
+	border-radius: 0 5px 0 0; /* arrondi des liaisons avec l'ainés (gauche)*/
+	-webkit-border-radius: 0 5px 0 0;
+	-moz-border-radius: 0 5px 0 0;
+}
+.tree li:first-child::after{
+	border-radius: 5px 0 0 0; /* arrondi des liaisons avec le dernier enfant (droite)*/
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+}
+
+/*Ajout des traits reliant les parents à leurs enfants*/
+.tree ul ul::before{
+	content: '';
+	position: absolute; top: 0; left: 50%;
+	border-left: 1px solid #ccc;
+	width: 0; height: 20px;
+}
+
+.tree li a{
+	border: 1px solid #ccc; /*couleur de contour de chaque élément (personnage)*/
+	padding: 5px 10px;
+	text-decoration: none; /*on enleve le soulignement des éléments, il y en a de base car ils sont cliquables*/
+	color: black; /*couleur du text de chaque éléments*/
+	font-family: arial, verdana, tahoma;
+	font-size: 11px;
+	display: inline-block; /*permet que les bordures des éléments se joigent correctement aux traits*/
+	
+	border-radius: 5px; /*arrondi les bors des éléments*/
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+/*Ajout des effets*/
+/*We will apply the hover effect the the lineage of the element also*/
+.tree li a:hover, .tree li a:hover {
+    background: #c8e4f8; /*couleur du fond*/
+    color:  blue; /*couleur du text*/
+    border: 1px solid #94a0b4; /*elargissement de la bordure et changement de sa couleur*/
+}
