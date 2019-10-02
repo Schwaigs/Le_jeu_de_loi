@@ -1,0 +1,61 @@
+<!-- Liste des liens utiles 
+http://thecodeplayer.com/walkthrough/css3-family-tree
+https://openclassrooms.com/forum/sujet/css-arbres-de-tournoi-horizontaux
+https://codepen.io/P233/pen/Kzbsi
+https://www.google.fr/search?q=rdf+genealogy
+-->
+
+
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="arbre_css.css">
+        <title>Page arbre généalogique</title>
+    </head>
+    <body>
+        <div class="tree">
+            <ul> 
+                <li> <!-- arbre en entier est un element de la liste -->
+                   
+                    <a href="#">Parent</a>
+
+                    <ul> <!-- création d'une nouvelle liste -->
+
+                        <li> <!-- chaque enfant et sa descendance est un élément -->
+                            <a href="#">Child 1</a>
+                            <ul>
+                                <li>
+                                    <a href="#">petit enfant 1</a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+                        <li> <!-- chaque enfant et sa descendance est un élément -->
+                            <a href="#">Child 2</a>
+                            <ul>
+                                <li><a href="#">petit enfant 2</a></li>
+                                <li>
+                                    <a href="#">petit enfant 3</a>
+                                    <ul>
+                                        <li>
+                                            <a href="#">Great Grand Child</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Great Grand Child</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Great Grand Child</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Grand Child</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                
+                </li> <!-- fin de l'arbre en entier-->
+            </ul> 
+        </div>
+    </body>
+</html>
