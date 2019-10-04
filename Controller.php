@@ -11,11 +11,11 @@ class Controller {
     private $listePerso;
     private $listeLois;
 
-    function getHeritiers() : int[]  /* voir vec le prof pour le type */ {
+    function getHeritiers() : array {
         return $this->$heritiers;
     }
 
-    function setHeritiers(int[] $newHeritiers) : void {
+    function setHeritiers(array $newHeritiers) : void {
         $this->heritiers = $newHeritiers;
     }
 
@@ -27,19 +27,19 @@ class Controller {
         $this->prochainId = $newProchainId;
     }
 
-    function getListePerso() : Personnage[] {
+    function getListePerso() : array {
         return $this->listePerso;
     }
 
-    function setListePerso(Personnage[] $newListePerso) : void {
+    function setListePerso(array $newListePerso) : void {
         $this->listePerso = $newListePerso;
     }
 
-    function getListeLois() : Loi[] {
+    function getListeLois() : array {
         return $this->listeLois;
     }
 
-    function setListeLois(Loi[] $newListeLois) : void {
+    function setListeLois(array $newListeLois) : void {
         $this->listeLois = $newListeLois;
     }
 
@@ -59,7 +59,7 @@ class Controller {
         Loi->__construct($parametre,$paramVal,$description);
     }
 
-    function chercherHeritier () : int[] {
+    function chercherHeritier () : array {
         /*on parcours la collection de nos personnage*/
         foreach ($this->listePerso as $perso) {
             boolval $correspond = true;
@@ -67,7 +67,7 @@ class Controller {
             foreach ($this->listeLois as $loi) {
                 /*si un des attribut ne correspond pas*/
                 $attribut = 'get' . $loi->parametre .'()';
-                if (!($perso->$attribut = $loi->paramVal)){
+                if ($perso->$attribut !== $loi->paramVal){
                     /*alors le personnage ne peut pas etre un heritier du roi actuel*/
                     $correspond = false;
                 }
@@ -86,24 +86,24 @@ class Controller {
         /*on parcours notre collection de personnage*/
         foreach ($this->listePerso as $perso) {
             /*si l'id correspond c'est le bon personnage*/
-            if ($perso->getId() = $id){
+            if ($perso->getId() == $id){
                 $personnage = $perso;
             }
         } 
         return $personnage;
     }
 
-    function choisiRoi (int[] $heritiers) : Personnage {
+    function choisiRoi (array $heritiers) : Personnage {
         /*voir si on met a jour le roi dans cette fonction*/
         $nbHéritiers = count($heritiers);
         /*si on a un seul id dans le tableau des héritiers alors c'est lui le roi*/
-        if ($nbHéritiers = 1) {
+        if ($nbHéritiers == 1) {
             $idRoi = $this->listePerso[0];
             $roi = $this->cherchePersoAvecId($idRoi);
             return $roi;
         }
         /*si aucun heritier le joueur a perdu*/
-        if ($nbHéritiers = 0){
+        if ($nbHéritiers == 0){
           /* comment le mettre en place ?*/
         }
         /*si plusieurs héritiers le choix se fait aléatoirement*/
@@ -122,7 +122,7 @@ class Controller {
         /*on parcours notre liste de personnages*/
         foreach ($this->listePerso as $personnage) {
             /*s'ils ont les memes parents alors ce sont de frère et soeurs */
-            if ($personnage->getParent() = $parent){
+            if ($personnage->getParent() == $parent){
                 $nbfrereEtSoeurs++;
             }
         }
