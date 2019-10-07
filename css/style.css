@@ -1,0 +1,122 @@
+body {
+	font-family: 'Roboto', sans-serif;
+}
+
+/************************
+ * Headers and titles
+ ************************/
+
+header {
+	margin-bottom: 2rem;
+	margin-top: 1rem;
+}
+
+/************************
+ * Global
+ ************************/
+body {
+	background-color: #0f4749;
+	padding-bottom: 5rem;
+}
+
+main {
+	background-color: #fafafa;
+	box-shadow: 0rem 0rem 0.7rem black;
+	height: 40rem;
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+	height: 100%;
+}
+/* Création de trois colonnes pour l'affichage dans le main
+*/
+.container {
+  flex: 33%;
+  max-width: 32%;
+  padding: 0 4px;
+	text-align: center;
+}
+
+.column {
+	display: flex;
+	flex: 33%;
+  flex-direction: column;
+	text-align: center;
+}
+
+.column > div {
+	width: inherit;
+	height: 50%;
+}
+
+#lois {
+	background-color: #05a2a4;
+
+}
+
+#carac {
+	background-color: #9effb7;
+
+}
+
+#event {
+	background-color: #fdd681;
+}
+
+#arbre {
+	background-color: #f99eff;
+}
+/************************
+ * Lists
+ ************************/
+
+/************************
+ * Headers
+ ************************/
+
+ .flex-container {
+   display: flex;
+   align-items: stretch;
+   background-color: #0f4749;
+ }
+
+ .flex-container > div {
+   background-color: DodgerBlue;
+   color: white;
+   width: 100px;
+   margin: 10px;
+   text-align: center;
+   line-height: 75px;
+   font-size: 30px;
+ }
+
+
+header > section {
+	padding-left: 2rem;
+ 	background-color: green;
+	text-align: left;
+	align-items: left;
+	justify-content: left;
+ }
+
+
+/************************
+ * Navigation
+ ************************/
+
+
+/************************
+ * Tables
+ ************************/
+
+/************************
+ * Forms
+ ************************/
+
+
+/************************
+ * Footer
+ ************************/
