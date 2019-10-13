@@ -5,4 +5,4 @@
 
     /*  https://webetu.iutrs.unistra.fr/
         https://webetu.iutrs.unistra.fr/phpmyadmin/
-        <!-- L'utilisateur schwaiger a bien été créé ! Le mot de passe phpMyAdmin est 4cpkbi06 -->
+        <!-- L'utilisateur schwaiger a bien été créé ! Le mot de passe phpMyAdmin est 4cpkbi06 -->*/
