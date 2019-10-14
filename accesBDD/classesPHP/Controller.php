@@ -1,7 +1,7 @@
 <?php
 
-include_once './Personnage.php';
-include_once './Loi.php';
+include_once '../Personnage.php';
+include_once '../Loi.php';
 
 
 class Controller {

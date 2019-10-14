@@ -1,7 +1,7 @@
 <?php
 
-require_once './bddT3.php';
-require_once './MyPDO.php';
+require_once '../bddT3.php';
+require_once '../MyPDO.php';
 
 class Loi {
     private $_parametre;

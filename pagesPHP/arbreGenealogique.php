@@ -1,5 +1,5 @@
 <?php
-require_once './Arbre.php';
+require_once '../accesBDD/classesPHP/Arbre.php';
 ?>
 
 <!DOCTYPE html>

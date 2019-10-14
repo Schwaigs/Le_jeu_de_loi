@@ -1,5 +1,5 @@
 <?php
-require_once './Loi.php';
+require_once '../accesBDD/classesPHP/Loi.php';
 ?>
 
 <!DOCTYPE html>

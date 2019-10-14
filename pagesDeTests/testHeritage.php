@@ -1,5 +1,5 @@
 <?php
-require_once './Heritage.php';
+require_once '../accesBDD/classesPHP/Heritage.php';
 ?>
 
 <!DOCTYPE html>

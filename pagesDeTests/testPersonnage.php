@@ -1,5 +1,5 @@
 <?php
-require_once './Personnage.php';
+require_once '../accesBDD/classesPHP/Personnage.php';
 ?>
 
 <!DOCTYPE html>
