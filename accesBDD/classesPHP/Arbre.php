@@ -1,7 +1,7 @@
 <?php
 
-require_once '../bddT3.php';
-require_once '../MyPDO.php';
+require_once '../accesBDD/bddT3.php';
+require_once '../accesBDD/MyPDO.php';
 
 class Arbre {
 
@@ -37,7 +37,8 @@ class Arbre {
             $i = 1;
             while (isset($tableParentEnfants[$idParent][$i])){
                 echo'<li>';
-                echo'<a href="#">'.$tableParentEnfants[$idParent][$i].'</a>';
+                $class = $this->chercheClassePerso($tableParentEnfants[$idParent][$i]);
+                echo'<a '.$class.' href="#">'.$tableParentEnfants[$idParent][$i].'</a>';
                 //et on fait la même chose avec ses propres enfants
                 $this->remplissageArbre($tableParentEnfants[$idParent][$i],$tableParentEnfants);
                 echo'</li>';
@@ -45,6 +46,25 @@ class Arbre {
             }
             echo'</ul>';
         }
+    }
+
+    public function chercheClassePerso(int $id) : string {
+        $resultClasse = MyPDO::pdo()->prepare("SELECT classe FROM personnage WHERE id=:id");
+        $idSucces = $resultClasse->bindValue(':id',$id, PDO::PARAM_STR);
+        $resultClasse->execute();
+        $classe;
+        foreach($resultClasse as $row){
+            $classe = $row['classe'];
+        }
+
+        if($classe == 'roi'){
+            $classe = 'id="roi"';
+        }
+        else{
+            $classe = 'class="'.$classe.'"';
+        }
+
+        return $classe;
     }
 
     public function initArbre() : void {
@@ -69,7 +89,8 @@ class Arbre {
 
         //on creer d'abord le personnage racine
         $persoRacine = 1;
-        echo '<a href="#">'.$persoRacine.'</a>';
+        $class = $this->chercheClassePerso($persoRacine);
+        echo'<a '.$class.' href="#">'.$persoRacine.'</a>';
 
         //la suite de l'arbre est créer de maniere recursive
         $this->remplissageArbre($persoRacine,$tabParentEnfant);

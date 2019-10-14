@@ -85,6 +85,25 @@
 	-moz-transition: all 0.5s;
 }
 
+.tree li a.heritier {
+    border: 1px solid #54bf0c;
+    background-color: #54bf0c;
+}
+
+.tree li a.nonHeritier{
+    border: 1px solid #ed0909;
+    background-color: #ed0909;
+}
+
+#roi {
+    border: 1px solid #f4bb27;
+    background-color: #f4bb27;
+}
+
+.mort a{
+    border: 1px solid #ccc;
+}
+
 /*Ajout des effets*/
 /*We will apply the hover effect the the lineage of the element also*/
 .tree li a:hover, .tree li a:hover {

@@ -5,7 +5,7 @@ require_once '../accesBDD/classesPHP/Arbre.php';
 <!DOCTYPE html>
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="arbreGenealogique.css">
+        <link rel="stylesheet" href="../css/arbreGenealogique.css">
         <title>Page arbre généalogique</title>
     </head>
     <body>

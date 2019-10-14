@@ -1,7 +1,8 @@
 <?php
 
-require_once '../bddT3.php';
-require_once '../MyPDO.php';
+require_once '../accesBDD/bddT3.php';
+require_once '../accesBDD/MyPDO.php';
+require_once '../accesBDD/classesPHP/Heritage.php';
 
 class Personnage {
 
@@ -170,8 +171,50 @@ class Personnage {
         
         $result->execute();
         $nbLigne = $result->rowCount();
+
+        $this->ajoutCouleurPerso();
         //on renvoie le nb de lignes modifiées dans la base
         return $nbLigne;
     }
 
+    public function ajoutCouleurPerso() : void {
+        //on cherche l'id le plus grand dans la table, c'est celui du dernier personnage ajouté
+        $resultID = MyPDO::pdo()->prepare("SELECT max(id) FROM personnage");
+        $resultID->execute();
+        $id;
+        $nbLigne = $resultID->rowCount();
+        echo'nb ligne max(id) ='.$nbLigne.'<br>';
+        foreach($resultID as $row){
+            $id[] = $row['max(id)'];
+        }
+
+        $heritage = new Heritage();
+        try{
+            //cherche les heritiers possibles
+            $heritiers = $heritage->chercherHeritier();
+            if($heritiers == null){
+                echo "vous n'avez aucun héritiers, vous avez perdu";
+            }
+            else{
+                //on cherche si l'id du nouveau perso est dans la liste des heritiers
+                $herit = false;
+                foreach ($heritiers as $perso){
+                    if ($perso == $id){
+                        $herit = true;
+                    }
+                }
+
+                if ($herit){
+                    $heritage->classePersoHeritier($id);
+                }
+                else{
+                    $heritage->classePersoNonHeritier($heritiers);
+                }
+            }
+        }
+        catch( PDOException $e ) {
+            echo 'Erreur : '.$e->getMessage();
+            exit;
+        }
+    }
 }
