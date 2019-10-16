@@ -104,7 +104,7 @@ class Heritage {
         }
        
         /* On cherche les personnages de notre base qui sont encore en vie et français*/
-        $resultPerso = MyPDO::pdo()->prepare("SELECT id,parent,etatSante,religion,sexe FROM personnage WHERE estEnVie = 1 AND roi = 0");
+        $resultPerso = MyPDO::pdo()->prepare("SELECT id,parent,etatSante,religion,sexe FROM personnage WHERE classe not in ('mort','roi')");
         $resultPerso->execute();
         $nbLigne = $resultPerso->rowCount();
 
@@ -151,59 +151,40 @@ class Heritage {
     public function classePersoHeritier (array $heritiers) : void {
         //change dans la base de donnée l'attribut classe des personnages pouvant être des heritiers
         $in_heritiers = implode(',',$heritiers);
-        echo $in_heritiers.'<br>';
 
         $resultAffichage = MyPDO::pdo()->prepare("SELECT id from personnage WHERE id in (".$in_heritiers.")");
         $resultAffichage->execute();
-        $nbLigne = $resultAffichage->rowCount();
-        echo'nblignes heritiers renvoyées = '.$nbLigne.'<br>';
-        foreach ($resultAffichage as $row){
-            echo' id = '.$row['id'].'<br>';
-        }
 
         $resultHerit = MyPDO::pdo()->prepare("UPDATE personnage SET classe='heritier' WHERE id in (".$in_heritiers.")");
         $resultHerit->execute();
-
-        $nbLigne = $resultHerit->rowCount();
-        echo'nblignes heritiers modifiés = '.$nbLigne.'<br>';
     }
 
     public function classePersoNonHeritier (array $heritiers) : void {
         //change dans la base de donnée l'attribut classe des personnages ne pouvant pas être des heritiers
         $in_heritiers = implode(',',$heritiers);
         
-        $resultAffichage = MyPDO::pdo()->prepare("SELECT id from personnage WHERE estEnVie=1 AND roi=0 AND id not in (".$in_heritiers.")");
+        $resultAffichage = MyPDO::pdo()->prepare("SELECT id from personnage WHERE classe not in ('mort','roi') AND id not in (".$in_heritiers.")");
         $resultAffichage->execute();
-        $nbLigne = $resultAffichage->rowCount();
-        echo'nblignes nonheritiers renvoyée = '.$nbLigne.'<br>';
-        foreach ($resultAffichage as $row){
-            echo' id = '.$row['id'].'<br>';
-        }
         
-        $resultHerit = MyPDO::pdo()->prepare("UPDATE personnage SET classe='nonHeritier' WHERE estEnVie=1 AND roi=0 AND id not in (".$in_heritiers.")");
+        $resultHerit = MyPDO::pdo()->prepare("UPDATE personnage SET classe='nonHeritier' WHERE classe not in ('mort','roi') AND id not in (".$in_heritiers.")");
         $resultHerit->execute();
-        $nbLigne = $resultHerit->rowCount();
-        echo'nblignes nonheritiers modifiés = '.$nbLigne.'<br>';
     }
 
     public function choisiRoi () : int {
         /* On compte le nombre d'héritier possible */
         $heritiers = $this->chercherHeritier();
-        $nbHeritiers = count($heritiers);
         //s'il n'y a aucun heritier le joueur à perdu
         if($heritiers == null){
             // --------------------------- mettre en place une variable dans le tableau $_SESSION------------------------
             return 0;
         }
 
-        print_r($heritiers);
-        echo'<br>';
-
         //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
         $this->classePersoHeritier($heritiers);
         $this->classePersoNonHeritier($heritiers);
 
         
+        $nbHeritiers = count($heritiers);
         $idRoi;
         /*si on a un seul id dans le tableau des héritiers alors c'est lui le roi*/
         if ($nbHeritiers == 1) {
@@ -219,12 +200,12 @@ class Heritage {
     
         /*On met a jour la bdd */
         /* l'ancien roi est destitué et meurt */
-        $resultAncienRoi = MyPDO::pdo()->prepare("UPDATE personnage SET roi=0,estEnVie=0,classe='mort' WHERE roi = 1");
+        $resultAncienRoi = MyPDO::pdo()->prepare("UPDATE personnage SET classe='mort' WHERE classe='roi'");
         $resultAncienRoi->execute();
         $nbLigne = $resultAncienRoi->rowCount();
 
         /* On change le nouveau roi */
-        $resultNewRoi = MyPDO::pdo()->prepare("UPDATE personnage SET roi=1,classe='roi' WHERE id = :idRoi");
+        $resultNewRoi = MyPDO::pdo()->prepare("UPDATE personnage SET classe='roi' WHERE id = :idRoi");
         $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_STR);
         $resultNewRoi->execute();
         $nbLigne = $resultNewRoi->rowCount();
