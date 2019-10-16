@@ -32,7 +32,6 @@ class Loi {
             //cherche les heritiers possibles apres la mise en place de la loi
             $heritiers = $heritage->chercherHeritier();
             if($heritiers == null){
-                echo "vous n'avez aucun héritiers, vous avez perdu";
             }
             else{
                 //maj des heritiers et non heritiers dans la base

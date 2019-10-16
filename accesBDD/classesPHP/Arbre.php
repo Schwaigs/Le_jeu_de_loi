@@ -38,7 +38,8 @@ class Arbre {
             while (isset($tableParentEnfants[$idParent][$i])){
                 echo'<li>';
                 $class = $this->chercheClassePerso($tableParentEnfants[$idParent][$i]);
-                echo'<a '.$class.' href="#">'.$tableParentEnfants[$idParent][$i].'</a>';
+                //le lien mene vers la meme page (l'index) mais avec en get l'indentifiant du personnage
+                echo'<a '.$class.' href="communArbrePerso.php?id='.$tableParentEnfants[$idParent][$i].'">'.$tableParentEnfants[$idParent][$i].'</a>';
                 //et on fait la même chose avec ses propres enfants
                 $this->remplissageArbre($tableParentEnfants[$idParent][$i],$tableParentEnfants);
                 echo'</li>';
@@ -90,7 +91,7 @@ class Arbre {
         //on creer d'abord le personnage racine
         $persoRacine = 1;
         $class = $this->chercheClassePerso($persoRacine);
-        echo'<a '.$class.' href="#">'.$persoRacine.'</a>';
+        echo'<a '.$class.' href="communArbrePerso.php?id=1">'.$persoRacine.'</a>';
 
         //la suite de l'arbre est créer de maniere recursive
         $this->remplissageArbre($persoRacine,$tabParentEnfant);

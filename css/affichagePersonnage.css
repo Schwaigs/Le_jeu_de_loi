@@ -1,0 +1,32 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	background-color: #fcfbdb;
+}
+
+header {
+	margin-bottom: 1.5rem;
+	margin-top: 1.5rem;
+	font-size: 1.5rem;
+}
+
+main {
+	display : flex;
+	flex-direction: column;
+	height: 40rem;
+	align-items: stretch;
+}
+
+div {
+	display : flex;
+	flex-direction: row; 
+}
+
+p{
+	flex-grow: 1;
+	text-align: center;
+	margin-right: 0.5rem;
+	margin-left: 0.5rem;
+}
+
+
+

@@ -10,7 +10,8 @@ class Personnage {
     }
 
     public function choixReligion() : string {   
-        //choisi aléatoirement une religion pour la creation d'un personnage parmis celles disponible dans la bdd selon différentes probabilitées
+        //choisi aléatoirement une religion pour la creation d'un personnage 
+        //parmis celles disponible dans la bdd selon différentes probabilitées
         $religionAlea;
 
         $numAlea = rand(1,100);
@@ -39,7 +40,8 @@ class Personnage {
     }
 
     public function choixNationnalite() : string { 
-        //choisi aléatoirement une nationnalite pour la creation d'un personnage parmis celles disponible dans la bdd selon différentes probabilitées  
+        //choisi aléatoirement une nationnalite pour la creation d'un personnage 
+        //parmis celles disponible dans la bdd selon différentes probabilitées  
         $nationnaliteAlea;
 
         $numAlea = rand(1,100);
@@ -70,7 +72,8 @@ class Personnage {
     }
 
     public function chercherOrdreNaissance(int $parent, int $age) : int {
-        //cherche dans la base tout les frères et soeurs plus âgés qu'un personnage pour connaitre son ordre de naissance
+        //cherche dans la base tout les frères et soeurs plus âgés qu'un personnage 
+        //pour connaitre son ordre de naissance
         $result = MyPDO::pdo()->prepare("SELECT id FROM personnage WHERE parent = :idParent AND age > :agePerso");
         $idSucces = $result->bindValue(':idParent',$parent, PDO::PARAM_STR);
         $ageSucces = $result->bindValue(':agePerso',$age, PDO::PARAM_STR);
@@ -90,7 +93,8 @@ class Personnage {
     }
 
     public function choixEtatSante() : string {
-        //choisi aléatoirement un etat de sante pour la creation d'un personnage parmis ceux disponibles dans la bdd selon différentes probabilitées  
+        //choisi aléatoirement un etat de sante pour la creation d'un personnage 
+        //parmis ceux disponibles dans la bdd selon différentes probabilitées  
         $etatSanteAlea;
 
         $numAlea = rand(1,100);
@@ -110,9 +114,10 @@ class Personnage {
     }
 
     public function choixParent() : int {
-        //choisi aléatoirement un parent pour la creation d'un personnage parmis les perso la bdd
+        //choisi aléatoirement un parent pour la creation d'un personnage 
+        //parmis les perso la bdd
         //on récupère les id de chaque parent potentiel
-        $resultParents = MyPDO::pdo()->prepare("SELECT id FROM personnage WHERE age < 65 AND age > 15 AND estEnVie = 1");
+        $resultParents = MyPDO::pdo()->prepare("SELECT id FROM personnage WHERE age < 65 AND age > 15 AND classe!='mort'");
         $resultParents->execute();
         $nbLigne = $resultParents->rowCount();
         //Si pas de parent possible
@@ -136,9 +141,8 @@ class Personnage {
     public function creerPersonnage() : int {
         /*On met null pour l'id car la base gère l'auto-incrémentation 
          age toujours 0 vu qu'il s'agit de naissances
-         estEnVie toujours vrai donc égal à 1s
-         roi égal à 0 car faux*/
-        $result = MyPDO::pdo()->prepare("INSERT INTO personnage VALUES(null,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,1,:parent,0)");
+         la classe est nulle car on la remplie juste apres l'insertion avec la methode ajoutCouleurPerso()*/
+        $result = MyPDO::pdo()->prepare("INSERT INTO personnage VALUES(null,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,null)");
     
         $religion = $this->choixReligion();
         echo'religion = '.$religion.'<br>';
@@ -183,7 +187,6 @@ class Personnage {
         $resultID->execute();
         $id;
         $nbLigne = $resultID->rowCount();
-        echo'nb ligne max(id) ='.$nbLigne.'<br>';
         foreach($resultID as $row){
             $id[] = $row['max(id)'];
         }
@@ -193,7 +196,6 @@ class Personnage {
             //cherche les heritiers possibles
             $heritiers = $heritage->chercherHeritier();
             if($heritiers == null){
-                echo "vous n'avez aucun héritiers, vous avez perdu";
             }
             else{
                 //on cherche si l'id du nouveau perso est dans la liste des heritiers
