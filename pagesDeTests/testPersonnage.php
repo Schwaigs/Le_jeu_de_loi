@@ -20,6 +20,6 @@ require_once '../accesBDD/classesPHP/Personnage.php';
             }
         ?>
 
-        <a href="../pagesPHP/arbreGenealogique.php"> Cliquez pour aller voir l'arbre </a>
+        <a href="arbreGenealogique.php"> Cliquez pour aller voir l'arbre </a>
     </body>
 </html>

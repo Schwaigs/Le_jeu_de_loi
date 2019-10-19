@@ -10,7 +10,7 @@ require_once '../accesBDD/classesPHP/Loi.php';
     <body>
 
         <?php
-            $loi = new Loi('religion','catholique');
+            $loi = new Loi('ordreNaissance','jeune');
             try{
                 echo 'parametre= '.$loi->getParametre().'<br>';
                 echo 'paramVal = '.$loi->getParamVal().'<br>';
