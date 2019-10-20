@@ -47,24 +47,24 @@ class Personnage {
         $numAlea = rand(1,100);
         /* 95 % de français */
         if ($numAlea < 96){
-            $nationnaliteAlea = 'français';
+            $nationnaliteAlea = 'france';
         }
         /* 5 % les autres */
         if ($numAlea > 95){
             $numAlea = rand(1,13);
             switch ($numAlea) {
-                case 1 : $nationnaliteAlea = 'allemand';
-                case 2 : $nationnaliteAlea = 'autrichien';
-                case 3 : $nationnaliteAlea = 'belge';
-                case 4 : $nationnaliteAlea = 'britannique';
-                case 5 : $nationnaliteAlea = 'danois';
-                case 6 : $nationnaliteAlea = 'espagnol';
-                case 7 : $nationnaliteAlea = 'hollandais';
-                case 8 : $nationnaliteAlea = 'islandais';
-                case 9 : $nationnaliteAlea = 'italien';
-                case 10 : $nationnaliteAlea = 'luxembourgeois';
-                case 11 : $nationnaliteAlea = 'norvegien';
-                case 12 : $nationnaliteAlea = 'suedois';
+                case 1 : $nationnaliteAlea = 'allemagne';
+                case 2 : $nationnaliteAlea = 'autriche';
+                case 3 : $nationnaliteAlea = 'belgique';
+                case 4 : $nationnaliteAlea = 'grande bretagne';
+                case 5 : $nationnaliteAlea = 'danemark';
+                case 6 : $nationnaliteAlea = 'espagne';
+                case 7 : $nationnaliteAlea = 'hollande';
+                case 8 : $nationnaliteAlea = 'islande';
+                case 9 : $nationnaliteAlea = 'italie';
+                case 10 : $nationnaliteAlea = 'luxembourg';
+                case 11 : $nationnaliteAlea = 'norvege';
+                case 12 : $nationnaliteAlea = 'suede';
                 case 13 : $nationnaliteAlea = 'suisse';
             }
         }
@@ -76,7 +76,7 @@ class Personnage {
         //pour connaitre son ordre de naissance
         $result = MyPDO::pdo()->prepare("SELECT id FROM personnage WHERE parent = :idParent AND age > :agePerso");
         $idSucces = $result->bindValue(':idParent',$parent, PDO::PARAM_INT);
-        $ageSucces = $result->bindValue(':agePerso',$age, PDO::PARAM_);
+        $ageSucces = $result->bindValue(':agePerso',$age, PDO::PARAM_INT);
         $result->execute();
         //le nombre de lignes renvoyées par la requete correspond directement au nb de frères et soeurs plus agés
         $nbfrereEtSoeurs = $result->rowCount();
