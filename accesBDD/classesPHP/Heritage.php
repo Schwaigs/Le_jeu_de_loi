@@ -206,7 +206,7 @@ class Heritage {
 
         /* On change le nouveau roi */
         $resultNewRoi = MyPDO::pdo()->prepare("UPDATE personnage SET classe='roi' WHERE id = :idRoi");
-        $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_STR);
+        $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_INT);
         $resultNewRoi->execute();
         $nbLigne = $resultNewRoi->rowCount();
 
