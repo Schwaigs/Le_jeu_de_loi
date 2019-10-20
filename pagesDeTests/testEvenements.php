@@ -62,7 +62,7 @@
               }
                 /*Afficher la liste des lois que l'utilistateur peut choisir */
                 foreach ( $result as $row ) {
-                    echo '<input type="radio" name="Lois" value="' . $row['description'] .'">'. $row['description'] . '<br>';
+                    echo '<input type="radio" name="Lois" value="' . $row['label'] .'">'. $row['label'] . '<br>';
                 }
                 ?>
               <input type="submit" value="Voter">
