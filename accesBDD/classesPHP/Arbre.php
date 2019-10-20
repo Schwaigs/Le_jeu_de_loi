@@ -51,7 +51,7 @@ class Arbre {
 
     public function chercheClassePerso(int $id) : string {
         $resultClasse = MyPDO::pdo()->prepare("SELECT classe FROM personnage WHERE id=:id");
-        $idSucces = $resultClasse->bindValue(':id',$id, PDO::PARAM_STR);
+        $idSucces = $resultClasse->bindValue(':id',$id, PDO::PARAM_INT);
         $resultClasse->execute();
         $classe;
         foreach($resultClasse as $row){

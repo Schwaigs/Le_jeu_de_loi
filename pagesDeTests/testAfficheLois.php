@@ -28,34 +28,17 @@
             <p>Ceci est une loi</p>
             Liste des lois en place : <br><br>
             <?php
-            require_once '../accesBDD/bddT3.php';
-
-            //   Créez un objet PDO en utilisant les informations contenues dans bdd.php
-            try {
-              $pdo = new PDO(SQL_DSN, SQL_USERNAME, SQL_PASSWORD);
-            }
-            catch( PDOException $e ) {
-              echo 'Erreur : '.$e->getMessage();
-              exit;
-            }
-            //  Construisez et exécute une requête préparée
-            $result = $pdo->prepare(
-                "SELECT * FROM lois WHERE misEnPlace=1"
-            );
-
-            // 4. On exécute la requête $result
-            $ok2 = $result->execute();
-
-            if (0 == $result->rowCount())
-            {
-              echo 'nope';
-            }
-            else {
-              /*Afficher la liste des lois que l'utilistateur peut choisir */
-              foreach ( $result as $row ) {
-                  echo '<p>'. $row['description'] . '</p><br>';
-              }
-            }
+            require_once '../accesBDD/MyPDO.php';
+            require_once '../accesBDD/classesPHP/CtrlLoi.php';
+                $ctrlLoi = new CtrlLoi();
+                try{
+                    $ctrlLoi->afficheLoiEnPlace();
+                }
+                catch( PDOException $e ) {
+                    echo 'Erreur : '.$e->getMessage();
+                    exit;
+                }
+            
               ?>
           </div>
           <div id="carac">

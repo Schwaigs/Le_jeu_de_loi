@@ -104,7 +104,7 @@ class Heritage {
         }
        
         /* On cherche les personnages de notre base qui sont encore en vie et français*/
-        $resultPerso = MyPDO::pdo()->prepare("SELECT id,parent,etatSante,religion,sexe FROM personnage WHERE classe not in ('mort','roi')");
+        $resultPerso = MyPDO::pdo()->prepare("SELECT id,parent,etatSante,religion,sexe FROM personnage WHERE classe not in ('mort','roi') and nationnalite='france'");
         $resultPerso->execute();
         $nbLigne = $resultPerso->rowCount();
 
@@ -206,7 +206,7 @@ class Heritage {
 
         /* On change le nouveau roi */
         $resultNewRoi = MyPDO::pdo()->prepare("UPDATE personnage SET classe='roi' WHERE id = :idRoi");
-        $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_STR);
+        $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_INT);
         $resultNewRoi->execute();
         $nbLigne = $resultNewRoi->rowCount();
 
