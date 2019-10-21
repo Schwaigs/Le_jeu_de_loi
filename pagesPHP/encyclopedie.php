@@ -2,9 +2,11 @@
 <html lang="fr" dir="ltr">
   <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Encyclopédie</title>
+    <link rel="stylesheet" href="../css/styleEncyclo.css">
   </head>
   <body>
+    <h1>Encyclopédie: </h1>
     <?php
     require_once '../accesBDD/bddT3.php';
 
