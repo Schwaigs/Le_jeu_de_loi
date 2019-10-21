@@ -13,7 +13,7 @@ class Arbre {
         //on l'initialise avec la racine 1
         $tableParentEnfants[1][] = 1;
         foreach ($tabPersoParents as $enfant => $parent){
-            //si on pas de case ayant pour clé $parent dans le tableau $tableParentEnfants alors on en créer une         
+            //si on pas de case ayant pour clé $parent dans le tableau $tableParentEnfants alors on en créer une
             if (!(array_key_exists($parent,$tableParentEnfants))){
                 //on creer pour le parent une liste de ses enfants contenant à la premiere case l'id du parent
                 $tableParentEnfants[$parent][] = $parent;
@@ -39,7 +39,7 @@ class Arbre {
                 echo'<li>';
                 $class = $this->chercheClassePerso($tableParentEnfants[$idParent][$i]);
                 //le lien mene vers la meme page (l'index) mais avec en get l'indentifiant du personnage
-                echo'<a '.$class.' href="communArbrePerso.php?id='.$tableParentEnfants[$idParent][$i].'">'.$tableParentEnfants[$idParent][$i].'</a>';
+                echo'<a '.$class.' href="../pageDeLancement/lancement.php?id='.$tableParentEnfants[$idParent][$i].'">'.$tableParentEnfants[$idParent][$i].'</a>';
                 //et on fait la même chose avec ses propres enfants
                 $this->remplissageArbre($tableParentEnfants[$idParent][$i],$tableParentEnfants);
                 echo'</li>';
@@ -91,7 +91,7 @@ class Arbre {
         //on creer d'abord le personnage racine
         $persoRacine = 1;
         $class = $this->chercheClassePerso($persoRacine);
-        echo'<a '.$class.' href="communArbrePerso.php?id=1">'.$persoRacine.'</a>';
+        echo'<a '.$class.' href="../pageDeLancement/lancement.php?id=1">'.$persoRacine.'</a>';
 
         //la suite de l'arbre est créer de maniere recursive
         $this->remplissageArbre($persoRacine,$tabParentEnfant);
