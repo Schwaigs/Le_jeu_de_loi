@@ -28,20 +28,19 @@ main {
 .main {
   display: flex;
   flex-wrap: wrap;
-  padding: 0 4px;
 	height: 100%;
 }
 /* Création de trois colonnes pour l'affichage dans le main
 */
 .container {
-  flex: 33%;
-  max-width: 32%;
-  padding: 0 4px;
+  flex: 59%;
+	max-width: 59%;
 	text-align: center;
 }
 
 .column {
 	display: flex;
+	max-width: 33%;
 	flex: 33%;
   flex-direction: column;
 	text-align: center;
@@ -52,22 +51,50 @@ main {
 	height: 50%;
 }
 
+#titreJeu {
+	font-size: 3rem;
+	font-weight: bold;
+}
+
+#encyclo {
+	
+}
+#encyclo:hover {
+	cursor: pointer;
+}
+
 #lois {
 	background-color: #05a2a4;
-
+	padding-top: 0.5rem;
 }
 
 #carac {
 	background-color: #9effb7;
-
+	padding-top: 0.5rem;
 }
 
 #event {
 	background-color: #fdd681;
 }
+#event > h1 {
+	margin-top: 1rem;
+}
 
-#arbre {
-	background-color: #f99eff;
+.contenuEvent {
+	margin: 1rem;
+	background-color: #fafafa;
+	height: 85%;
+	max-height: 85%;
+	width: inherit;
+	max-width: 67.5rem;
+	overflow: auto;
+	text-align: left;
+	padding-left: 1rem;
+}
+
+#bandeauArbre {
+	background-color: #fafafa;
+
 }
 /************************
  * Lists
@@ -86,7 +113,7 @@ main {
  .flex-container > div {
    background-color: DodgerBlue;
    color: white;
-   width: 100px;
+   width: 200px;
    margin: 10px;
    text-align: center;
    line-height: 75px;
@@ -107,7 +134,42 @@ header > section {
  * Navigation
  ************************/
 
+/* Bandeau d'affichage de l'arbre généalogique*/
+#bandeauArbre {
+	height: 100%;
+  width: 8%;
+	max-width: 8%;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #fafafa;
+  overflow-x: hidden;
 
+}
+#bandeauArbre > h1 {
+	writing-mode: vertical-lr;
+	transform: rotate(180deg);
+	margin-left: 3rem;
+	margin-top: 2rem;
+	font-size: 3rem;
+}
+#bandeauArbre > span {
+	margin-left: 1rem;
+	margin-bottom: 1rem;
+	padding: 0.5rem;
+	border-top-right-radius: 1rem;
+	border-bottom-right-radius: 1rem ;
+	border-top-left-radius: 1rem;
+	border-bottom-left-radius: 1rem ;
+	font-weight: bold;
+	padding-right: 1rem;
+	text-align: right;
+	box-shadow: 0.3rem 0.3rem 0.5rem black;
+}
+span:hover {
+	background-color: rgb(222,222,222);
+	cursor: pointer;
+}
 /************************
  * Tables
  ************************/
@@ -116,7 +178,63 @@ header > section {
  * Forms
  ************************/
 
-
 /************************
  * Footer
  ************************/
+
+ /************************
+  * Bandeau dépliable
+  ************************/
+	/* Overlay*/
+	.overlay {
+	  height: 71%;
+	  width: 0;
+	  position: fixed;
+	  z-index: 1;
+	  left: 0;
+	  top: 0;
+	  background-color: rgb(255,255,255); /* Fond blanc */
+	  background-color: rgba(255,255,255, 0.9); /* Blanc avec transparence */
+	  overflow-x: hidden;
+	  transition: 0.5s; /* Temps de déroulement */
+		margin-top: 9rem;
+	}
+
+	/* Positionnement du contenu dans l'overlay*/
+	.overlay-content {
+	  position: relative;
+	  top: 25%;
+	  width: 100%;
+	  text-align: center;
+	  margin-top: 30px;
+	}
+
+	/* Décoration bouton fermeture */
+	.overlay a {
+	  text-decoration: none;
+	  font-size: 36px;
+	  color: #818181;
+	  transition: 0.3s; /* Transition effects on hover (color) */
+	}
+	/* Quand la souris passe au dessus du bouto nde fermeture */
+	.overlay a:hover, .overlay a:focus {
+	  color: #f1f1f1;
+	}
+
+	/* Positionnement du bouton de fermeture */
+	.overlay .btnFermer {
+	  position: absolute;
+	  top: 20px;
+	  right: 45px;
+	  font-size: 60px;
+	}
+
+	/* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+	@media screen and (max-height: 450px) {
+	  .overlay a {font-size: 20px}
+	  .overlay .btnFermer {
+	    font-size: 40px;
+	    top: 15px;
+	    right: 35px;
+	  }
+	}

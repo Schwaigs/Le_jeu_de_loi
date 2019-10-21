@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
   <head>
-    <meta charset="utf-8">
-    <title> Titre non défini </title>
+    <meta charset="utf-8"
+    name="viewport"
+    content="width=device-width, initial-scale=1">
+    <title> Jeu de Lois </title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/arbreGenealogique.css">
   </head>
 
   <body>
@@ -11,25 +14,85 @@
     <header>
       <div class="flex-container">
         <div style="flex-grow: 1">Année</div>
-        <div style="flex-grow: 8">Titre</div>
-        <div style="flex-grow: 1">Aide/Encyclopédie</div>
+        <div id="titreJeu" style="flex-grow: 8">Jeu de lois HAHAHAHA :)</div>
+        <div id="encyclo" style="flex-grow: 1">Aide/Encyclopédie</div>
       </div>
     </header>
 
     <main>
       <div class="main">
-        <div class="container" id="arbre">
-          <p>Première phrase</p>
+        <div id="bandeauArbre">
+          <h1>Arbre généalogique</h1>
+          <!-- Création du bandeau dépliable  -->
+          <div id="arbreDepl" class="overlay">
+
+           <!-- Bouton pour fermer/replier le bandeau -->
+           <a href="javascript:void(0)" class="btnFermer" onclick="fermeArbre()">&times;</a>
+
+           <!-- Contenu de l'overlay -->
+           <div class="tree">
+               <ul>
+                   <li> <!-- arbre en entier est un element de la liste -->
+
+                       <a href="#">Parent</a>
+
+                       <ul> <!-- création d'une nouvelle liste -->
+
+                           <li> <!-- chaque enfant et sa descendance est un élément -->
+                               <a href="#">Child 1</a>
+                               <ul>
+                                   <li>
+                                       <a href="#">petit enfant 1</a>
+                                   </li>
+                               </ul>
+                           </li>
+
+
+                           <li> <!-- chaque enfant et sa descendance est un élément -->
+                               <a href="#">Child 2</a>
+                               <ul>
+                                   <li><a href="#">petit enfant 2</a></li>
+                                   <li>
+                                       <a href="#">petit enfant 3</a>
+                                       <ul>
+                                           <li>
+                                               <a href="#">Great Grand Child</a>
+                                           </li>
+                                           <li>
+                                               <a href="#">Great Grand Child</a>
+                                           </li>
+                                           <li>
+                                               <a href="#">Great Grand Child</a>
+                                           </li>
+                                       </ul>
+                                   </li>
+                                   <li><a href="#">Grand Child</a></li>
+                               </ul>
+                           </li>
+                       </ul>
+
+                   </li> <!-- fin de l'arbre en entier-->
+               </ul>
+           </div>
+          </div>
+
+          <!-- Bouton pour ouvrir/déplier le bandeau -->
+          <br>
+          <span onclick="ouvreArbre()">Afficher >></span>
+          <script src="../js/index.js"></script>
         </div>
         <div class="container" id="event">
-          <p>Première phrase</p>
+          <h1>Evénements</h1>
+          <div class="contenuEvent">
+            <p>Blablablaggggggggggggggggggggggggggggggggggggggggggggggfrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrdeeeeeeeeeeeeeeeeeeeeeeeeeee</p>
+          </div>
         </div>
         <div class="column">
           <div id="lois">
-            <p>Ceci est une loi</p>
+            <h2>Liste des lois en vigueur:</h2>
           </div>
           <div id="carac">
-            <p>Ceci est une caractéristique</p>
+            <h2>Caractéristiques du personnage:</h2>
           </div>
         </div>
       </div>
