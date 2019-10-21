@@ -15,12 +15,12 @@ header {
  * Global
  ************************/
 body {
-	background-color: #0f4749;
+	background-color: #444450;
 	padding-bottom: 5rem;
 }
 
 main {
-	background-color: #fafafa;
+	background-color: #999999;
 	box-shadow: 0rem 0rem 0.7rem black;
 	height: 40rem;
 }
@@ -52,29 +52,32 @@ main {
 }
 
 #titreJeu {
-	font-size: 3rem;
+	font-size: 3.5rem;
 	font-weight: bold;
+	color: #FFD700;
 }
 
-#encyclo {
-	
-}
+
 #encyclo:hover {
 	cursor: pointer;
 }
 
 #lois {
-	background-color: #05a2a4;
+	background-color: #cc9966;
 	padding-top: 0.5rem;
+	margin-bottom: 0.15rem;
+	margin-left: 0.3rem;
 }
 
 #carac {
-	background-color: #9effb7;
+	background-color: #cc9966;
 	padding-top: 0.5rem;
+	margin-top: 0.15rem;
+	margin-left: 0.3rem;
 }
 
 #event {
-	background-color: #fdd681;
+	background-color: #e4cdb4;
 }
 #event > h1 {
 	margin-top: 1rem;
@@ -107,17 +110,17 @@ main {
  .flex-container {
    display: flex;
    align-items: stretch;
-   background-color: #0f4749;
  }
 
  .flex-container > div {
-   background-color: DodgerBlue;
+   background-color: #4169E1;
    color: white;
    width: 200px;
    margin: 10px;
    text-align: center;
    line-height: 75px;
    font-size: 30px;
+	 border-radius: 1rem;
  }
 
 
