@@ -12,12 +12,12 @@ class CtrlLoi {
         $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE misEnPlace=1");
         $ok2 = $result->execute();
         if (0 == $result->rowCount()){
-            echo 'nope';
+            echo 'Aucune loi est en place pour le moment';
         }
         else{
             /*Afficher la liste des lois que l'utilistateur peut choisir */
             foreach ( $result as $row ) {
-                echo '<p>'. $row['description'] . '</p><br>';
+                echo '<p>'. $row['label'] . '</p>';
             }
         }
     }
@@ -26,15 +26,16 @@ class CtrlLoi {
         $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE misEnPlace=0");
         $ok2 = $result->execute();
         if (0 == $result->rowCount()){
-            echo 'nope';
+          echo 'Plus aucune loi ne peut être voté';
         }
         else{
             /*Afficher la liste des lois que l'utilistateur peut choisir */
             foreach ( $result as $row ) {
-                echo '<input type="radio" name="Lois" value="' . $row['paramVal'] .'">'. $row['description'] . '<br>';
+              $var = $row['parametre'] . ' ' . $row['label'];
+                echo '<input type="radio" name="Lois" value="'. $var .'">'. $row['label'] . '<br>';
             }
         }
     }
-    
+
 
 }

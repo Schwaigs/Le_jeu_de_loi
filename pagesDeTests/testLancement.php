@@ -97,7 +97,7 @@
           <script src="../js/index.js"></script>
         </div>
         <div class="container" id="event">
-          <h1>Evénements</h1>
+          <h1>Evenements</h1>
           <div class="contenuEvent">
           <?php
           require_once '../accesBDD/bddT3.php';
@@ -123,31 +123,49 @@
 
           if (0 == $result->rowCount())
           {
-            echo 'nope';
+            echo 'Plus aucun évènement...';
           }
             /*Afficher la liste des lois que l'utilistateur peut choisir */
             foreach ( $result as $row ) {
-                echo $row['texte'] . '<br><br>';
-                $_SESSION['numEvent'] ++;
+              echo $row['texte'] . '<br>';
+              $row['classe'];
+              try {
+                $row['fonction'];
+              }
+              catch( PDOException $e ) {
+                  echo 'Erreur : '.$e->getMessage();
+                  exit;
+              }
+              echo '<br>';
             }
             ?>
 
           <form action="testChoixEvent.php" method="POST" name="formEvent">
             Quelles lois voulez-vous mettre en place ? <br><br>
             <?php
-
             require_once '../accesBDD/MyPDO.php';
-            require_once '../accesBDD/classesPHP/CtrlLoi.php';
-                $ctrlLoi = new CtrlLoi();
+            require_once '../accesBDD/classesPHP/Personnage.php';
+                $personnage = new Personnage();
                 try{
-                    $ctrlLoi->afficheLoiPeutVoter();
+                    $personnage->vieillirPerso();
                 }
                 catch( PDOException $e ) {
                     echo 'Erreur : '.$e->getMessage();
                     exit;
                 }
+            if ($_SESSION['numEvent'] == 3){
+              echo 'Quelles lois voulez-vous mettre en place ? <br><br>';
+              require_once '../accesBDD/classesPHP/CtrlLoi.php';
+                  $ctrlLoi = new CtrlLoi();
+                  try{
+                      $ctrlLoi->afficheLoiPeutVoter();
+                  }
+                  catch( PDOException $e ) {
+                      echo 'Erreur : '.$e->getMessage();
+                      exit;
+                  }
 
-            ?>
+              ?>
             <br>
             <br>
             <input type="submit" value="Voter">

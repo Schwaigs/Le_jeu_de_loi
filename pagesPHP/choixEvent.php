@@ -31,8 +31,6 @@
 
   $param = substr($_POST['Lois'],0, $indexTab);
   $label = substr($_POST['Lois'],$indexTab+1);
-  echo 'param : ' . $param . '<br>';
-  echo 'label : "' . $label . '"<br>';
 
 
   $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=1 WHERE label = :label");

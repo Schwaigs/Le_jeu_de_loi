@@ -31,8 +31,6 @@
 
   $param = substr($_POST['Lois'],0, $indexTab);
   $label = substr($_POST['Lois'],$indexTab+1);
-  echo 'param : ' . $param . '<br>';
-  echo 'label : "' . $label . '"<br>';
 
 
   $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=1 WHERE label = :label");
@@ -42,7 +40,6 @@
     header('Location: testLancement.php');
     exit();
   }
-  echo 'nb ligne : ' . $result->rowCount()  . '<br>';
   $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=-1 WHERE parametre = :parametre AND label != :label");
   $description = $result->bindValue(':parametre',$param, PDO::PARAM_STR);
   $description &= $result->bindValue(':label',$label, PDO::PARAM_STR);
@@ -52,4 +49,5 @@
     exit();
   }
   echo 'nb ligne : ' . $result->rowCount()  . '<br>';
+  $_SESSION['numEvent'] =   $_SESSION['numEvent'] + 1;
   header('Location: testAfficheLois.php');
