@@ -9,8 +9,8 @@ class Personnage {
     public function __construct(){
     }
 
-    public function choixReligion() : string {   
-        //choisi aléatoirement une religion pour la creation d'un personnage 
+    public function choixReligion() : string {
+        //choisi aléatoirement une religion pour la creation d'un personnage
         //parmis celles disponible dans la bdd selon différentes probabilitées
         $religionAlea;
 
@@ -39,9 +39,9 @@ class Personnage {
         return $religionAlea;
     }
 
-    public function choixNationnalite() : string { 
-        //choisi aléatoirement une nationnalite pour la creation d'un personnage 
-        //parmis celles disponible dans la bdd selon différentes probabilitées  
+    public function choixNationnalite() : string {
+        //choisi aléatoirement une nationnalite pour la creation d'un personnage
+        //parmis celles disponible dans la bdd selon différentes probabilitées
         $nationnaliteAlea;
 
         $numAlea = rand(1,100);
@@ -72,7 +72,7 @@ class Personnage {
     }
 
     public function chercherOrdreNaissance(int $parent, int $age) : int {
-        //cherche dans la base tout les frères et soeurs plus âgés qu'un personnage 
+        //cherche dans la base tout les frères et soeurs plus âgés qu'un personnage
         //pour connaitre son ordre de naissance
         $result = MyPDO::pdo()->prepare("SELECT id FROM personnage WHERE parent = :idParent AND age > :agePerso");
         $idSucces = $result->bindValue(':idParent',$parent, PDO::PARAM_INT);
@@ -84,7 +84,7 @@ class Personnage {
     }
 
     public function choixSexe() : string {
-        //choisi aléatoirement le sexe pour la creation d'un personnage 
+        //choisi aléatoirement le sexe pour la creation d'un personnage
         $numAlea = rand(1,2);
         if($numAlea == 1){
             return 'homme';
@@ -93,8 +93,8 @@ class Personnage {
     }
 
     public function choixEtatSante() : string {
-        //choisi aléatoirement un etat de sante pour la creation d'un personnage 
-        //parmis ceux disponibles dans la bdd selon différentes probabilitées  
+        //choisi aléatoirement un etat de sante pour la creation d'un personnage
+        //parmis ceux disponibles dans la bdd selon différentes probabilitées
         $etatSanteAlea;
 
         $numAlea = rand(1,100);
@@ -114,7 +114,7 @@ class Personnage {
     }
 
     public function choixParent() : int {
-        //choisi aléatoirement un parent pour la creation d'un personnage 
+        //choisi aléatoirement un parent pour la creation d'un personnage
         //parmis les perso la bdd
         //on récupère les id de chaque parent potentiel
         $resultParents = MyPDO::pdo()->prepare("SELECT id FROM personnage WHERE age < 65 AND age > 15 AND classe!='mort'");
@@ -130,36 +130,36 @@ class Personnage {
         foreach ($resultParents as $row){
             $tabIdParents[] = $row['id'];
         }
-    
+
         //Puis on tire un nombre aléatoire qui correspond à l'indice de l'id d'un parent
         $numAlea = rand(0,$nbLigne-1);
         $parentAlea = $tabIdParents[$numAlea];
-    
+
         return $parentAlea;
     }
 
     public function creerPersonnage() : int {
-        /*On met null pour l'id car la base gère l'auto-incrémentation 
+        /*On met null pour l'id car la base gère l'auto-incrémentation
          age toujours 0 vu qu'il s'agit de naissances
          la classe est nulle car on la remplie juste apres l'insertion avec la methode ajoutCouleurPerso()*/
         $result = MyPDO::pdo()->prepare("INSERT INTO personnage VALUES(null,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,null)");
-    
+
         $religion = $this->choixReligion();
         echo'religion = '.$religion.'<br>';
         $religionSucces = $result->bindValue(':religion',$religion, PDO::PARAM_STR);
-        
+
         $nationnalite = $this->choixNationnalite();
         echo'nationnalite = '.$nationnalite.'<br>';
         $nationnaliteSucces = $result->bindValue(':nationnalite',$nationnalite, PDO::PARAM_STR);
-        
+
         $sexe = $this->choixSexe();
         echo'sexe = '.$sexe.'<br>';
         $sexeSucces = $result->bindValue(':sexe',$sexe, PDO::PARAM_STR);
-        
+
         $etatSante = $this->choixEtatSante();
         echo'etatSante = '.$etatSante.'<br>';
         $etatSanteSucces = $result->bindValue(':etatSante',$etatSante, PDO::PARAM_STR);
-        
+
         $parent = $this->choixParent();
         //s'il n'y a pas de parent possible on n'execute pas la requete et on renvoie que 0 lignes ont été modifiées dans la bdd
         if($parent == 0){
@@ -168,11 +168,11 @@ class Personnage {
         }
         echo'parent = '.$parent.'<br>';
         $parentSucces = $result->bindValue(':parent',$parent, PDO::PARAM_INT);
-    
+
         $ordreNaissance = $this->chercherOrdreNaissance($parent,0);
         echo'ordreNaissance = '.$ordreNaissance.'<br>';
         $ordreNaissanceSucces = $result->bindValue(':ordreNaissance',$ordreNaissance, PDO::PARAM_INT);
-        
+
         $result->execute();
         $nbLigne = $result->rowCount();
 
@@ -221,12 +221,13 @@ class Personnage {
     }
 
     public function vieillirPerso() : void {
-        $result = MyPDO::pdo()->prepare("UPDATE personnage SET age = age+10 where classe not in ('mort','roi')");
+        $result = MyPDO::pdo()->prepare("UPDATE personnage SET age = age+10 where classe <> 'mort'");
         $result->execute();
     }
 
+
     public function mortPerso() : int {
-        $result = MyPDO::pdo()->prepare("SELECT id,age,etatSante From personnage where classenot in ('mort','roi')");
+        $result = MyPDO::pdo()->prepare("SELECT id,age,etatSante From personnage where classe not in ('mort','roi')");
         $listePerso = [];
         $probaMort;
 
