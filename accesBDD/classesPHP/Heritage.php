@@ -171,7 +171,7 @@ class Heritage {
     }
 
     public function choisiRoi () : int {
-        /* On compte le nombre d'héritier possible */
+        /*On compte le nombre d'héritier possible */
         $heritiers = $this->chercherHeritier();
         //s'il n'y a aucun heritier le joueur à perdu
         if($heritiers == null){
@@ -182,7 +182,6 @@ class Heritage {
         //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
         $this->classePersoHeritier($heritiers);
         $this->classePersoNonHeritier($heritiers);
-
         
         $nbHeritiers = count($heritiers);
         $idRoi;
@@ -211,5 +210,17 @@ class Heritage {
         $nbLigne = $resultNewRoi->rowCount();
 
         return $idRoi;
+    }
+
+    public function majHeritiers() : void {
+        /*On compte le nombre d'héritier possible */
+        $heritiers = $this->chercherHeritier();
+        if($heritiers == null){
+            // --------------------------- mettre en place une variable dans le tableau $_SESSION------------------------
+            return 0;
+        }
+        //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
+        $this->classePersoHeritier($heritiers);
+        $this->classePersoNonHeritier($heritiers);
     }
 }
