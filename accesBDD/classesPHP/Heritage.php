@@ -110,6 +110,7 @@ class Heritage {
 
         //s'il n'y a aucun heritier le joueur à perdu
         if($nbLigne == 0){
+            $_SESSION['jeu'] = 'perdu';
             // --------------------------- mettre en place une variable dans le tableau $_SESSION------------------------
             return null;
         }
@@ -175,6 +176,7 @@ class Heritage {
         $heritiers = $this->chercherHeritier();
         //s'il n'y a aucun heritier le joueur à perdu
         if($heritiers == null){
+            $_SESSION['jeu'] = 'perdu';
             // --------------------------- mettre en place une variable dans le tableau $_SESSION------------------------
             return 0;
         }
@@ -216,8 +218,8 @@ class Heritage {
         /*On compte le nombre d'héritier possible */
         $heritiers = $this->chercherHeritier();
         if($heritiers == null){
+            $_SESSION['jeu'] = 'perdu';
             // --------------------------- mettre en place une variable dans le tableau $_SESSION------------------------
-            return 0;
         }
         //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
         $this->classePersoHeritier($heritiers);
