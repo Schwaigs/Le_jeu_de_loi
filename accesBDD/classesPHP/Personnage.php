@@ -267,6 +267,7 @@ class Personnage {
             }
         }
 
+
         return $compteurMort;
     }
 }
