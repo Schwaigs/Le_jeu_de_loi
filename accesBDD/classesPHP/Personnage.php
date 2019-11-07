@@ -232,10 +232,10 @@ class Personnage {
         $probaMort;
 
         foreach ($result as $row){
-            if ($row['age'] <60){
+            if ($row['age'] <30){
                 $probaMort = 5;
             }
-            else if ($row['age'] > 60  && $row['age'] < 100){
+            else if ($row['age'] >= 30  && $row['age'] < 60){
                 $probaMort = 30;
             }
             else{

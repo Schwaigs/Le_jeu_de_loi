@@ -7,7 +7,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])){
 
         if (isset($carac) && !empty($carac)){
             echo '  <div>
-                    <br>
                     <p>Identifiant :'.$_GET['id'].' </p>
                 </div>
 
@@ -27,7 +26,6 @@ if (isset($_GET['id']) && !empty($_GET['id'])){
         }
         else{
             echo '  <div>
-                    <br>
                     <p>Identifiant : </p>
                 </div>
 

@@ -20,6 +20,9 @@ class Arbre {
             }
             //on ajoute l'enfantà sa liste de freres et soeurs
             $tableParentEnfants[$parent][] = $enfant;
+
+            /*print_r($tableParentEnfants);
+            echo '<br>';*/
         }
         //enfin on renvoie notre tableau contenant les fratries par parent
         return $tableParentEnfants;

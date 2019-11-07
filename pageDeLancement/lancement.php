@@ -27,13 +27,14 @@
     <title> Jeu de Lois </title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/arbreGenealogique.css">
+    <link href="https://fonts.googleapis.com/css?family=Almendra&display=swap" rel="stylesheet">
   </head>
 
   <body>
 
     <header>
       <div class="flex-container">
-        <div style="flex-grow: 1"> <h1><?php echo $_SESSION['annee'] ?></h1> </div>
+        <div id="annee" style="flex-grow: 1"> <h1><?php echo $_SESSION['annee'] ?></h1> </div>
         <div id="titreJeu" style="flex-grow: 8">Jeu de lois</div>
         <div id="encyclo" style="flex-grow: 1">
           <a href="../pagesPHP/encyclopedie.php" onclick="window.open(this.href); return false;">Encyclopédie</a>
@@ -65,7 +66,7 @@
           <script src="../js/index.js"></script>
         </div>
         <div class="container" id="event">
-          <h1>Evénements</h1>
+          <h1>Les aléas de la vie</h1>
           <div class="contenuEvent">
           <?php
           include '../pagesPHP/evenements.php'
@@ -74,13 +75,13 @@
         </div>
         <div class="column">
           <div id="lois">
-            <h2>Liste des lois en vigueur:</h2> <br><br>
+            <h2>Lois promulguées:</h2> <br><br>
             <?php
             include '../pagesPHP/afficheLois.php'
             ?>
           </div>
           <div id="carac">
-            <h2>Caractéristiques du personnage:</h2>
+            <h2>Registre royal:</h2>
             <div>
               <?php
                   include '../pagesPHP/infoCarac.php';
