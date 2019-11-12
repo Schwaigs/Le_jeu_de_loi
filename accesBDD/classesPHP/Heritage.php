@@ -77,13 +77,10 @@ class Heritage {
     }
 
     public function chercherHeritier(){
-        /* tableau contenant les identifiant des héritiers */
-        $heritiers;
-        /*On stocke dans un tableau en cle l'enfant et en valeur le parent */
+        /*On stocke dans un tableau en cle l'id de l'héritier et en valeur son parent */
         $parentEnfant;
     
         /* valeurs sur lequels ont peut avoir des lois */
-        $etatSanteVal;
         $ordreNaissanceVal;
         $religionVal;
         $sexeVal;
@@ -96,7 +93,6 @@ class Heritage {
         /* lecture des lois existantes */
         foreach ($resultLoi as $row){
             switch ($row['parametre']){
-                case 'etatSante' : $etatSanteVal = $row['paramVal']; break;
                 case 'ordreNaissance' : $ordreNaissanceVal = $row['paramVal']; break;
                 case 'religion' : $religionVal = $row['paramVal']; break;
                 case 'sexeVal' : $sexeVal = $row['paramVal']; break;
@@ -104,22 +100,19 @@ class Heritage {
         }
        
         /* On cherche les personnages de notre base qui sont encore en vie et français*/
-        $resultPerso = MyPDO::pdo()->prepare("SELECT id,parent,etatSante,religion,sexe FROM personnage WHERE classe not in ('mort','roi') and nationnalite='france'");
+        $resultPerso = MyPDO::pdo()->prepare("SELECT id,parent,religion,sexe FROM personnage WHERE classe not in ('mort','roi') and nationnalite='france'");
         $resultPerso->execute();
         $nbLigne = $resultPerso->rowCount();
 
         //s'il n'y a aucun heritier le joueur à perdu
         if($nbLigne == 0){
-            // --------------------------- mettre en place une variable dans le tableau $_SESSION------------------------
+            $_SESSION['jeu'] = 'perdu';
             return null;
         }
     
     
         /*on parcours la collection de nos personnage*/
         foreach ($resultPerso as $row){
-            if((isset($etatSanteVal)) && ($etatSanteVal != $row['etatSante'])){
-                continue; /* le perso ne peut pas etre un heritier on passe au suivant */
-            }
             if((isset($religionVal)) && ($religionVal != $row['religion'])){
                 continue; /* le perso ne peut pas etre un heritier on passe au suivant */
             }
@@ -127,18 +120,16 @@ class Heritage {
                 continue; /* le perso ne peut pas etre un heritier on passe au suivant */
             }
             /* On ajoute l'héritier à la liste */
-            $heritiers[] = $row['id'];
-            /*On stocke dans un tableau en cle l'enfant et en valeur le parent */
             $parentEnfant[$row['id']] = $row['parent'];
         }
     
         /* si il n'y a pas de lois concernant l'odre de naissance on a les héritiers tels quels */
         if (!(isset($ordreNaissanceVal))){
-            return $heritiers;
+            return $parentEnfant;
         }
 
         //si aucun des personnages de la base ne correspond au lois on a pas d'heritier le joueur à perdu
-        if(!isset($heritiers)){
+        if(!isset($parentEnfant)){
             return null;
         }
         /* On souhaite maintenant voir dans notre liste d'heritiers s'il a des frères et soeurs,
@@ -172,11 +163,18 @@ class Heritage {
 
     public function choisiRoi () : int {
         /*On compte le nombre d'héritier possible */
-        $heritiers = $this->chercherHeritier();
+        $parentEnfant = $this->chercherHeritier();
+        
         //s'il n'y a aucun heritier le joueur à perdu
-        if($heritiers == null){
-            // --------------------------- mettre en place une variable dans le tableau $_SESSION------------------------
+        if($parentEnfant == null){
+            $_SESSION['jeu'] = 'perdu';
             return 0;
+        }
+
+        /*On creer un tableau avec uniquement les id des heritiers en valeur*/
+        $heritiers = [];
+        foreach ($parentEnfant as $enfant => $parent){
+            $heritiers[] = $enfant;
         }
 
         //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
@@ -189,12 +187,66 @@ class Heritage {
         if ($nbHeritiers == 1) {
             $idRoi = $heritiers[0];
         }
-    
-        /*si plusieurs héritiers le choix se fait aléatoirement*/
+        
+        $resultAncienRoi = MyPDO::pdo()->prepare("SELECT id,parent FROM personnage WHERE classe='roi'");
+        $resultAncienRoi->execute();
+        $idRoiActuel;
+        $idParentRoiActuel;
+        foreach ($resultAncienRoi as $row){
+            $idRoiActuel = $row['id'];
+            $idParentRoiActuel = $row['parent'];
+        }
+
+        /*si plusieurs héritiers le choix se fait par proximite avec le roi puis par priorité de sante et enfin aléatoirement*/
         if ($nbHeritiers > 1){
-            /*on tire un nombre aléatoire qui representera l'index de l'héritier choisit*/
-            $indexAlea = rand( 0, $nbHeritiers-1);
-            $idRoi = $heritiers[$indexAlea];
+            /*On regarde si parmis les héritiers on a :
+            - des frères et soeurs du roi : proximité maximale 
+            - des enfants du roi : priorite intermediare
+            - des heritiers dans aucun des deux cas : non prioritaires */
+            $heritiersFS = []; //Freres soeurs
+            $heritiersE = []; //Enfants
+            $heritiersA = []; //Autres
+            foreach ($parentEnfant as $enfant => $parent){
+                if ($parent == $idParentRoiActuel){
+                    $heritiersFS[] = $enfant;
+                }
+                elseif ($parent == $idRoiActuel){
+                    $heritiersE[] = $enfant;
+                }
+                else{
+                    $heritiersA[] = $enfant;
+                }
+            }
+            
+
+            if ($heritiersFS != null){
+                //si qu'un seul heritier frère et soeurs alors c'est lui le prochain roi
+                if(count($heritiersFS) == 1){
+                    $idRoi = $heritiersFS[0];
+                }
+                //sinon aleéatoire
+                $indexAlea = rand( 0, count($heritiersFS)-1);
+                $idRoi = $heritiersFS[$indexAlea];
+            }
+    
+            elseif ($heritiersE != null){
+                //si un seul heritier enfant du roi alors c'est lui le prochain roi
+                if(count($heritiersE) == 1){
+                    $idRoi = $heritiersE[0];
+                }
+                //sinon aleéatoire
+                $indexAlea = rand( 0, count($heritiersE)-1);
+                $idRoi = $heritiersE[$indexAlea];
+            }
+    
+            //si un seul heritier non proioritaire alors c'est lui le prochain roi
+            if(count($heritiersA) == 1){
+                $idRoi = $heritiersA[0];
+            }
+            //sinon aleéatoire
+            $indexAlea = rand( 0, count($heritiersA)-1);
+            $idRoi = $heritiersA[$indexAlea];
+    
         }
     
         /*On met a jour la bdd */
@@ -209,6 +261,9 @@ class Heritage {
         $resultNewRoi->execute();
         $nbLigne = $resultNewRoi->rowCount();
 
+        if($_SESSION['peutEnfant'] ==0){ //si l'ancien roi ne pouvais plus avoir d'enfant le nouveau si 
+            $_SESSION['peutEnfant'] ==1;
+        }
         return $idRoi;
     }
 
@@ -216,11 +271,63 @@ class Heritage {
         /*On compte le nombre d'héritier possible */
         $heritiers = $this->chercherHeritier();
         if($heritiers == null){
-            // --------------------------- mettre en place une variable dans le tableau $_SESSION------------------------
-            return 0;
+            $_SESSION['jeu'] = 'perdu';
         }
         //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
         $this->classePersoHeritier($heritiers);
         $this->classePersoNonHeritier($heritiers);
+    }
+
+    public function meilleurSante(array $heritiers) : int {
+        //On cherche l'heritier qui se trouve dans le meilleur état de sante//
+        $resultSante = MyPDO::pdo()->prepare("SELECT id,etatSante from personnage WHERE id in (".$heritiers.")");
+        $resultSante->execute();
+        
+        $bon = [];
+        $moyen= [];
+        $mauvais = [];
+
+        foreach ($resultSante as $row){
+            if ($row['etatSante']=='bon'){
+                $bon[] =  $row['id'];
+            }
+            elseif ($row['etatSante']=='moyen'){
+                $moyen[] = $row['id'];
+            }
+            else{
+                $mauvais[] = $row['id'];
+            }
+        }
+        
+        //priorite à la meilleur sante
+
+        if ($bon != null){
+            //si qu'un seul heritier en bonne sante alors c'est lui le prochain roi
+            if(count($bon) == 1){
+                return $bon[0];
+            }
+            //sinon aleéatoire
+            $indexAlea = rand( 0, count($bon)-1);
+            return $bon[$indexAlea];
+        }
+
+        elseif ($moyen != null){
+            //si un seul heritier en moyenne sante alors c'est lui le prochain roi
+            if(count($moyen) == 1){
+                return $moyen[0];
+            }
+            //sinon aleéatoire
+            $indexAlea = rand( 0, count($moyen)-1);
+            return $moyen[$indexAlea];
+        }
+
+        //si un seul heritier en mauvaise sante alors c'est lui le prochain roi
+        if(count($mauvais) == 1){
+            return $mauvais[0];
+        }
+        //sinon aleéatoire
+        $indexAlea = rand( 0, count($mauvais)-1);
+        return $mavais[$indexAlea];
+
     }
 }

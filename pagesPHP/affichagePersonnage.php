@@ -9,19 +9,18 @@
     <header>
         <p>Identifiant : 1</p>
     </header>
-    <main>
-        <div class="ligne1">
-            <p>Parent : </p>
-            <p>Sexe : </p>
-            <p>Age : </p>
-            <p>Ordre de Naissance : </p>
-        </div>
-        <div class="ligne2">
-            <p>Religion : </p>
-            <p>Nationnalite : </p>
-            <p>Etat de sante : </p>
-            <p>Vivant : </p>
-        </div>
+    <main>  
+            <img id="imgPerso" src="../images/maenele.jpg">
+            <div>
+              <p>Parent : </p>
+              <p>Sexe : </p>
+              <p>Age : </p>
+              <p>Ordre de Naissance : </p>
+              <p>Religion : </p>
+              <p>Nationnalite : </p>
+              <p>Etat de sante : </p>
+              <p>Vivant : </p>
+            </div>
     </main>
 
   </body>

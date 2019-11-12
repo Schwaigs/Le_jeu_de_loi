@@ -1,8 +1,10 @@
 <?php
   //Démarrer la session
   session_start();
+  require_once '../accesBDD/initBase.php';
 
   if (!isset($_SESSION['login']) || empty($_SESSION['login'])){
+      $succes = initBase();
       header('Location: login.php');
       exit();
   }
@@ -13,6 +15,18 @@
 
   if (!isset($_SESSION['annee'])){
       $_SESSION['annee'] = 1763;
+  }
+
+  if (!isset($_SESSION['argent'])){
+    $_SESSION['argent'] = 100;
+  }
+  
+  if (!isset($_SESSION['jeu'])){
+    $_SESSION['jeu'] = 'enCours';
+  }
+
+  if (!isset($_SESSION['peutEnfant'])){
+    $_SESSION['peutEnfant'] = 1; //si le roi actuel peut avoir des enfant (1) ou non (0)
   }
 
   require_once '../accesBDD/classesPHP/Arbre.php';
@@ -84,7 +98,7 @@
             <h2>Registre royal:</h2>
             <div>
               <?php
-                  include '../pagesPHP/infoCarac.php';
+                  include '../pagesPHP/affichePersonnage.php';
               ?>
             </div>
           </div>

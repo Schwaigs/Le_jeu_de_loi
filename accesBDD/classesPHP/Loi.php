@@ -14,16 +14,42 @@ class Loi {
     }
 
     public function ajoutLoi() : int {
-        $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=1 WHERE parametre = :param AND paramVal = :pVal");
-        $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
-        $pValSucces = $result->bindValue(':pVal',$this->getParamVal(), PDO::PARAM_STR);
-        $result->execute();
-        $nbLigne = $result->rowCount();
+        if ($_SESSION['argent'] > 40){
+            $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=1 WHERE parametre = :param AND paramVal = :pVal");
+            $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
+            $pValSucces = $result->bindValue(':pVal',$this->getParamVal(), PDO::PARAM_STR);
+            $result->execute();
+            $nbLigne = $result->rowCount();
+    
+            //on met a jour l'arbre
+            $this->majCouleurHeritiers();
+            $_SESSION['argent'] -= 40;
 
-        //on met a jour l'arbre
-        $this->majCouleurHeritiers();
-        //on renvoie le nb de lignes modifiées dans la base
-        return $nbLigne;
+            //on renvoie le nb de lignes modifiées dans la base
+            return $nbLigne;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    public function suppLoi() : int {
+        if ($_SESSION['argent'] > 40){
+            $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=0 WHERE parametre = :param");
+            $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
+            $result->execute();
+            $nbLigne = $result->rowCount();
+    
+            //on met a jour l'arbre
+            $this->majCouleurHeritiers();
+            $_SESSION['argent'] -= 40;
+
+            //on renvoie le nb de lignes modifiées dans la base
+            return $nbLigne;
+        }
+        else{
+            return 0;
+        }
     }
 
     public function majCouleurHeritiers(){
