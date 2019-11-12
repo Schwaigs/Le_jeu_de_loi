@@ -14,4 +14,3 @@
   $result->execute();
   header('Location: testLancement.php');
   exit();
-  ?>

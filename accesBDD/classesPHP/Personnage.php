@@ -117,7 +117,12 @@ class Personnage {
         //choisi aléatoirement un parent pour la creation d'un personnage
         //parmis les perso la bdd
         //on récupère les id de chaque parent potentiel
-        $resultParents = MyPDO::pdo()->prepare("SELECT id FROM personnage WHERE age < 65 AND age > 15 AND classe!='mort'");
+        if ($_SESSION['peutEnfant'] ==1){
+            $resultParents = MyPDO::pdo()->prepare("SELECT id FROM personnage WHERE age < 65 AND age > 15 AND classe!='mort'"); 
+        }
+        else{
+            $resultParents = MyPDO::pdo()->prepare("SELECT id FROM personnage WHERE age < 65 AND age > 15 AND classe not in ('mort','roi')");
+        }
         $resultParents->execute();
         $nbLigne = $resultParents->rowCount();
         //Si pas de parent possible
