@@ -17,7 +17,7 @@ main {
 	justify-content: center;
 }
 
-div {
+#divPersonnage {
 	display : flex;
 	flex-direction: column;
 	align-self: center;
@@ -35,5 +35,3 @@ p{
 	height: 200px;
 	margin-right: 1rem;
 }
-
-

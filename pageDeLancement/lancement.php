@@ -20,7 +20,7 @@
   if (!isset($_SESSION['argent'])){
     $_SESSION['argent'] = 100;
   }
-  
+
   if (!isset($_SESSION['jeu'])){
     $_SESSION['jeu'] = 'enCours';
   }
@@ -89,17 +89,20 @@
         </div>
         <div class="column">
           <div id="lois">
-            <h2>Lois promulguées:</h2> <br><br>
+            <h2>Lois promulguées:</h2>
             <?php
             include '../pagesPHP/afficheLois.php'
             ?>
           </div>
           <div id="carac">
             <h2>Registre royal:</h2>
-            <div>
-              <?php
-                  include '../pagesPHP/affichePersonnage.php';
-              ?>
+            <div id="affichageImageEtTexte">
+              <img id="imgPerso" src="../images/maenele.jpg">
+              <div id="affichageTexte">
+                <?php
+                    include '../pagesPHP/infoCarac.php';
+                ?>
+              </div>
             </div>
           </div>
         </div>
