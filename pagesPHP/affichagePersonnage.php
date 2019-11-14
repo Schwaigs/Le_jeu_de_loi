@@ -9,9 +9,9 @@
     <header>
         <p>Identifiant : 1</p>
     </header>
-    <main>  
+    <main>
             <img id="imgPerso" src="../images/maenele.jpg">
-            <div>
+            <div id="divPersonnage">
               <p>Parent : </p>
               <p>Sexe : </p>
               <p>Age : </p>

@@ -2,7 +2,7 @@
  * Headers and titles
  ************************/
 header {
-	margin-bottom: 2rem;
+	margin-bottom: 1rem;
 	margin-top: 1rem;
 }
 
@@ -17,11 +17,11 @@ a {
 body {
 	font-family: 'Almendra', serif;
 	background-color: #444450;
-	padding-bottom: 2rem;
+	padding-bottom: 1rem;
 }
 
 main {
-	background-color: #999999;
+	/*background-color: #999999;*/
 	box-shadow: 0rem 0rem 0.7rem black;
 	height: 44rem;
 }
@@ -67,24 +67,35 @@ main {
 }
 
 #lois {
-	background-color: #cc9966;
+	background-image: url("../images/PanneauLoi.png");
+	background-size:100% 100%;
 	padding-top: 0.5rem;
 	margin-bottom: 0.15rem;
 	margin-left: 0.3rem;
+	font-size: 1rem;
+}
+
+#lois > h2 {
+	margin-top: 5.7rem;
+	font-size: 1.5rem;
+}
+
+#lois > div {
+	font-size: 2rem;
 }
 
 #carac {
 	background-color: #cc9966;
 	background-image: url("../images/papier_medieval.png");
 	background-size:100% 100%;
-	padding-top:3rem;
+	padding-top:1.8rem;
 	margin-top: 0.15rem;
 	margin-left: 0.3rem;
 	font-size: 1.2rem;
 }
 
 #carac > h2 {
-	padding-bottom: 0.5rem;
+	padding-bottom: 0.3rem;
 }
 
 #event {
@@ -115,6 +126,28 @@ main {
 /************************
  * Lists
  ************************/
+
+ /************************
+  * Encart personnage
+  ************************/
+#affichageImageEtTexte {
+	display : flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+ #affichageTexte {
+ 	display : flex;
+ 	flex-direction: column;
+ 	align-self: center;
+ }
+
+ #imgPerso{
+ 	align-self: center;
+ 	width: 200px;
+ 	height: 200px;
+ 	margin-right: 1rem;
+ }
 
 /************************
  * Headers
