@@ -25,14 +25,11 @@ class Personnage {
         }
         /* 5 % les autres */
         if ($numAlea > 95){
-            $numAlea = rand(1,6);
+            $numAlea = rand(1,3);
             switch ($numAlea) {
                 case 1 : $religionAlea = 'musulman';
                 case 2 : $religionAlea = 'juif';
                 case 3 : $religionAlea = 'athee';
-                case 4 : $religionAlea = 'hindou';
-                case 5 : $religionAlea = 'bouddhiste';
-                case 6 : $religionAlea = 'evangelique';
             }
         }
 
@@ -118,10 +115,10 @@ class Personnage {
         //parmis les perso la bdd
         //on récupère les id de chaque parent potentiel
         if ($_SESSION['peutEnfant'] ==1){
-            $resultParents = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE age < 65 AND age > 15 AND classe!='mort'");
+            $resultParents = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE age < 50 AND age > 15 AND classe!='mort'");
         }
         else{
-            $resultParents = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE age < 65 AND age > 15 AND classe not in ('mort','roi')");
+            $resultParents = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE age < 50 AND age > 15 AND classe not in ('mort','roi')");
         }
         $resultParents->execute();
         $nbLigne = $resultParents->rowCount();

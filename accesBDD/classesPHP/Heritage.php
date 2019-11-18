@@ -122,16 +122,16 @@ class Heritage {
             /* On ajoute l'héritier à la liste */
             $parentEnfant[$row['id']] = $row['parent'];
         }
-
+        //si aucun des personnages de la base ne correspond au lois on a pas d'heritier le joueur à perdu
+        if(!isset($parentEnfant)){
+            return null;
+        }
         /* si il n'y a pas de lois concernant l'odre de naissance on a les héritiers tels quels */
         if (!(isset($ordreNaissanceVal))){
             return $parentEnfant;
         }
 
-        //si aucun des personnages de la base ne correspond au lois on a pas d'heritier le joueur à perdu
-        if(!isset($parentEnfant)){
-            return null;
-        }
+
         /* On souhaite maintenant voir dans notre liste d'heritiers s'il a des frères et soeurs,
          il faut alors prendre l'ainée ou le plus jeune selon la loi */
         $heritiersOrdre = $this->choisiOrdreNaissanceHeritiers($parentEnfant, $ordreNaissanceVal);
@@ -224,9 +224,8 @@ class Heritage {
                 if(count($heritiersFS) == 1){
                     $idRoi = $heritiersFS[0];
                 }
-                //sinon aleéatoire
-                $indexAlea = rand( 0, count($heritiersFS)-1);
-                $idRoi = $heritiersFS[$indexAlea];
+                //sinon par état de santé
+                $idRoi = $this->meilleurSante($heritiersFS);
             }
 
             elseif ($heritiersE != null){
@@ -234,19 +233,18 @@ class Heritage {
                 if(count($heritiersE) == 1){
                     $idRoi = $heritiersE[0];
                 }
-                //sinon aleéatoire
-                $indexAlea = rand( 0, count($heritiersE)-1);
-                $idRoi = $heritiersE[$indexAlea];
+                //sinon par état de santé
+                $idRoi = $this->meilleurSante($heritiersE);
             }
+            else {
+              //si un seul heritier non proioritaire alors c'est lui le prochain roi
+              if(count($heritiersA) == 1){
+                  $idRoi = $heritiersA[0];
+              }
 
-            //si un seul heritier non proioritaire alors c'est lui le prochain roi
-            if(count($heritiersA) == 1){
-                $idRoi = $heritiersA[0];
+              //sinon par état de santé
+              $idRoi = $this->meilleurSante($heritiersA);
             }
-            //sinon aleéatoire
-            $indexAlea = rand( 0, count($heritiersA)-1);
-            $idRoi = $heritiersA[$indexAlea];
-
         }
 
         /*On met a jour la bdd */
@@ -280,7 +278,8 @@ class Heritage {
 
     public function meilleurSante(array $heritiers) : int {
         //On cherche l'heritier qui se trouve dans le meilleur état de sante//
-        $resultSante = MyPDO::pdo()->prepare("SELECT id,etatSante from perso WHERE id in (".$heritiers.")");
+        $in_heritiers = implode(',',$heritiers);
+        $resultSante = MyPDO::pdo()->prepare("SELECT id,etatSante from perso WHERE id in (".$in_heritiers.")");
         $resultSante->execute();
 
         $bon = [];
