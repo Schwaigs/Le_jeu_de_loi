@@ -99,8 +99,8 @@ class Heritage {
             }
         }
        
-        /* On cherche les personnages de notre base qui sont encore en vie et français*/
-        $resultPerso = MyPDO::pdo()->prepare("SELECT id,parent,religion,sexe FROM personnage WHERE classe not in ('mort','roi') and nationnalite='france'");
+        /* On cherche les personnages de notre base qui sont encore en vie*/
+        $resultPerso = MyPDO::pdo()->prepare("SELECT id,parent,religion,sexe FROM personnage WHERE classe not in ('mort','roi') and age>10");
         $resultPerso->execute();
         $nbLigne = $resultPerso->rowCount();
 
