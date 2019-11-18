@@ -74,7 +74,7 @@ class Personnage {
     public function chercherOrdreNaissance(int $parent, int $age) : int {
         //cherche dans la base tout les frères et soeurs plus âgés qu'un personnage
         //pour connaitre son ordre de naissance
-        $result = MyPDO::pdo()->prepare("SELECT id FROM personnage WHERE parent = :idParent AND age > :agePerso");
+        $result = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE parent = :idParent AND age > :agePerso");
         $idSucces = $result->bindValue(':idParent',$parent, PDO::PARAM_INT);
         $ageSucces = $result->bindValue(':agePerso',$age, PDO::PARAM_INT);
         $result->execute();
@@ -118,10 +118,10 @@ class Personnage {
         //parmis les perso la bdd
         //on récupère les id de chaque parent potentiel
         if ($_SESSION['peutEnfant'] ==1){
-            $resultParents = MyPDO::pdo()->prepare("SELECT id FROM personnage WHERE age < 65 AND age > 15 AND classe!='mort'"); 
+            $resultParents = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE age < 65 AND age > 15 AND classe!='mort'");
         }
         else{
-            $resultParents = MyPDO::pdo()->prepare("SELECT id FROM personnage WHERE age < 65 AND age > 15 AND classe not in ('mort','roi')");
+            $resultParents = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE age < 65 AND age > 15 AND classe not in ('mort','roi')");
         }
         $resultParents->execute();
         $nbLigne = $resultParents->rowCount();
@@ -147,7 +147,7 @@ class Personnage {
         /*On met null pour l'id car la base gère l'auto-incrémentation
          age toujours 0 vu qu'il s'agit de naissances
          la classe est nulle car on la remplie juste apres l'insertion avec la methode ajoutCouleurPerso()*/
-        $result = MyPDO::pdo()->prepare("INSERT INTO personnage VALUES(null,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,null)");
+        $result = MyPDO::pdo()->prepare("INSERT INTO perso VALUES(null,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,null)");
 
         $religion = $this->choixReligion();
         echo'religion = '.$religion.'<br>';
@@ -188,7 +188,7 @@ class Personnage {
 
     public function ajoutCouleurPerso() : void {
         //on cherche l'id le plus grand dans la table, c'est celui du dernier personnage ajouté
-        $resultID = MyPDO::pdo()->prepare("SELECT max(id) FROM personnage");
+        $resultID = MyPDO::pdo()->prepare("SELECT max(id) FROM perso");
         $resultID->execute();
         $id;
         $nbLigne = $resultID->rowCount();
@@ -226,13 +226,13 @@ class Personnage {
     }
 
     public function vieillirPerso() : void {
-        $result = MyPDO::pdo()->prepare("UPDATE personnage SET age = age+10 where classe <> 'mort'");
+        $result = MyPDO::pdo()->prepare("UPDATE perso SET age = age+10 where classe <> 'mort'");
         $result->execute();
     }
 
 
     public function mortPerso() : int {
-        $result = MyPDO::pdo()->prepare("SELECT id,age,etatSante From personnage where classe not in ('mort','roi')");
+        $result = MyPDO::pdo()->prepare("SELECT id,age,etatSante From perso where classe not in ('mort','roi')");
         $listePerso = [];
         $probaMort;
 
@@ -265,7 +265,7 @@ class Personnage {
         foreach ($listePerso as $idPerso => $proba){
             $numAlea = rand(1,100);
             if($proba > $numAlea){
-                $resultMort= MyPDO::pdo()->prepare("UPDATE personnage SET classe='mort' WHERE id=:id");
+                $resultMort= MyPDO::pdo()->prepare("UPDATE perso SET classe='mort' WHERE id=:id");
                 $idSucces = $resultMort->bindValue(':id',$idPerso, PDO::PARAM_INT);
                 $resultMort->execute();
                 $compteurMort++;
