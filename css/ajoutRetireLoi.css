@@ -1,0 +1,26 @@
+.accordion_loi > li {
+    height: 0;
+    overflow: hidden;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+input:checked + .accordion_loi > li {
+    height: 2em;
+}
+
+#accordion_ajout, #accordion_supp {
+    width:300px;
+    list-style: none;
+    padding:0em;
+}
+
+#accordion_ajout > li, #accordion_supp > li{
+    padding: 0.5em;
+}
+
+#accordion_ajout > li > label, #accordion_supp > li > label{
+    font-weight: bold;
+}
