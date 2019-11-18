@@ -48,7 +48,7 @@ class Arbre {
     }
 
     public function chercheClassePerso(int $id) : string {
-        $resultClasse = MyPDO::pdo()->prepare("SELECT classe FROM personnage WHERE id=:id");
+        $resultClasse = MyPDO::pdo()->prepare("SELECT classe FROM perso WHERE id=:id");
         $idSucces = $resultClasse->bindValue(':id',$id, PDO::PARAM_INT);
         $resultClasse->execute();
         $classe;
@@ -68,7 +68,7 @@ class Arbre {
 
     public function initArbre() : void {
         //on prends touts les perso de notre base personnage
-        $resultBase = MyPDO::pdo()->prepare("SELECT id,parent FROM personnage");
+        $resultBase = MyPDO::pdo()->prepare("SELECT id,parent FROM perso");
         $resultBase->execute();
         //on creer un tableau contenant tout les id de notre base
         $tabId;
