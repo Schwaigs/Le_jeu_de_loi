@@ -36,6 +36,30 @@ class Personnage {
         return $religionAlea;
     }
 
+    public function choixPrenomFemme() : string {
+        //choisi aléatoirement un prenom pour la creation d'un personnage
+		$prenomAlea;
+		$tabPrenom=['Adélaïde','Adeline','Anastasie','Astrid','Aude','Aurore','Athénaïs','Arégonde','Anne','Agnès','Bertille','Blanche','Béatrice','Bérangère',
+					'Clothilde','Cécile','Constance','Cunégonde','Cyrielle','Claudine','Désirée','Edith','Elaine','Edwige','Elisabeth','Flore','Frénégonde',
+					'Guenièvre','Gwendoline','Galadrielle','Hildegarde','Henriette','Isabelle','Isaure','Jeanne','Jaqueline','Ludivine','Louise','Marie',
+					'Mélissandre','Morgane','Mathilde','Mélusine','Marguerite','Ondine','Pétronille','Regine','Rolande','Raymonde','Viviane','Yseult'];
+        $numAlea = rand(1,51);
+        $prenomAlea = $tabPrenom[$numAlea];
+        return $prenomAlea;
+    }
+
+	public function choixPrenomHomme() : string {
+        //choisi aléatoirement un prenom pour la creation d'un personnage
+		$prenomAlea;
+		$tabPrenom=['Armand','Auguste','Amaury','Albert','Ambroise','Arnaud','Arthur','Barthélemy','Bertrand','Balthazar','Charles','Clotaire','Clovis','Côme',
+					'Cédric','Conrad','Claudes','Dagobert','Eloi','Enguerrand','Eudes','Fernand','Flavien','Florimond','François','Florent','Gaulthier','Gaspard',
+					'Gérald','Godefroy','Grégoire','Gilles','Hugues','Henri','Jaques','Jean','Lancelot','Louis','Norbert','Odin','Perceval','Pierrick','Pierre'
+					'Philippe','Robin','Robert','Ruffin','Richard','Roland','Raymond','Tanguy','Thibaut','Théobald','Tristan','Wilfrid','Ysangrin','Yves'];
+        $numAlea = rand(1,57);
+        $prenomAlea = $tabPrenom[$numAlea];
+        return $prenomAlea;
+    }
+
     public function choixNationnalite() : string {
         //choisi aléatoirement une nationnalite pour la creation d'un personnage
         //parmis celles disponible dans la bdd selon différentes probabilitées
@@ -144,7 +168,7 @@ class Personnage {
         /*On met null pour l'id car la base gère l'auto-incrémentation
          age toujours 0 vu qu'il s'agit de naissances
          la classe est nulle car on la remplie juste apres l'insertion avec la methode ajoutCouleurPerso()*/
-        $result = MyPDO::pdo()->prepare("INSERT INTO perso VALUES(null,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,null)");
+        $result = MyPDO::pdo()->prepare("INSERT INTO perso VALUES(null,:prenom,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,null)");
 
         $religion = $this->choixReligion();
         echo'religion = '.$religion.'<br>';
@@ -157,6 +181,16 @@ class Personnage {
         $sexe = $this->choixSexe();
         echo'sexe = '.$sexe.'<br>';
         $sexeSucces = $result->bindValue(':sexe',$sexe, PDO::PARAM_STR);
+
+        $prenom;
+		if($sexe == 'homme'){
+			$prenom = $this->choixPrenomHomme();
+		}
+		else{
+			$prenom = $this->choixPrenomFemme();
+		}
+		$prenomSucces = $result->bindValue(':prenom',$prenom, PDO::PARAM_STR);
+
 
         $etatSante = $this->choixEtatSante();
         echo'etatSante = '.$etatSante.'<br>';

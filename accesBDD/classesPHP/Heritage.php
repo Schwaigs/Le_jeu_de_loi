@@ -122,7 +122,7 @@ class Heritage {
             /* On ajoute l'héritier à la liste */
             $parentEnfant[$row['id']] = $row['parent'];
         }
-        //si aucun des personnages de la base ne correspond au lois on a pas d'heritier le joueur à perdu
+        //si aucun des personnages de la base ne correspond aux lois on a pas d'heritier le joueur à perdu
         if(!isset($parentEnfant)){
             return null;
         }
@@ -245,6 +245,19 @@ class Heritage {
               //sinon par état de santé
               $idRoi = $this->meilleurSante($heritiersA);
             }
+        }
+
+        /* Si le nouveau roi n'est pas français alors le joueur à perdu */
+        $paysNewRoi;
+        $resultNewRoi = MyPDO::pdo()->prepare("SELECT * from perso WHERE id = :idRoi");
+        $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_INT);
+        $resultNewRoi->execute();
+        foreach ($resultNewRoi as $row){
+            $paysNewRoi = $row['nationnalite'];
+        }
+        if($paysNewRoi != 'france'){
+            $_SESSION['jeu'] = 'perdu';
+            return null; //---------------------------------voir si return null ou 0-------------------
         }
 
         /*On met a jour la bdd */
