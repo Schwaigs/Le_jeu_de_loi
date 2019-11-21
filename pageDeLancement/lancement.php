@@ -65,7 +65,7 @@
         <div id="bandeauArbre">
           <h1>Arbre généalogique</h1>
           <!-- Création du bandeau dépliable  -->
-          <div id="arbreDepl" class="overlay">
+          <div id="arbreDepl" class="overlayArbre">
 
            <!-- Bouton pour fermer/replier le bandeau -->
            <a href="javascript:void(0)" class="btnFermer" onclick="fermeArbre()">&times;</a>
@@ -84,7 +84,29 @@
           <script src="../js/index.js"></script>
         </div>
         <div class="container" id="event">
-          <h1>Les aléas de la vie</h1>
+          <div class="flex-event-header">
+            <div style="flex-grow: 7">
+              <h1>Les aléas de la vie</h1>
+            </div>
+            <div style="flex-grow: 3" class="overlayBandeau">
+              <span onclick="ouvreBandeauLoi()"> <h2>Décret royal</h2> </span>
+              <script src="../js/ajoutRetireLoi.js"></script>
+
+              <div id="bandeauLoiDepl" class="overlayBandeau-content" style="height: 0%;">
+                <?php
+                    include '../pagesPHP/ajoutRetireLoi.php';
+                ?>
+               <!-- Bouton pour fermer/replier le bandeau -->
+  <!--         <a href="javascript:void(0)" class="btnFermer" onclick="fermeArbre()">&times;</a>     -->
+
+               <!-- Contenu de l'overlay -->
+
+
+
+              </div>
+
+            </div>
+          </div>
           <div class="contenuEvent">
           <?php
           include '../pagesPHP/evenements.php'
@@ -101,9 +123,12 @@
           <div id="carac">
             <h2>Registre royal:</h2>
             <div id="affichageImageEtTexte">
+              <img id="imgPerso" src="../images/maenele.jpg">
+              <div id="affichageTexte">
                 <?php
                     include '../pagesPHP/infoCarac.php';
                 ?>
+              </div>
             </div>
           </div>
         </div>

@@ -17,13 +17,12 @@ a {
 body {
 	font-family: 'Almendra', serif;
 	background-color: #444450;
-	padding-bottom: 1rem;
 }
 
 main {
 	/*background-color: #999999;*/
 	box-shadow: 0rem 0rem 0.7rem black;
-	height: 44rem;
+	height: 46rem;
 }
 
 .main {
@@ -31,8 +30,7 @@ main {
   flex-wrap: wrap;
 	height: 100%;
 }
-/* Création de trois colonnes pour l'affichage dans le main
-*/
+/* Création de trois colonnes pour l'affichage dans le main */
 .container {
   flex: 59%;
 	max-width: 59%;
@@ -52,19 +50,9 @@ main {
 	height: 50%;
 }
 
-#titreJeu {
-	font-size: 4.5rem;
-	font-weight: bold;
-	color: #FFD700;
-}
-
-#annee {
-	font-size: 2.5rem;
-}
-
-#encyclo:hover {
-	cursor: pointer;
-}
+/************************
+ * Encart lois
+ ************************/
 
 #lois {
 	background-image: url("../images/PanneauLoi.png");
@@ -76,7 +64,7 @@ main {
 }
 
 #lois > h2 {
-	margin-top: 5.7rem;
+	margin-top: 5.9rem;
 	font-size: 1.5rem;
 }
 
@@ -84,20 +72,9 @@ main {
 	font-size: 2rem;
 }
 
-#carac {
-	background-color: #cc9966;
-	background-image: url("../images/papier_medieval.png");
-	background-size:100% 100%;
-	padding-top:1.8rem;
-	margin-top: 0.15rem;
-	margin-left: 0.3rem;
-	font-size: 1.2rem;
-}
-
-#carac > h2 {
-	padding-bottom: 0.3rem;
-}
-
+/************************
+ * Encart evenements
+ ************************/
 #event {
 	background-color: #e4cdb4;
 }
@@ -119,22 +96,112 @@ main {
 	padding-left: 1rem;
 }
 
-#bandeauArbre {
-	background-color: #fafafa;
+/* Bandeau décret lois */
+.flex-event-header {
+	display: flex;
+}
 
+#bandeauLoiDepl {
+
+}
+
+/* Overlay*/
+.overlayBandeau {
+	position: relative;
+	text-align: inherit;
+}
+
+.overlayBandeau > span > h2 {
+	padding-top: 0.5rem;
+}
+
+/* Positionnement du contenu dans l'overlay*/
+.overlayBandeau-content {
+	height: 0;
+	width: 100%;
+	position: absolute;;
+	text-align: center;
+	z-index: 2000;
+	left: 0;
+	top: 100%;
+	background-color: rgb(255,255,255); /* Fond blanc */
+	background-color: rgba(255,255,255, 0.9); /* Blanc avec transparence */
+	overflow-x: hidden;
+	transition: 0.5s; /* Temps de déroulement */
+}
+
+/* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+@media screen and (max-height: 450px) {
+	.overlayBandeau a {font-size: 20px}
+	.overlayBandeau .btnFermer {
+		font-size: 40px;
+		top: 15px;
+		right: 35px;
+	}
 }
 /************************
- * Lists
+ * Encart arbre
  ************************/
 
+ /* Bandeau d'affichage de l'arbre généalogique*/
+ #bandeauArbre {
+ 	height: 100%;
+   width: 8%;
+ 	max-width: 8%;
+   z-index: 1;
+   top: 0;
+   left: 0;
+   background-color: #fafafa;
+   overflow-x: hidden;
+ }
+
+ #bandeauArbre > h1 {
+ 	writing-mode: vertical-lr;
+ 	transform: rotate(180deg);
+ 	margin-left: 3rem;
+ 	margin-top: 2rem;
+ 	font-size: 3rem;
+ }
+
+ #bandeauArbre > span {
+ 	margin-left: 1rem;
+ 	margin-bottom: 1rem;
+ 	padding: 0.5rem;
+ 	border-top-right-radius: 1rem;
+ 	border-bottom-right-radius: 1rem ;
+ 	border-top-left-radius: 1rem;
+ 	border-bottom-left-radius: 1rem ;
+ 	font-weight: bold;
+ 	padding-right: 1rem;
+ 	text-align: right;
+ 	box-shadow: 0.3rem 0.3rem 0.5rem black;
+ }
+
+ span:hover {
+ 	background-color: rgb(222,222,222);
+ 	cursor: pointer;
+ }
  /************************
-  * Encart personnage
+  * Encart personnage/carac
   ************************/
-#affichageImageEtTexte {
-	display : flex;
-	flex-direction: row;
-	justify-content: center;
-}
+	#carac {
+		background-image: url("../images/livre_entier1.png");
+		background-size:100% 100%;
+		padding-top:1.8rem;
+		margin-top: 0.15rem;
+		margin-left: 0.3rem;
+		font-size: 1.2rem;
+	}
+
+	#carac > h2 {
+		padding-bottom: 0.3rem;
+	}
+
+	#affichageImageEtTexte {
+		display : flex;
+		flex-direction: row;
+		justify-content: center;
+	}
 
  #affichageTexte {
  	display : flex;
@@ -146,12 +213,26 @@ main {
  	align-self: center;
  	width: 200px;
  	height: 200px;
- 	margin-right: 1rem;
+ 	margin-right: 4.5rem;
  }
 
 /************************
  * Headers
  ************************/
+
+ #titreJeu {
+ 	font-size: 4.5rem;
+ 	font-weight: bold;
+ 	color: #FFD700;
+ }
+
+ #annee {
+ 	font-size: 2.5rem;
+ }
+
+ #encyclo:hover {
+ 	cursor: pointer;
+ }
 
  .flex-container {
    display: flex;
@@ -178,64 +259,11 @@ header > section {
 	justify-content: left;
  }
 
-
-/************************
- * Navigation
- ************************/
-
-/* Bandeau d'affichage de l'arbre généalogique*/
-#bandeauArbre {
-	height: 100%;
-  width: 8%;
-	max-width: 8%;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: #fafafa;
-  overflow-x: hidden;
-
-}
-#bandeauArbre > h1 {
-	writing-mode: vertical-lr;
-	transform: rotate(180deg);
-	margin-left: 3rem;
-	margin-top: 2rem;
-	font-size: 3rem;
-}
-#bandeauArbre > span {
-	margin-left: 1rem;
-	margin-bottom: 1rem;
-	padding: 0.5rem;
-	border-top-right-radius: 1rem;
-	border-bottom-right-radius: 1rem ;
-	border-top-left-radius: 1rem;
-	border-bottom-left-radius: 1rem ;
-	font-weight: bold;
-	padding-right: 1rem;
-	text-align: right;
-	box-shadow: 0.3rem 0.3rem 0.5rem black;
-}
-span:hover {
-	background-color: rgb(222,222,222);
-	cursor: pointer;
-}
-/************************
- * Tables
- ************************/
-
-/************************
- * Forms
- ************************/
-
-/************************
- * Footer
- ************************/
-
  /************************
-  * Bandeau dépliable
+  * Arbre depliable
   ************************/
 	/* Overlay*/
-	.overlay {
+	.overlayArbre {
 	  height: 71%;
 	  width: 0;
 	  position: fixed;
@@ -250,7 +278,7 @@ span:hover {
 	}
 
 	/* Positionnement du contenu dans l'overlay*/
-	.overlay-content {
+	.overlayArbre-content {
 	  position: relative;
 	  top: 25%;
 	  width: 100%;
@@ -259,19 +287,19 @@ span:hover {
 	}
 
 	/* Décoration bouton fermeture */
-	.overlay a {
+	.overlayArbre a {
 	  text-decoration: none;
 	  font-size: 36px;
 	  color: #818181;
 	  transition: 0.3s; /* Transition effects on hover (color) */
 	}
 	/* Quand la souris passe au dessus du bouto nde fermeture */
-	.overlay a:hover, .overlay a:focus {
+	.overlayArbre a:hover, .overlayArbre a:focus {
 	  color: #f1f1f1;
 	}
 
 	/* Positionnement du bouton de fermeture */
-	.overlay .btnFermer {
+	.overlayArbre .btnFermer {
 	  position: absolute;
 	  top: 20px;
 	  right: 45px;
@@ -280,10 +308,23 @@ span:hover {
 
 	/* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
 	@media screen and (max-height: 450px) {
-	  .overlay a {font-size: 20px}
-	  .overlay .btnFermer {
+	  .overlayArbre a {font-size: 20px}
+	  .overlayArbre .btnFermer {
 	    font-size: 40px;
 	    top: 15px;
 	    right: 35px;
 	  }
 	}
+
+	/************************
+	 * Navigation
+	 ************************/
+	/************************
+	 * Tables
+	 ************************/
+	/************************
+	 * Forms
+	 ************************/
+	/************************
+	 * Footer
+	 ************************/
