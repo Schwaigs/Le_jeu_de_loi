@@ -27,7 +27,7 @@
                     $perso->creerPersonnage();
 
                     //Chercher le dernier personnage ajouté
-                    $result2 = $pdo->prepare("SELECT * FROM personnage WHERE id = (SELECT max(id) FROM personnage)");
+                    $result2 = $pdo->prepare("SELECT * FROM perso WHERE id = (SELECT max(id) FROM perso)");
                     $execution2 = $result2->execute();
                       foreach ( $result2 as $row2 ) {
                         echo '  <div>

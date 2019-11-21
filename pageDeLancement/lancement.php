@@ -29,6 +29,10 @@
     $_SESSION['peutEnfant'] = 1; //si le roi actuel peut avoir des enfant (1) ou non (0)
   }
 
+  if (!isset($_SESSION['satisfaction'])){
+    $_SESSION['satisfaction'] = 100;
+  }
+
   require_once '../accesBDD/classesPHP/Arbre.php';
 
   ?>
