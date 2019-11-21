@@ -13,10 +13,11 @@ function caracPerso($id) : array {
     if ($nbLigne !=1){
         return $caracteristiques;
     }
-
+    $idParent;
     //stockage des données récupérées
     foreach($result as $row){
-            $caracteristiques['parent']= $row['parent'];
+            $idParent = $row['parent'];
+            $caracteristiques['prenom']= $row['prenom'];
             $caracteristiques['sexe']= $row['sexe'];
             $caracteristiques['age']= $row['age'];
             $caracteristiques['ordreNaissance']= $row['ordreNaissance'];
@@ -29,6 +30,17 @@ function caracPerso($id) : array {
             else{
                 $caracteristiques['estEnVie']='oui';
             }
+    }
+    if ($idParent == null){
+        $caracteristiques['parent'] = 'Roland';
+    }
+    else{
+        $result = MyPDO::pdo()->prepare("SELECT prenom FROM perso WHERE id = :parent");
+        $idSucces = $result->bindValue(':parent',$idParent, PDO::PARAM_INT);
+        $result->execute();
+        foreach($result as $row){
+            $caracteristiques['parent']= $row['prenom'];
+        }
     }
     return $caracteristiques;
 }

@@ -54,7 +54,7 @@ class Personnage {
 		$tabPrenom=['Armand','Auguste','Amaury','Albert','Ambroise','Arnaud','Arthur','Barthélemy','Bertrand','Balthazar','Charles','Clotaire','Clovis','Côme',
 					'Cédric','Conrad','Claudes','Dagobert','Eloi','Enguerrand','Eudes','Fernand','Flavien','Florimond','François','Florent','Gaulthier','Gaspard',
 					'Gérald','Godefroy','Grégoire','Gilles','Hugues','Henri','Jaques','Jean','Lancelot','Louis','Norbert','Odin','Perceval','Pierrick','Pierre'
-					'Philippe','Robin','Robert','Ruffin','Richard','Roland','Raymond','Tanguy','Thibaut','Théobald','Tristan','Wilfrid','Ysangrin','Yves'];
+					'Philippe','Robin','Robert','Ruffin','Richard','Roland','Raymond','Tanguy','Thibault','Théobald','Tristan','Wilfrid','Ysangrin','Yves'];
         $numAlea = rand(1,57);
         $prenomAlea = $tabPrenom[$numAlea];
         return $prenomAlea;

@@ -111,8 +111,7 @@
 
 /*Ajout des effets*/
 /*We will apply the hover effect the the lineage of the element also*/
-.tree li a:hover, .tree li a:hover {
-    background: #c8e4f8; /*couleur du fond*/
-    color:  blue; /*couleur du text*/
-    border: 1px solid #94a0b4; /*elargissement de la bordure et changement de sa couleur*/
+.tree li a:hover, .tree li a:hover, #roi:hover{
+	border: 0.3rem solid black; /*elargissement de la bordure et changement de sa couleur*/
 }
+
