@@ -123,12 +123,11 @@
           <div id="carac">
             <h2>Registre royal:</h2>
             <div id="affichageImageEtTexte">
-              <img id="imgPerso" src="../images/maenele.jpg">
-              <div id="affichageTexte">
+
                 <?php
                     include '../pagesPHP/infoCarac.php';
                 ?>
-              </div>
+
             </div>
           </div>
         </div>
