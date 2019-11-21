@@ -1,42 +1,52 @@
+<?php
+require_once '../accesBDD/bddT3.php';
+require_once '../accesBDD/MyPDO.php';
+?>
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>Encyclopédie</title>
     <link rel="stylesheet" href="../css/styleEncyclo.css">
   </head>
+
   <body>
     <main>
-      <h1>Encyclopédie: </h1>
-      <?php
-      require_once '../accesBDD/bddT3.php';
-
-      //   Créez un objet PDO en utilisant les informations contenues dans bdd.php
-      try {
-        $pdo = new PDO(SQL_DSN, SQL_USERNAME, SQL_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND=>'SET NAMES utf8'));
-      }
-      catch( PDOException $e ) {
-        echo 'Erreur : '.$e->getMessage();
-        exit;
-      }
-      //  Construisez et exécute une requête préparée
-      $result = $pdo->prepare(
-          "SELECT * FROM lois "
-      );
-
-      // 4. On exécute la requête $result
-      $ok2 = $result->execute();
-
-      if (0 == $result->rowCount())
-      {
-        echo 'nope';
-      }
-        /*Afficher la liste des lois que l'utilistateur peut choisir */
-        foreach ( $result as $row ) {
-            echo $row['label'] .' :  '. $row['description'] . '<br>';
-        }
-      ?>
+        <h1>Encyclopédie: </h1>
+        <p>Choisissez une caractéristique.</p>
+        <ul id="accordion_encyclo">
+        <?php
+        $result = MyPDO::pdo()->prepare("SELECT * FROM lois");
+        $ok = $result->execute();
+        $tabParam=['religion'=>'religion','sexe'=>'sexe','ordreNaissance'=>'ordreNaissance'];
+        $i=1;
+        foreach ($tabParam as $param){
+                $paramLabel = '';
+                if ($param == 'religion') {
+                    $paramLabel = 'Religion';
+                }
+                elseif($param == 'sexe'){
+                    $paramLabel = 'Sexe';
+                }
+                else{
+                    $paramLabel = 'Ordre de naissance';
+                }
+                echo' <li>
+                <label for="menu'.$i.'">'.$paramLabel.'</label>
+                <input id="menu'.$i.'" type="checkbox" name="menu"/>
+                <ul class="accordion"><br> ';
+                $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre=:param");
+                $paramSucces = $result->bindValue(':param',$param, PDO::PARAM_STR);
+                $ok2 = $result->execute();
+                foreach ( $result as $row ) {
+                    echo '<li>'.$row['label'] .' :  '. $row['description'] . '</li>';
+                }
+                echo'</ul>
+                    </li>';
+                $i++;
+            }
+        ?>
     </main>
   </body>
-
 </html>
+

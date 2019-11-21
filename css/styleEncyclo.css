@@ -1,7 +1,7 @@
 /************************
  * Headers and titles
  ************************/
-header {
+ header {
 	margin-bottom: 2rem;
 	margin-top: 1rem;
 }
@@ -19,27 +19,29 @@ main {
 	background-color: #999999;
   line-height: 140%;
 }
-/************************
- * Lists
- ************************/
 
-/************************
- * Headers
- ************************/
+ .accordion > li {
+     height: 0;
+     overflow: hidden;
+ }
 
+ input[type="checkbox"] {
+     display: none;
+ }
 
-/************************
- * Navigation
- ************************/
+ input:checked + .accordion > li {
+     height: 2em;
+ }
 
-/************************
- * Tables
- ************************/
+ #accordion_encyclo {
+     list-style: none;
+     padding:0em;
+ }
 
-/************************
- * Forms
- ************************/
+ #accordion_encyclo > li{
+     padding: 0.5em;
+ }
 
-/************************
- * Footer
- ************************/
+ #accordion_encyclo > li > label{
+     font-weight: bold;
+ }

@@ -36,8 +36,9 @@ class Arbre {
             while (isset($tableParentEnfants[$idParent][$i])){
                 echo'<li>';
                 $class = $this->chercheClassePerso($tableParentEnfants[$idParent][$i]);
+                $sexe =  $this->chercheSexePerso($tableParentEnfants[$idParent][$i]);
                 //le lien mene vers la meme page (l'index) mais avec en get l'indentifiant du personnage
-                echo'<a '.$class.' href="../pageDeLancement/lancement.php?id='.$tableParentEnfants[$idParent][$i].'">'.$tableParentEnfants[$idParent][$i].'</a>';
+                echo'<a '.$class.' href="../pageDeLancement/lancement.php?id='.$tableParentEnfants[$idParent][$i].'"><img src="../imagesPersos/'.$sexe.$tableParentEnfants[$idParent][$i].'.png"></a>';
                 //et on fait la même chose avec ses propres enfants
                 $this->remplissageArbre($tableParentEnfants[$idParent][$i],$tableParentEnfants);
                 echo'</li>';
@@ -66,6 +67,25 @@ class Arbre {
         return $classe;
     }
 
+    public function chercheSexePerso(int $id) : string {
+        $resultSexe = MyPDO::pdo()->prepare("SELECT sexe FROM perso WHERE id=:id");
+        $idSucces = $resultSexe->bindValue(':id',$id, PDO::PARAM_INT);
+        $resultSexe->execute();
+        $sexe ='';
+        foreach($resultSexe as $row){
+            $sexe = $row['sexe'];
+        }
+
+        if($sexe == 'homme'){
+            $sexe = 'H';
+        }
+        else{
+            $sexe = 'F';
+        }
+
+        return $sexe;
+    }
+
     public function initArbre() : void {
         //on prends touts les perso de notre base personnage
         $resultBase = MyPDO::pdo()->prepare("SELECT id,parent FROM perso");
@@ -89,7 +109,7 @@ class Arbre {
         //on creer d'abord le personnage racine
         $persoRacine = 1;
         $class = $this->chercheClassePerso($persoRacine);
-        echo'<a '.$class.' href="../pageDeLancement/lancement.php?id=1">'.$persoRacine.'</a>';
+        echo'<a '.$class.' href="../pageDeLancement/lancement.php?id=1"><img src="../imagesPersos/H1.png"></a>';
 
         //la suite de l'arbre est créer de maniere recursive
         $this->remplissageArbre($persoRacine,$tabParentEnfant);

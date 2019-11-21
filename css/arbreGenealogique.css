@@ -85,6 +85,11 @@
 	-moz-transition: all 0.5s;
 }
 
+.tree li a img{
+	width: 75px;
+	height: 75px;
+}
+
 .tree li a.heritier {
     border: 1px solid #54bf0c;
     background-color: #54bf0c;
