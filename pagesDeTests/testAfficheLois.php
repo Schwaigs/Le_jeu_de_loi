@@ -38,7 +38,7 @@
                     echo 'Erreur : '.$e->getMessage();
                     exit;
                 }
-            
+
               ?>
           </div>
           <div id="carac">

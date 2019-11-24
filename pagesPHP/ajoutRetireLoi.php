@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once '../accesBDD/classesPHP/CtrlLoi.php';
 ?>
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ require_once '../accesBDD/classesPHP/CtrlLoi.php';
 
   <body>
     <main>
-        <form action="mepLoi.php" method="POST">
+        <form action="../pagesPHP/mepLoi.php" method="POST">
             <?php
                 $Ctrlloi = new CtrlLoi();
                 try{

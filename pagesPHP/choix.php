@@ -5,12 +5,12 @@
   //Redirection si pas méthode POST
   if ($_SERVER['REQUEST_METHOD'] != 'POST')
   {
-      header('Location: testBase.php');
+      header('Location: ../pageDeLancement/lancement.php');
       exit();
   }
 
   if (!isset($_SESSION['choix']) || !isset($_POST['choix'])){
-      header('Location: testBase.php');
+      header('Location: ../pageDeLancement/lancement.php');
       exit();
   }
 
@@ -23,9 +23,7 @@
     $_SESSION['satisfaction'] +=  $_SESSION['choix']['satisfactionNON'];
   }
 
-  echo "argent : " . $_SESSION['argent'] . '<br>';
-  echo "satisfaction : " . $_SESSION['satisfaction'] . '<br>';
-
+  $_SESSION['suivant'] = true;
   unset($_SESSION['choix']);
-  header('Location: testBase.php');
+  header('Location: ../pageDeLancement/lancement.php');
   exit();
