@@ -53,7 +53,7 @@ class Personnage {
 		$prenomAlea;
 		$tabPrenom=['Armand','Auguste','Amaury','Albert','Ambroise','Arnaud','Arthur','Barthélemy','Bertrand','Balthazar','Charles','Clotaire','Clovis','Côme',
 					'Cédric','Conrad','Claudes','Dagobert','Eloi','Enguerrand','Eudes','Fernand','Flavien','Florimond','François','Florent','Gaulthier','Gaspard',
-					'Gérald','Godefroy','Grégoire','Gilles','Hugues','Henri','Jaques','Jean','Lancelot','Louis','Norbert','Odin','Perceval','Pierrick','Pierre'
+					'Gérald','Godefroy','Grégoire','Gilles','Hugues','Henri','Jaques','Jean','Lancelot','Louis','Norbert','Odin','Perceval','Pierrick','Pierre',
 					'Philippe','Robin','Robert','Ruffin','Richard','Roland','Raymond','Tanguy','Thibault','Théobald','Tristan','Wilfrid','Ysangrin','Yves'];
         $numAlea = rand(1,57);
         $prenomAlea = $tabPrenom[$numAlea];
@@ -171,15 +171,15 @@ class Personnage {
         $result = MyPDO::pdo()->prepare("INSERT INTO perso VALUES(null,:prenom,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,null)");
 
         $religion = $this->choixReligion();
-        echo'religion = '.$religion.'<br>';
+        //echo'religion = '.$religion.'<br>';
         $religionSucces = $result->bindValue(':religion',$religion, PDO::PARAM_STR);
 
         $nationnalite = $this->choixNationnalite();
-        echo'nationnalite = '.$nationnalite.'<br>';
+        //echo'nationnalite = '.$nationnalite.'<br>';
         $nationnaliteSucces = $result->bindValue(':nationnalite',$nationnalite, PDO::PARAM_STR);
 
         $sexe = $this->choixSexe();
-        echo'sexe = '.$sexe.'<br>';
+        //echo'sexe = '.$sexe.'<br>';
         $sexeSucces = $result->bindValue(':sexe',$sexe, PDO::PARAM_STR);
 
         $prenom;
@@ -193,7 +193,7 @@ class Personnage {
 
 
         $etatSante = $this->choixEtatSante();
-        echo'etatSante = '.$etatSante.'<br>';
+        //echo'etatSante = '.$etatSante.'<br>';
         $etatSanteSucces = $result->bindValue(':etatSante',$etatSante, PDO::PARAM_STR);
 
         $parent = $this->choixParent();
@@ -202,11 +202,11 @@ class Personnage {
             //---------------------------rajouter une variable message d'erreur dans la session------------------------------
             return 0;
         }
-        echo'parent = '.$parent.'<br>';
+        //echo'parent = '.$parent.'<br>';
         $parentSucces = $result->bindValue(':parent',$parent, PDO::PARAM_INT);
 
         $ordreNaissance = $this->chercherOrdreNaissance($parent,0);
-        echo'ordreNaissance = '.$ordreNaissance.'<br>';
+        //echo'ordreNaissance = '.$ordreNaissance.'<br>';
         $ordreNaissanceSucces = $result->bindValue(':ordreNaissance',$ordreNaissance, PDO::PARAM_INT);
 
         $result->execute();
@@ -257,7 +257,7 @@ class Personnage {
     }
 
     public function vieillirPerso() : void {
-        $result = MyPDO::pdo()->prepare("UPDATE perso SET age = age+10 where classe <> 'mort'");
+        $result = MyPDO::pdo()->prepare("UPDATE perso SET age = age+3 where classe <> 'mort'");
         $result->execute();
     }
 

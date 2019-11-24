@@ -13,14 +13,6 @@
       $_SESSION['numEvent'] = 1;
   }
 
-  if (!isset($_SESSION['suivant'])){
-      $_SESSION['suivant'] = true;
-  }
-
-  if (!isset($_SESSION['texteEvent'])){
-      $_SESSION['texteEvent'] = "Bienvenue";
-  }
-
   if (!isset($_SESSION['annee'])){
       $_SESSION['annee'] = 1763;
   }
@@ -29,27 +21,8 @@
     $_SESSION['argent'] = 100;
   }
 
-  if (!isset($_SESSION['idCarac'])){
-    $_SESSION['idCarac'] = -1;
-  }
-
-  if (isset($_GET['id'])){
-    $_SESSION['idCarac'] = $_GET['id'];
-  }
-
   if (!isset($_SESSION['jeu'])){
     $_SESSION['jeu'] = 'enCours';
-  }
-
-  if (!isset($_SESSION['message'])){
-    $_SESSION['message'] = "";
-  }
-  
-  if ($_SESSION['argent'] < 40) {
-    $_SESSION['message'] = "Vous n'avez pas assez d'argent pour modifier les lois.";
-  }
-  else {
-    $_SESSION['message'] = "Vous pouvez voter ou abroger une loi";
   }
 
   if (!isset($_SESSION['peutEnfant'])){
@@ -61,7 +34,6 @@
   }
 
   require_once '../accesBDD/classesPHP/Arbre.php';
-  require_once '../accesBDD/chercheCaracPerso.php';
 
   ?>
 <!DOCTYPE html>
@@ -81,7 +53,7 @@
     <header>
       <div class="flex-container">
         <div id="annee" style="flex-grow: 1"> <h1><?php echo $_SESSION['annee'] ?></h1> </div>
-        <div id="titreJeu" style="flex-grow: 8"><a href="../pagesPHP/quitter.php">Jeu de lois</div>
+        <div id="titreJeu" style="flex-grow: 8">Jeu de lois</div>
         <div id="encyclo" style="flex-grow: 1">
           <a href="../pagesPHP/encyclopedie.php" onclick="window.open(this.href); return false;">Encyclopédie</a>
         </div>
@@ -115,18 +87,14 @@
           <div class="flex-event-header">
             <div style="flex-grow: 7">
               <h1>Les aléas de la vie</h1>
-              <?php echo "Or : " . $_SESSION['argent'] . " pièces <br>" . "Satisfaction : " . $_SESSION['satisfaction'];?>
             </div>
             <div style="flex-grow: 3" class="overlayBandeau">
-              <span onclick="ouvreBandeauLoi()">
-              <h2>Décret royal</h2> </span>
-              <?php echo $_SESSION['message'];?>
+              <span onclick="ouvreBandeauLoi()"> <h2>Décret royal</h2> </span>
               <script src="../js/ajoutRetireLoi.js"></script>
 
               <div id="bandeauLoiDepl" class="overlayBandeau-content" style="height: 0%;">
                 <?php
                     include '../pagesPHP/ajoutRetireLoi.php';
-                    echo '<p>fd</p><br><br><br>';
                 ?>
                <!-- Bouton pour fermer/replier le bandeau -->
   <!--         <a href="javascript:void(0)" class="btnFermer" onclick="fermeArbre()">&times;</a>     -->
@@ -141,7 +109,7 @@
           </div>
           <div class="contenuEvent">
           <?php
-          include '../pagesPHP/evenements.php';
+          include '../pagesPHP/evenements.php'
           ?>
           </div>
         </div>

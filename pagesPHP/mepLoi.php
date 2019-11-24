@@ -1,16 +1,22 @@
 <?php
     session_start();
-    $_SESSION['message'];
-    // 1) demande une redirection vers le fichier ajoutRetireLoi.php 
+    $_SESSION['message'] = "";
+    // 1) demande une redirection vers le fichier ajoutRetireLoi.php
     // si la méthode HTTP utilisée n'est pas POST
     if ($_SERVER['REQUEST_METHOD']!='POST'){
-        header('Location: ajoutRetireLoi.php');
+        header('Location: ../pageDeLancement/lancement.php');
         exit();
     }
     if (!isset($_POST['Lois']) || empty($_POST['Lois'])){
-        header('Location: ajoutRetireLoi.php');
+        header('Location: ../pageDeLancement/lancement.php');
         exit();
     }
+
+    if ($_SESSION['argent'] < 40) {
+      header('Location: ../pageDeLancement/lancement.php');
+      exit();
+    }
+
     require_once '../accesBDD/classesPHP/Loi.php';
 
     $value = explode(' ',$_POST['Lois']);
@@ -40,7 +46,5 @@
         }
     }
 
-    header('Location: ajoutRetireLoi.php');
+    header('Location: ../pageDeLancement/lancement.php');
     exit();
-
-
