@@ -14,7 +14,7 @@ class Loi {
     }
 
     public function ajoutLoi() : int {
-        //if ($_SESSION['argent'] > 40){
+        if ($_SESSION['argent'] > 40){
 
             //On met mis en place à 1 pour la loi ajoutée
             $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=1 WHERE parametre = :param AND paramVal = :pVal");
@@ -36,14 +36,15 @@ class Loi {
 
             //on renvoie le nb de lignes modifiées dans la base
             return $nbLigne;
-        /*}
+        }
         else{
+            $_SESSION['message'] = "Vous n'avez pas assez d'argent pour modifier les lois.";
             return 0;
-        }*/
+        }
     }
 
     public function suppLoi() : int {
-        //if ($_SESSION['argent'] > 40){
+        if ($_SESSION['argent'] > 40){
             $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=0 WHERE parametre = :param");
             $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $result->execute();
@@ -55,10 +56,11 @@ class Loi {
 
             //on renvoie le nb de lignes modifiées dans la base
             return $nbLigne;
-        /*}
+        }
         else{
+            $_SESSION['message'] = "Vous n'avez pas assez d'argent pour modifier les lois.";
             return 0;
-        }*/
+        }
     }
 
     public function majCouleurHeritiers(){
