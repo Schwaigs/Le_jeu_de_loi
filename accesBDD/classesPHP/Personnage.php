@@ -43,7 +43,7 @@ class Personnage {
 					'Clothilde','Cécile','Constance','Cunégonde','Cyrielle','Claudine','Désirée','Edith','Elaine','Edwige','Elisabeth','Flore','Frénégonde',
 					'Guenièvre','Gwendoline','Galadrielle','Hildegarde','Henriette','Isabelle','Isaure','Jeanne','Jaqueline','Ludivine','Louise','Marie',
 					'Mélissandre','Morgane','Mathilde','Mélusine','Marguerite','Ondine','Pétronille','Regine','Rolande','Raymonde','Viviane','Yseult'];
-        $numAlea = rand(1,51);
+        $numAlea = rand(0,50);
         $prenomAlea = $tabPrenom[$numAlea];
         return $prenomAlea;
     }
@@ -55,7 +55,7 @@ class Personnage {
 					'Cédric','Conrad','Claudes','Dagobert','Eloi','Enguerrand','Eudes','Fernand','Flavien','Florimond','François','Florent','Gaulthier','Gaspard',
 					'Gérald','Godefroy','Grégoire','Gilles','Hugues','Henri','Jaques','Jean','Lancelot','Louis','Norbert','Odin','Perceval','Pierrick','Pierre',
 					'Philippe','Robin','Robert','Ruffin','Richard','Roland','Raymond','Tanguy','Thibault','Théobald','Tristan','Wilfrid','Ysangrin','Yves'];
-        $numAlea = rand(1,57);
+        $numAlea = rand(0,56);
         $prenomAlea = $tabPrenom[$numAlea];
         return $prenomAlea;
     }
@@ -92,12 +92,11 @@ class Personnage {
         return $nationnaliteAlea;
     }
 
-    public function chercherOrdreNaissance(int $parent, int $age) : int {
+    public function chercherOrdreNaissance(int $parent) : int {
         //cherche dans la base tout les frères et soeurs plus âgés qu'un personnage
         //pour connaitre son ordre de naissance
-        $result = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE parent = :idParent AND age > :agePerso");
+        $result = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE parent = :idParent");
         $idSucces = $result->bindValue(':idParent',$parent, PDO::PARAM_INT);
-        $ageSucces = $result->bindValue(':agePerso',$age, PDO::PARAM_INT);
         $result->execute();
         //le nombre de lignes renvoyées par la requete correspond directement au nb de frères et soeurs plus agés
         $nbfrereEtSoeurs = $result->rowCount();
@@ -146,6 +145,7 @@ class Personnage {
         }
         $resultParents->execute();
         $nbLigne = $resultParents->rowCount();
+        echo'nbParents = '.$nbLigne.'<br>';
         //Si pas de parent possible
         if ($nbLigne == 0){
             return 0;
@@ -161,25 +161,26 @@ class Personnage {
         $numAlea = rand(0,$nbLigne-1);
         $parentAlea = $tabIdParents[$numAlea];
 
+        echo'parentAlea = '.$parentAlea.'<br>';
         return $parentAlea;
     }
 
     public function creerPersonnage() : int {
         /*On met null pour l'id car la base gère l'auto-incrémentation
          age toujours 0 vu qu'il s'agit de naissances
-         la classe est nulle car on la remplie juste apres l'insertion avec la methode ajoutCouleurPerso()*/
-        $result = MyPDO::pdo()->prepare("INSERT INTO perso VALUES(null,:prenom,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,null)");
+         la classe est nonHeritier car à la naissance il est trop jeune*/
+        $result = MyPDO::pdo()->prepare("INSERT INTO perso VALUES(null,:prenom,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,'nonHeritier')");
 
         $religion = $this->choixReligion();
-        //echo'religion = '.$religion.'<br>';
+        echo'religion = '.$religion.'<br>';
         $religionSucces = $result->bindValue(':religion',$religion, PDO::PARAM_STR);
 
         $nationnalite = $this->choixNationnalite();
-        //echo'nationnalite = '.$nationnalite.'<br>';
+        echo'nationnalite = '.$nationnalite.'<br>';
         $nationnaliteSucces = $result->bindValue(':nationnalite',$nationnalite, PDO::PARAM_STR);
 
         $sexe = $this->choixSexe();
-        //echo'sexe = '.$sexe.'<br>';
+        echo'sexe = '.$sexe.'<br>';
         $sexeSucces = $result->bindValue(':sexe',$sexe, PDO::PARAM_STR);
 
         $prenom;
@@ -190,71 +191,32 @@ class Personnage {
 			$prenom = $this->choixPrenomFemme();
 		}
 		$prenomSucces = $result->bindValue(':prenom',$prenom, PDO::PARAM_STR);
-
+        echo'prenom = '.$prenom.'<br>';
 
         $etatSante = $this->choixEtatSante();
-        //echo'etatSante = '.$etatSante.'<br>';
+        echo'etatSante = '.$etatSante.'<br>';
         $etatSanteSucces = $result->bindValue(':etatSante',$etatSante, PDO::PARAM_STR);
 
         $parent = $this->choixParent();
         //s'il n'y a pas de parent possible on n'execute pas la requete et on renvoie que 0 lignes ont été modifiées dans la bdd
         if($parent == 0){
-            //---------------------------rajouter une variable message d'erreur dans la session------------------------------
+            $_SESSION['message'] = "Aucun membre de votre famille ne peut avoir d'enfant actuellemnt";
             return 0;
         }
-        //echo'parent = '.$parent.'<br>';
+        echo'parent = '.$parent.'<br>';
         $parentSucces = $result->bindValue(':parent',$parent, PDO::PARAM_INT);
 
-        $ordreNaissance = $this->chercherOrdreNaissance($parent,0);
-        //echo'ordreNaissance = '.$ordreNaissance.'<br>';
+        $ordreNaissance = $this->chercherOrdreNaissance($parent);
+        echo'ordreNaissance = '.$ordreNaissance.'<br>';
         $ordreNaissanceSucces = $result->bindValue(':ordreNaissance',$ordreNaissance, PDO::PARAM_INT);
 
         $result->execute();
         $nbLigne = $result->rowCount();
 
-        $this->ajoutCouleurPerso();
         //on renvoie le nb de lignes modifiées dans la base
         return $nbLigne;
     }
-
-    public function ajoutCouleurPerso() : void {
-        //on cherche l'id le plus grand dans la table, c'est celui du dernier personnage ajouté
-        $resultID = MyPDO::pdo()->prepare("SELECT max(id) FROM perso");
-        $resultID->execute();
-        $id;
-        $nbLigne = $resultID->rowCount();
-        foreach($resultID as $row){
-            $id[] = $row['max(id)'];
-        }
-
-        $heritage = new Heritage();
-        try{
-            //cherche les heritiers possibles
-            $heritiers = $heritage->chercherHeritier();
-            if($heritiers == null){
-            }
-            else{
-                //on cherche si l'id du nouveau perso est dans la liste des heritiers
-                $herit = false;
-                foreach ($heritiers as $perso){
-                    if ($perso == $id){
-                        $herit = true;
-                    }
-                }
-
-                if ($herit){
-                    $heritage->classePersoHeritier($id);
-                }
-                else{
-                    $heritage->classePersoNonHeritier($heritiers);
-                }
-            }
-        }
-        catch( PDOException $e ) {
-            echo 'Erreur : '.$e->getMessage();
-            exit;
-        }
-    }
+    
 
     public function vieillirPerso() : void {
         $result = MyPDO::pdo()->prepare("UPDATE perso SET age = age+3 where classe <> 'mort'");

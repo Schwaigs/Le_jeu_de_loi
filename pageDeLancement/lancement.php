@@ -45,12 +45,12 @@
     $_SESSION['message'] = "";
   }
   
-  if ($_SESSION['argent'] < 40) {
+  /*if ($_SESSION['argent'] < 40) {
     $_SESSION['message'] = "Vous n'avez pas assez d'argent pour modifier les lois.";
   }
   else {
     $_SESSION['message'] = "Vous pouvez voter ou abroger une loi";
-  }
+  }*/
 
   if (!isset($_SESSION['peutEnfant'])){
     $_SESSION['peutEnfant'] = 1; //si le roi actuel peut avoir des enfant (1) ou non (0)

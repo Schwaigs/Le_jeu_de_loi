@@ -15,10 +15,10 @@ function initBase() : void {
         (4,'Jeanne','protestant','france',2,21,'femme','moyen',1,'heritier'),
         (5,'Robin','catholique','france',3,20,'homme','bon',1,'heritier'),
         (6,'Mélusine','catholique','grande bretagne',1,6,'femme','bon',2,'nonHeritier'),
-        (7,'Perceval','athee','france',2,3,'homme','faible',2,'heritier'),
-        (8,'Clotaire','catholique','france',1,50,'homme','bon',5,'heritier'),
-        (9,'Guenièvre','catholique','france',2,2,'femme','bon',5,'heritier'),
-        (12,'Yseult','catholique','france',4,10,'femme','moyen',1,'heritier'),
+        (7,'Perceval','athee','france',2,3,'homme','faible',2,'nonHeritier'),
+        (8,'Clotaire','catholique','france',1,5,'homme','bon',5,'nonHeritier'),
+        (9,'Guenièvre','catholique','france',2,2,'femme','bon',5,'nonHeritier'),
+        (12,'Yseult','catholique','france',4,10,'femme','moyen',1,'nonHeritier'),
         (17,'Cunégonde','catholique','suisse',3,0,'femme','bon',5,'nonHeritier'),
         (25,'Amaury','catholique','suisse',3,1,'homme','bon',2,'nonHeritier')"
     );

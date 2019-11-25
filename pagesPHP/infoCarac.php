@@ -37,7 +37,7 @@ if ($_SESSION['idCarac'] != -1){
 }
 else{
     echo '
-    <img id="imgPerso" src="../images/maenele.jpg">
+    <img id="imgPerso" src="../imagesPersos/aucunPerso.png">
     <div id="affichageTexte">
         <p> Inconnu <p>
     ';
