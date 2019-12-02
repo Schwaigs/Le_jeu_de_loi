@@ -1,4 +1,6 @@
 <?php
+require_once '../accesBDD/classesPHP/Arbre.php';
+
   //Démarrer la session
   session_start();
 
@@ -44,6 +46,16 @@
   require_once '../accesBDD/classesPHP/Personnage.php';
   $perso = new Personnage();
   $perso->vieillirPerso();
+
+  //On met a jour l'arbre
+  $arbre = new Arbre();
+  try{
+    $arbre->majCouleurHeritiers();
+  }
+  catch( PDOException $e ) {
+    echo 'Erreur : '.$e->getMessage();
+    exit;
+  }
 
   //On peut passer à la suite
   $_SESSION['suivant'] = true;

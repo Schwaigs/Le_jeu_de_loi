@@ -44,6 +44,18 @@
   if (!isset($_SESSION['message'])){
     $_SESSION['message'] = "";
   }
+
+  if (!isset($_SESSION['noblesse'])){
+    $_SESSION['noblesse'] = 100;
+  }
+
+  if (!isset($_SESSION['clerge'])){
+    $_SESSION['clerge'] = 100;
+  }
+
+  if (!isset($_SESSION['tiersEtat'])){
+    $_SESSION['tiersEtat'] = 100;
+  }
   
   /*if ($_SESSION['argent'] < 40) {
     $_SESSION['message'] = "Vous n'avez pas assez d'argent pour modifier les lois.";

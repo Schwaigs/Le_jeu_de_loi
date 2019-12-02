@@ -26,7 +26,7 @@ class CtrlLoi {
     public function remplissageVote() : void {
         $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE misEnPlace=1");
         $ok = $result->execute();
-        $tabParam=['religion'=>'religion','sexe'=>'sexe','ordreNaissance'=>'ordreNaissance'];
+        $tabParam=['religion'=>'religion','sexe'=>'sexe','ordreNaissance'=>'ordreNaissance','richesse'=>'richesse'];
         $i=1;
         echo"<h2> Abroger une Loi </h2>";
         if (0 != $result->rowCount()){
@@ -41,6 +41,9 @@ class CtrlLoi {
                 }
                 elseif($row['parametre'] == 'sexe'){
                     $paramLabel = 'Sexe';
+                }
+                elseif($row['parametre'] == 'richesse'){
+                    $paramLabel = 'Richesse';
                 }
                 else{
                     $paramLabel = 'Ordre de naissance';
@@ -70,6 +73,9 @@ class CtrlLoi {
                 elseif($param == 'sexe'){
                     $paramLabel = 'Sexe';
                 }
+                elseif($param == 'richesse'){
+                    $paramLabel = 'Richesse';
+                }
                 else{
                     $paramLabel = 'Ordre de naissance';
                 }
@@ -77,7 +83,7 @@ class CtrlLoi {
                 <label for="menu'.$i.'">'.$paramLabel.'</label>
                 <input id="menu'.$i.'" type="checkbox" name="menu"/>
                 <ul class="accordion_loi">';
-                $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre=:param");
+                $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre=:param order by label desc");
                 $paramSucces = $result->bindValue(':param',$param, PDO::PARAM_STR);
                 $ok2 = $result->execute();
                 foreach ( $result as $row ) {
