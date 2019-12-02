@@ -25,12 +25,7 @@ class Personnage {
         }
         /* 5 % les autres */
         if ($numAlea > 95){
-            $numAlea = rand(1,3);
-            switch ($numAlea) {
-                case 1 : $religionAlea = 'musulman';
-                case 2 : $religionAlea = 'juif';
-                case 3 : $religionAlea = 'athee';
-            }
+            $religionAlea = 'autre';
         }
 
         return $religionAlea;
@@ -68,26 +63,11 @@ class Personnage {
         $numAlea = rand(1,100);
         /* 95 % de français */
         if ($numAlea < 96){
-            $nationnaliteAlea = 'france';
+            $nationnaliteAlea = 'France';
         }
         /* 5 % les autres */
         if ($numAlea > 95){
-            $numAlea = rand(1,13);
-            switch ($numAlea) {
-                case 1 : $nationnaliteAlea = 'allemagne';
-                case 2 : $nationnaliteAlea = 'autriche';
-                case 3 : $nationnaliteAlea = 'belgique';
-                case 4 : $nationnaliteAlea = 'grande bretagne';
-                case 5 : $nationnaliteAlea = 'danemark';
-                case 6 : $nationnaliteAlea = 'espagne';
-                case 7 : $nationnaliteAlea = 'hollande';
-                case 8 : $nationnaliteAlea = 'islande';
-                case 9 : $nationnaliteAlea = 'italie';
-                case 10 : $nationnaliteAlea = 'luxembourg';
-                case 11 : $nationnaliteAlea = 'norvege';
-                case 12 : $nationnaliteAlea = 'suede';
-                case 13 : $nationnaliteAlea = 'suisse';
-            }
+            $nationnaliteAlea = 'Étranger';
         }
         return $nationnaliteAlea;
     }
@@ -137,15 +117,14 @@ class Personnage {
         //choisi aléatoirement un parent pour la creation d'un personnage
         //parmis les perso la bdd
         //on récupère les id de chaque parent potentiel
-        if ($_SESSION['peutEnfant'] ==1){
+       if ($_SESSION['peutEnfant'] ==1){
             $resultParents = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE age < 50 AND age > 15 AND classe!='mort'");
         }
         else{
             $resultParents = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE age < 50 AND age > 15 AND classe not in ('mort','roi')");
-        }
+       }
         $resultParents->execute();
         $nbLigne = $resultParents->rowCount();
-        echo'nbParents = '.$nbLigne.'<br>';
         //Si pas de parent possible
         if ($nbLigne == 0){
             return 0;
@@ -161,7 +140,6 @@ class Personnage {
         $numAlea = rand(0,$nbLigne-1);
         $parentAlea = $tabIdParents[$numAlea];
 
-        echo'parentAlea = '.$parentAlea.'<br>';
         return $parentAlea;
     }
 
@@ -172,15 +150,15 @@ class Personnage {
         $result = MyPDO::pdo()->prepare("INSERT INTO perso VALUES(null,:prenom,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,'nonHeritier')");
 
         $religion = $this->choixReligion();
-        echo'religion = '.$religion.'<br>';
+        //echo'religion = '.$religion.'<br>';
         $religionSucces = $result->bindValue(':religion',$religion, PDO::PARAM_STR);
 
         $nationnalite = $this->choixNationnalite();
-        echo'nationnalite = '.$nationnalite.'<br>';
+        //echo'nationnalite = '.$nationnalite.'<br>';
         $nationnaliteSucces = $result->bindValue(':nationnalite',$nationnalite, PDO::PARAM_STR);
 
         $sexe = $this->choixSexe();
-        echo'sexe = '.$sexe.'<br>';
+        //echo'sexe = '.$sexe.'<br>';
         $sexeSucces = $result->bindValue(':sexe',$sexe, PDO::PARAM_STR);
 
         $prenom;
@@ -191,10 +169,10 @@ class Personnage {
 			$prenom = $this->choixPrenomFemme();
 		}
 		$prenomSucces = $result->bindValue(':prenom',$prenom, PDO::PARAM_STR);
-        echo'prenom = '.$prenom.'<br>';
+        //echo'prenom = '.$prenom.'<br>';
 
         $etatSante = $this->choixEtatSante();
-        echo'etatSante = '.$etatSante.'<br>';
+        //echo'etatSante = '.$etatSante.'<br>';
         $etatSanteSucces = $result->bindValue(':etatSante',$etatSante, PDO::PARAM_STR);
 
         $parent = $this->choixParent();
@@ -203,11 +181,11 @@ class Personnage {
             $_SESSION['message'] = "Aucun membre de votre famille ne peut avoir d'enfant actuellemnt";
             return 0;
         }
-        echo'parent = '.$parent.'<br>';
+        //echo'parent = '.$parent.'<br>';
         $parentSucces = $result->bindValue(':parent',$parent, PDO::PARAM_INT);
 
         $ordreNaissance = $this->chercherOrdreNaissance($parent);
-        echo'ordreNaissance = '.$ordreNaissance.'<br>';
+        //echo'ordreNaissance = '.$ordreNaissance.'<br>';
         $ordreNaissanceSucces = $result->bindValue(':ordreNaissance',$ordreNaissance, PDO::PARAM_INT);
 
         $result->execute();

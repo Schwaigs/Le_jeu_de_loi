@@ -18,7 +18,7 @@ require_once '../accesBDD/MyPDO.php';
         <?php
         $result = MyPDO::pdo()->prepare("SELECT * FROM lois");
         $ok = $result->execute();
-        $tabParam=['religion'=>'religion','sexe'=>'sexe','ordreNaissance'=>'ordreNaissance'];
+        $tabParam=['religion'=>'religion','sexe'=>'sexe','ordreNaissance'=>'ordreNaissance','richesse'=>'richesse'];
         $i=1;
         foreach ($tabParam as $param){
                 $paramLabel = '';
@@ -28,6 +28,9 @@ require_once '../accesBDD/MyPDO.php';
                 elseif($param == 'sexe'){
                     $paramLabel = 'Sexe';
                 }
+                elseif($param == 'richesse'){
+                    $paramLabel = 'Richesse';
+                }
                 else{
                     $paramLabel = 'Ordre de naissance';
                 }
@@ -35,7 +38,7 @@ require_once '../accesBDD/MyPDO.php';
                 <label for="menu'.$i.'">'.$paramLabel.'</label>
                 <input id="menu'.$i.'" type="checkbox" name="menu"/>
                 <ul class="accordion"><br> ';
-                $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre=:param");
+                $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre=:param Order by label desc");
                 $paramSucces = $result->bindValue(':param',$param, PDO::PARAM_STR);
                 $ok2 = $result->execute();
                 foreach ( $result as $row ) {

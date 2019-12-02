@@ -20,16 +20,17 @@ if ($_SESSION['idCarac'] != -1){
             <p>Sexe : '.$carac['sexe'].'</p>
             <p>Age : '.$carac['age'].'</p>';
             if ($carac['ordreNaissance'] == 1) {
-              echo '<p>Ordre de Naissance : 1er de sa fraterie </p>';
+              echo '<p>Ordre de Naissance : </p><p> 1er de sa fraterie </p>';
             }
             else {
-              echo  '<p>Ordre de Naissance : ' . $carac['ordreNaissance'].'ème de sa fraterie </p>';
+              echo  '<p>Ordre de Naissance : </p><p>' . $carac['ordreNaissance'].'ème de sa fraterie </p>';
             }
             echo '
-            <p>Ordre de Naissance : '.$carac['ordreNaissance'].'</p>
             <p>Religion : '.$carac['religion'].'</p>
             <p>Pays : '.$carac['nationnalite'].'</p>
             <p>Etat de sante : '.$carac['etatSante'].'</p>
+            <p>Richesse : '.$carac['richesse'].'</p>
+            <p>Affinité: '.$carac['affinite'].'</p>
             <p>Vivant : '.$carac['estEnVie'].'</p>
         </div>
     </div>

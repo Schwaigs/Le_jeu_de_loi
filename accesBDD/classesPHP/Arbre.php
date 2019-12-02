@@ -2,6 +2,7 @@
 
 require_once '../accesBDD/bddT3.php';
 require_once '../accesBDD/MyPDO.php';
+require_once '../accesBDD/classesPHP/Heritage.php';
 
 class Arbre {
 
@@ -18,7 +19,7 @@ class Arbre {
                 //on creer pour le parent une liste de ses enfants contenant à la premiere case l'id du parent
                 $tableParentEnfants[$parent][] = $parent;
             }
-            //on ajoute l'enfantà sa liste de freres et soeurs
+            //on ajoute l'enfant à sa liste de freres et soeurs
             $tableParentEnfants[$parent][] = $enfant;
 
         }
@@ -86,7 +87,7 @@ class Arbre {
         return $sexe;
     }
 
-    public function initArbre() : void {
+    public function cherchePersoArbre() : array{
         //on prends touts les perso de notre base personnage
         $resultBase = MyPDO::pdo()->prepare("SELECT id,parent FROM perso");
         $resultBase->execute();
@@ -100,9 +101,37 @@ class Arbre {
                 $tabId[] = $row['id'];
             }
         }
-
         //on tris nos perso selon leur fratrie et leur parents
         $tabParentEnfant = $this->triParFratrie($ListePersoParent);
+
+        //si un parent est mort et qu'il n'as pas d'enfant on le supprime de notre arbre pour l'alléger
+        foreach($ListePersoParent as $enfant => $parent){ 
+
+            if (!(array_key_exists($enfant,$tabParentEnfant))){
+                $resultClasse = MyPDO::pdo()->prepare("SELECT classe FROM perso WHERE id=:id");
+                $idSucces = $resultClasse->bindValue(':id',$enfant, PDO::PARAM_INT);
+                $resultClasse->execute();
+                $classe;
+                foreach($resultClasse as $row){
+                    $classe = $row['classe'];
+                }
+                if ($classe == 'mort'){
+                    $resultMort = MyPDO::pdo()->prepare("DELETE FROM perso WHERE id=:id");
+                    $idSucces = $resultMort->bindValue(':id',$enfant, PDO::PARAM_INT);
+                    $resultMort->execute();
+                }
+    
+            }
+        }
+        return $tabParentEnfant;
+    }
+
+    public function initArbre() : void {
+        //premier appel retire les personnages morts sans enfants pour alleger l'arbre
+        $tabParentEnfant = $this->cherchePersoArbre();
+        //deuxieme appel met à jour le tableau $tabParentEnfant sans les morts que l'on a supprimer
+        $tabParentEnfant = $this->cherchePersoArbre();
+
         //ici débute la création de l'arbre
         echo '<div class="tree"> <ul> <li>';
 

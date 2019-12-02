@@ -2,7 +2,7 @@
 
 require_once '../accesBDD/bddT3.php';
 require_once '../accesBDD/MyPDO.php';
-require_once '../accesBDD/classesPHP/Heritage.php';
+require_once '../accesBDD/classesPHP/Arbre.php';
 
 class Loi {
     private $_parametre;
@@ -30,8 +30,15 @@ class Loi {
             $result->execute();
             $nbLigne += $result->rowCount();
 
-            //on met a jour l'arbre
-            $this->majCouleurHeritiers();
+            $arbre = new Arbre();
+            try{
+            //cherche les heritiers possibles apres la mise en place de la loi
+                $arbre->majCouleurHeritiers();
+            }
+            catch( PDOException $e ) {
+                echo 'Erreur : '.$e->getMessage();
+                exit;
+            }
             $_SESSION['argent'] -= 40;
 
             //on renvoie le nb de lignes modifiées dans la base
@@ -49,9 +56,16 @@ class Loi {
             $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $result->execute();
             $nbLigne = $result->rowCount();
-    
-            //on met a jour l'arbre
-            $this->majCouleurHeritiers();
+            
+            $arbre = new Arbre();
+            try{
+            //cherche les heritiers possibles apres la mise en place de la loi
+               // $arbre->majCouleurHeritiers();
+            }
+            catch( PDOException $e ) {
+                echo 'Erreur : '.$e->getMessage();
+                exit;
+            }
             $_SESSION['argent'] -= 40;
 
             //on renvoie le nb de lignes modifiées dans la base
@@ -60,25 +74,6 @@ class Loi {
         else{
             $_SESSION['message'] = "Vous n'avez pas assez d'argent pour modifier les lois.";
             return 0;
-        }
-    }
-
-    public function majCouleurHeritiers(){
-        $heritage = new Heritage();
-        try{
-            //cherche les heritiers possibles apres la mise en place de la loi
-            $heritiers = $heritage->chercherHeritier();
-            if($heritiers == null){
-            }
-            else{
-                //maj des heritiers et non heritiers dans la base
-                $heritage->classePersoHeritier($heritiers);
-                $heritage->classePersoNonHeritier($heritiers);
-            }
-        }
-        catch( PDOException $e ) {
-            echo 'Erreur : '.$e->getMessage();
-            exit;
         }
     }
 

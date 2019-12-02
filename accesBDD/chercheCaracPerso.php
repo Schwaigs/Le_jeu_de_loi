@@ -24,6 +24,13 @@ function caracPerso($id) : array {
             $caracteristiques['religion']= $row['religion'];
             $caracteristiques['nationnalite']= $row['nationnalite'];
             $caracteristiques['etatSante']= $row['etatSante'];
+            if ($row['richesse']==1){
+                $caracteristiques['richesse']='forte';
+            }
+            else{
+                $caracteristiques['richesse']='faible';
+            }
+            $caracteristiques['affinite']= $row['affinite'];
             if ($row['classe']=='mort'){
                 $caracteristiques['estEnVie']='non';
             }
