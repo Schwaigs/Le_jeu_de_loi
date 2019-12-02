@@ -1,5 +1,5 @@
 <?php
-require_once '../accesBDD/classesPHP/Arbre.php';
+require_once '../accesBDD/classesPHP/Heritage.php';
 
   //Démarrer la session
   session_start();
@@ -12,34 +12,35 @@ require_once '../accesBDD/classesPHP/Arbre.php';
   }
 
   //Si l'évènement correspond à un choix
-  if (isset($_SESSION['choix'])){
-
-    //Si le joueur n'a pas fait de choix
-    if (!isset($_POST['choix'])){
+  if ($_SESSION['choixAFaire']){
+    if ($_POST['choix'] == 'oui'){
+      $_SESSION[$_SESSION['row']['ordreConcerneOui']] = $_SESSION[$_SESSION['row']['ordreConcerneOui']]  + ($_SESSION['row']['actionOui']);
+    }
+    else if ($_POST['choix'] == 'non'){
+      $_SESSION[$_SESSION['row']['ordreConcerneNon']] = $_SESSION[$_SESSION['row']['ordreConcerneNon']]  + ($_SESSION['row']['actionNon']);
+      if ($_SESSION[$_SESSION['row']['ordreConcerneNon']] > 100) {
+        $_SESSION[$_SESSION['row']['ordreConcerneNon']] = 100;
+      }
+    }
+    else {
       header('Location: ../pageDeLancement/lancement.php');
       exit();
     }
-
-    //Si l'utilisateur à répondu OUI
-    if ($_POST['choix'] == 'oui') {
-
-      $_SESSION['argent'] +=  $_SESSION['choix']['argent'];
-      $_SESSION['satisfaction'] +=  $_SESSION['choix']['satisfaction'];
-    }
-
-    //Si l'utilisateur à répondu NON
-    else {
-      $_SESSION['argent'] +=  $_SESSION['choix']['argentNON'];
-      $_SESSION['satisfaction'] +=  $_SESSION['choix']['satisfactionNON'];
-    }
+  }
+  else {
+    //Si le joueur n'a pas fait de choix
+    $_SESSION[$_SESSION['row']['ordreConcerneOui']] = $_SESSION[$_SESSION['row']['ordreConcerneOui']]  + ($_SESSION['row']['actionOui']);
   }
 
-  //Enlever la variable pour savoir si le prochain évènement est  à choix ou non
-  unset($_SESSION['choix']);
-  $_SESSION['argent'] += 10;
-  if ($_SESSION['satisfaction'] > 100){
-    $_SESSION['satisfaction'] = 100;
+  if ($_SESSION[$_SESSION['row']['ordreConcerneOui']] > 100) {
+    $_SESSION[$_SESSION['row']['ordreConcerneOui']] = 100;
   }
+
+
+  //Retour au formulaire de choix entre events ou lois
+  unset($_SESSION['row']);
+  unset($_SESSION['decision']);
+  unset($_SESSION['numEvent']);
 
   //Les personnages vieilissent car les années passent
   $_SESSION['annee'] = $_SESSION['annee'] + 3;
@@ -47,10 +48,21 @@ require_once '../accesBDD/classesPHP/Arbre.php';
   $perso = new Personnage();
   $perso->vieillirPerso();
 
+  //Une année sur deux, il y a des mort ou une naissance
+  if($_SESSION['mortNaissance'] == 'mort'){
+    $perso->mortPerso();
+    $_SESSION['mortNaissance'] = 'naissance';
+  }
+  else {
+    $perso->creerPersonnage();
+    $_SESSION['mortNaissance'] = 'mort';
+  }
+
   //On met a jour l'arbre
-  $arbre = new Arbre();
+  $heritage = new Heritage();
   try{
-    $arbre->majCouleurHeritiers();
+  //cherche les heritiers possibles apres la mise en place de la loi
+      $heritage->majArbreHeritiers();
   }
   catch( PDOException $e ) {
     echo 'Erreur : '.$e->getMessage();
@@ -58,9 +70,12 @@ require_once '../accesBDD/classesPHP/Arbre.php';
   }
 
   //On peut passer à la suite
-  $_SESSION['suivant'] = true;
-  if (isset($_SESSION['idCarac'])){
-     header('Location: ../pageDeLancement/lancement.php?id=' . $_SESSION['idCarac']);
+  $_SESSION['section'] ++;
+
+  if ($_SESSION['annee'] >= 1789){
+    $_SESSION['jeu'] = 'gagne';
   }
+
+
   header('Location: ../pageDeLancement/lancement.php');
   exit();

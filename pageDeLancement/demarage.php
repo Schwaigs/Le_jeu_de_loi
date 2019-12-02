@@ -6,6 +6,8 @@
       header('Location: login.php');
       exit();
   }
+  require_once '../accesBDD/initBase.php';
+  $succes = initBase();
   $_SESSION['login'] = htmlspecialchars($_POST['login']);
   header('Location: lancement.php');
   exit();

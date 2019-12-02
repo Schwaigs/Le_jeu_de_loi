@@ -2,7 +2,7 @@
 
 require_once '../accesBDD/bddT3.php';
 require_once '../accesBDD/MyPDO.php';
-require_once '../accesBDD/classesPHP/Arbre.php';
+require_once '../accesBDD/classesPHP/Heritage.php';
 
 class Loi {
     private $_parametre;
@@ -10,11 +10,11 @@ class Loi {
 
     public function __construct(string $parametre,$paramVal){
         $this->_parametre = $parametre;
-        $this->_paramVal= $paramVal;     
+        $this->_paramVal= $paramVal;
     }
 
     public function ajoutLoi() : int {
-        if ($_SESSION['argent'] > 40){
+        if ($_SESSION['nbLois'] > 0){
 
             //On met mis en place à 1 pour la loi ajoutée
             $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=1 WHERE parametre = :param AND paramVal = :pVal");
@@ -30,16 +30,16 @@ class Loi {
             $result->execute();
             $nbLigne += $result->rowCount();
 
-            $arbre = new Arbre();
+            $heritage = new Heritage();
             try{
             //cherche les heritiers possibles apres la mise en place de la loi
-                $arbre->majCouleurHeritiers();
+                $heritage->majHeritiersLois();
             }
             catch( PDOException $e ) {
                 echo 'Erreur : '.$e->getMessage();
                 exit;
             }
-            $_SESSION['argent'] -= 40;
+            $_SESSION['nbLois']--;
 
             //on renvoie le nb de lignes modifiées dans la base
             return $nbLigne;
@@ -51,22 +51,22 @@ class Loi {
     }
 
     public function suppLoi() : int {
-        if ($_SESSION['argent'] > 40){
+        if ($_SESSION['nbLois'] > 0){
             $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=0 WHERE parametre = :param");
             $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $result->execute();
             $nbLigne = $result->rowCount();
-            
-            $arbre = new Arbre();
+
+            $heritage = new Heritage();
             try{
             //cherche les heritiers possibles apres la mise en place de la loi
-               // $arbre->majCouleurHeritiers();
+               $heritage->majHeritiersLois();
             }
             catch( PDOException $e ) {
                 echo 'Erreur : '.$e->getMessage();
                 exit;
             }
-            $_SESSION['argent'] -= 40;
+            $_SESSION['nbLois']--;
 
             //on renvoie le nb de lignes modifiées dans la base
             return $nbLigne;
