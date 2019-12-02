@@ -12,11 +12,6 @@
         exit();
     }
 
-    if ($_SESSION['argent'] < 40) {
-      header('Location: ../pageDeLancement/lancement.php');
-      exit();
-    }
-
     require_once '../accesBDD/classesPHP/Loi.php';
 
     $value = explode(' ',$_POST['Lois']);
@@ -46,5 +41,9 @@
         }
     }
 
+    //On passe à la section suvante, 3 ans plus tard
+    $_SESSION['annee'] = $_SESSION['annee'] +3;
+    $_SESSION['section'] ++;
+    unset($_SESSION['decision']);
     header('Location: ../pageDeLancement/lancement.php');
     exit();

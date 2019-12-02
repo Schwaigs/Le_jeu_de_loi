@@ -3,14 +3,21 @@
   session_start();
   require_once '../accesBDD/initBase.php';
 
-  if (!isset($_SESSION['login']) || empty($_SESSION['login'])){
-      $succes = initBase();
-      header('Location: login.php');
-      exit();
+  //Mise en place de la section, on débute à 1 et on va jusqu'à 5 sections (=1 cycle)
+  //Puis on recommence
+  if (!isset($_SESSION['section'])){
+      $_SESSION['section'] = 1;
   }
 
-  if (!isset($_SESSION['numEvent'])){
-      $_SESSION['numEvent'] = 1;
+  //Si on passe la 5ème section, on recommence un nouveau cycle de 5 sections
+  if ($_SESSION['section'] > 5){
+    $_SESSION['section'] = 1;
+  }
+
+  //On initialise le nombre de lois que l'on peut voter à 2 par cycle de 5 sections,
+  //si on est au début d'une section on a le droit à 2 votes
+  if (!isset($_SESSION['nbLois']) || $_SESSION['section'] == 1){
+      $_SESSION['nbLois'] = 2;
   }
 
   if (!isset($_SESSION['suivant'])){
@@ -25,14 +32,11 @@
       $_SESSION['annee'] = 1763;
   }
 
-  if (!isset($_SESSION['argent'])){
-    $_SESSION['argent'] = 100;
-  }
-
   if (!isset($_SESSION['idCarac'])){
     $_SESSION['idCarac'] = -1;
   }
 
+  //Récupération de l'id en variable de session
   if (isset($_GET['id'])){
     $_SESSION['idCarac'] = $_GET['id'];
   }
@@ -56,13 +60,6 @@
   if (!isset($_SESSION['tiersEtat'])){
     $_SESSION['tiersEtat'] = 100;
   }
-  
-  /*if ($_SESSION['argent'] < 40) {
-    $_SESSION['message'] = "Vous n'avez pas assez d'argent pour modifier les lois.";
-  }
-  else {
-    $_SESSION['message'] = "Vous pouvez voter ou abroger une loi";
-  }*/
 
   if (!isset($_SESSION['peutEnfant'])){
     $_SESSION['peutEnfant'] = 1; //si le roi actuel peut avoir des enfant (1) ou non (0)
@@ -127,33 +124,11 @@
           <div class="flex-event-header">
             <div style="flex-grow: 7">
               <h1>Les aléas de la vie</h1>
-              <?php echo "Or : " . $_SESSION['argent'] . " pièces <br>" . "Satisfaction : " . $_SESSION['satisfaction'];?>
-            </div>
-            <div style="flex-grow: 3" class="overlayBandeau">
-              <span onclick="ouvreBandeauLoi()">
-              <h2>Décret royal</h2> </span>
-              <?php echo $_SESSION['message'];?>
-              <script src="../js/ajoutRetireLoi.js"></script>
-
-              <div id="bandeauLoiDepl" class="overlayBandeau-content" style="height: 0%;">
-                <?php
-                    include '../pagesPHP/ajoutRetireLoi.php';
-                    echo '<p>fd</p><br><br><br>';
-                ?>
-               <!-- Bouton pour fermer/replier le bandeau -->
-  <!--         <a href="javascript:void(0)" class="btnFermer" onclick="fermeArbre()">&times;</a>     -->
-
-               <!-- Contenu de l'overlay -->
-
-
-
-              </div>
-
             </div>
           </div>
           <div class="contenuEvent">
           <?php
-          include '../pagesPHP/evenements.php';
+          include '../pagesPHP/choixEventLoi.php';
           ?>
           </div>
         </div>
