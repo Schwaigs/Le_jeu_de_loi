@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once '../accesBDD/bddT3.php';
 require_once '../accesBDD/MyPDO.php';
 
@@ -119,6 +119,7 @@ class Heritage {
 
         //s'il n'y a aucun heritier le joueur à perdu
         if($nbLigne == 0){
+            $_SESSION['messageFin'] = "Vous n'avez plus aucun héritier, ainsi, une autre lignée a récupéré le trône. Vous avez perdu.";
             return null;
         }
 
@@ -139,6 +140,7 @@ class Heritage {
         }
         //si aucun des personnages de la base ne correspond aux lois on a pas d'heritier le joueur à perdu
         if(empty($parentEnfant)){
+            $_SESSION['messageFin'] = "Vous n'avez plus aucun héritier, ainsi, une autre lignée a récupéré le trône. Vous avez perdu.";
             return null;
         }
         /* si il n'y a pas de lois concernant l'odre de naissance on a les héritiers tels quels */
@@ -256,14 +258,17 @@ class Heritage {
 
         /* Si le nouveau roi n'est pas français alors le joueur à perdu */
         $paysNewRoi;
+        $ageNewRoi;
         $resultNewRoi = MyPDO::pdo()->prepare("SELECT * from perso WHERE id = :idRoi");
         $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_INT);
         $resultNewRoi->execute();
         foreach ($resultNewRoi as $row){
             $paysNewRoi = $row['nationnalite'];
+            $ageNewRoi = $row['age'];
         }
         if($paysNewRoi != 'France'){
             $_SESSION['jeu'] = 'perdu';
+            $_SESSION['messageFin'] = "L'héritier qui est monté sur le trône à votre mort était marié a un étranger, ainsi, un autre royaume a récupéré vos terres. Vous avez perdu.";
             return null; //---------------------------------voir si return null ou 0-------------------
         }
 
@@ -279,10 +284,17 @@ class Heritage {
         $resultNewRoi->execute();
         $nbLigne = $resultNewRoi->rowCount();
 
-        if($_SESSION['peutEnfant'] ==0){ //si l'ancien roi ne pouvais plus avoir d'enfant le nouveau si
-            $_SESSION['peutEnfant'] ==1;
+        //Nombre de cycle où le nouveau roi sera au pouvoir en fonction de son âge
+        if($ageNewRoi <20){
+            $_SESSION['cycleRoi'] = 3;
         }
-
+        else if($ageNewRoi <40  && $ageNewRoi >=20){
+            $_SESSION['cycleRoi'] = 2;
+        }
+        else {
+            $_SESSION['cycleRoi'] = 1;
+        }
+        $_SESSION['cycleFait'] = 0;
         //On met à jour les jauges
         $this->majJauges($idRoi);
 
@@ -412,34 +424,50 @@ class Heritage {
         $resultNewRoi = MyPDO::pdo()->prepare("SELECT * from perso WHERE id = :idRoi");
         $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_INT);
         $resultNewRoi->execute();
+        $nouveauScoreNoblesse= $_SESSION['noblesse'];
+        $nouveauScoreClerge= $_SESSION['clerge'];
+        $nouveauScoreTE= $_SESSION['tiersEtat'];
         foreach ($resultNewRoi as $row){
             $richesseNewRoi = $row['richesse'];
             $religionNewRoi = $row['religion'];
             $affiniteNewRoi = $row['affinite'];
         }
         if($richesseNewRoi == 1){
-            $_SESSION['noblesse'] +=10;
-            $_SESSION['tiersEtat'] -=10;
+            $nouveauScoreNoblesse +=10;
+            $nouveauScoreTE -=10;
         }
         else{
-            $_SESSION['noblesse'] -=10;
-            $_SESSION['tiersEtat'] +=10;
+            $nouveauScoreNoblesse -=10;
+            $nouveauScoreTE +=10;
         }
         if($religionNewRoi == 'catholique'){
-            $_SESSION['clerge'] +=10;
+            $nouveauScoreClerge +=10;
         }
         else{
-            $_SESSION['clerge'] -=10;
+            $nouveauScoreClerge -=10;
         }
         if($affiniteNewRoi == 'noblesse'){
-            $_SESSION['noblesse'] +=10;
+            $nouveauScoreNoblesse +=10;
         }
         elseif($affiniteNewRoi == 'tiers état'){
-            $_SESSION['tiersEtat'] +=10;
+            $nouveauScoreTE +=10;
         }
         else{
-            $_SESSION['clerge'] +=10;
+            $nouveauScoreClerge +=10;
         }
+        //On remplace les jauges par les nouvelles valeurs et on verifie qu'on ne dépassse pas 100 qui est le max
+        if($nouveauScoreClerge > 100){
+            $nouveauScoreClerge = 100;
+        }
+        if($nouveauScoreNoblesse > 100){
+            $nouveauScoreNoblesse = 100;
+        }
+        if($nouveauScoreTE > 100){
+            $nouveauScoreTE = 100;
+        }
+        $_SESSION['noblesse'] = $nouveauScoreNoblesse;
+        $_SESSION['clerge'] = $nouveauScoreClerge;
+        $_SESSION['tiersEtat'] = $nouveauScoreTE;
     }
 
     public function meilleurSante(array $heritiers) : int {

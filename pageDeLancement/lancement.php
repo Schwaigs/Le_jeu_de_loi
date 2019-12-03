@@ -11,13 +11,34 @@
 
   //Si on passe la 5ème section, on recommence un nouveau cycle de 5 sections
   if ($_SESSION['section'] > 5){
-    $_SESSION['section'] = 1;
+      $_SESSION['section'] = 1;
+      $_SESSION['cycleFait'] ++;
+      //Si le roi à atteint son nbmax de cycle on passe à un autre roi
+      if($_SESSION['cycleFait'] >= $_SESSION['cycleRoi']){
+          $heritage = new Heritage();
+          try{
+              $idNouveauRoi = $heritage->choisiRoi();
+          }
+          catch( PDOException $e ) {
+              echo 'Erreur : '.$e->getMessage();
+              exit;
+          }
+          $_SESSION['message'] = "Il est temps pour vous de passer la main, l'un de vos héritiers récupère le trône";
+      }
   }
 
   //On initialise le nombre de lois que l'on peut voter à 2 par cycle de 5 sections,
   //si on est au début d'une section on a le droit à 2 votes
   if (!isset($_SESSION['nbLois']) || $_SESSION['section'] == 1){
       $_SESSION['nbLois'] = 2;
+  }
+
+  if (!isset($_SESSION['cycleFait'])){
+    $_SESSION['cycleFait'] = 0;
+  }
+
+  if (!isset($_SESSION['cycleRoi'])){
+    $_SESSION['cycleRoi'] = 2;
   }
 
   if (!isset($_SESSION['suivant'])){
@@ -42,7 +63,11 @@
   }
 
   if (!isset($_SESSION['jeu'])){
-    $_SESSION['jeu'] = 'enCours';
+    $_SESSION['jeu'] = 'en cours';
+  }
+
+  if (!isset($_SESSION['messageFin'])){
+    $_SESSION['messageFin'] = '';
   }
 
   if (!isset($_SESSION['message'])){
@@ -50,23 +75,15 @@
   }
 
   if (!isset($_SESSION['noblesse'])){
-    $_SESSION['noblesse'] = 100;
+    $_SESSION['noblesse'] = 50;
   }
 
   if (!isset($_SESSION['clerge'])){
-    $_SESSION['clerge'] = 100;
+    $_SESSION['clerge'] = 50;
   }
 
   if (!isset($_SESSION['tiersEtat'])){
-    $_SESSION['tiersEtat'] = 100;
-  }
-
-  if (!isset($_SESSION['peutEnfant'])){
-    $_SESSION['peutEnfant'] = 1; //si le roi actuel peut avoir des enfant (1) ou non (0)
-  }
-
-  if (!isset($_SESSION['satisfaction'])){
-    $_SESSION['satisfaction'] = 100;
+    $_SESSION['tiersEtat'] = 50;
   }
 
   require_once '../accesBDD/classesPHP/Arbre.php';
@@ -90,9 +107,9 @@
     <header>
       <div class="flex-container">
         <div id="annee" style="flex-grow: 1"> <h1><?php echo $_SESSION['annee'] ?></h1> </div>
-        <div id="titreJeu" style="flex-grow: 8"><a href="../pagesPHP/quitter.php">Jeu de lois</div>
+        <div id="titreJeu" style="flex-grow: 8"><a href="../pagesPHP/quitter.php">Jeu de lois</a></div>
         <div id="encyclo" style="flex-grow: 1">
-          <a href="../pagesPHP/encyclopedie.php" onclick="window.open(this.href); return false;">Encyclopédie</a>
+          <a href="../pagesPHP/encyclopedie.php" onclick="window.open(this.href); return false;"><img id="imgEncyclo" src="../images/encyclopedie.png"></a>
         </div>
       </div>
     </header>

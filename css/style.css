@@ -11,6 +11,11 @@ a {
 	color: white;
 }
 
+#imgEncyclo{
+	width: 80px;
+    height: auto;
+}
+
 /************************
  * Global
  ************************/
@@ -103,10 +108,6 @@ main {
 /* Bandeau décret lois */
 .flex-event-header {
 	display: flex;
-}
-
-#bandeauLoiDepl {
-
 }
 
 /* Overlay*/
@@ -240,7 +241,7 @@ main {
 
  .flex-container {
    display: flex;
-   align-items: stretch;
+   align-items: center;
  }
 
  .flex-container > div {
@@ -254,6 +255,10 @@ main {
 	 border-radius: 1rem;
  }
 
+ .flex-container > div > a{
+	display : flex;
+	justify-content : center;
+  }
 
 header > section {
 	padding-left: 2rem;

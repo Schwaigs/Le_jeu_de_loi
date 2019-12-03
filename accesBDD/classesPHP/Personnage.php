@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once '../accesBDD/bddT3.php';
 require_once '../accesBDD/MyPDO.php';
 require_once '../accesBDD/classesPHP/Heritage.php';
@@ -117,12 +117,8 @@ class Personnage {
         //choisi aléatoirement un parent pour la creation d'un personnage
         //parmis les perso la bdd
         //on récupère les id de chaque parent potentiel
-       if ($_SESSION['peutEnfant'] ==1){
-            $resultParents = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE age < 50 AND age > 15 AND classe!='mort'");
-        }
-        else{
-            $resultParents = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE age < 50 AND age > 15 AND classe not in ('mort','roi')");
-       }
+       $resultParents = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE age < 50 AND age > 15 AND classe!='mort'");
+
         $resultParents->execute();
         $nbLigne = $resultParents->rowCount();
         //Si pas de parent possible

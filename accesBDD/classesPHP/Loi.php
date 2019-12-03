@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once '../accesBDD/bddT3.php';
 require_once '../accesBDD/MyPDO.php';
 require_once '../accesBDD/classesPHP/Heritage.php';
@@ -14,7 +14,9 @@ class Loi {
     }
 
     public function ajoutLoi() : int {
-        if ($_SESSION['nbLois'] > 0){
+        //On test si le joueur a le droit de mettre en place une loi
+        $droit = this->verifRelation();
+        if ($droit){
 
             //On met mis en place à 1 pour la loi ajoutée
             $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=1 WHERE parametre = :param AND paramVal = :pVal");
@@ -45,13 +47,16 @@ class Loi {
             return $nbLigne;
         }
         else{
-            $_SESSION['message'] = "Vous n'avez pas assez d'argent pour modifier les lois.";
+            $_SESSION['message'] = "L'insatisfaction du peuple vous empêche de modifier les lois";
             return 0;
         }
     }
 
     public function suppLoi() : int {
-        if ($_SESSION['nbLois'] > 0){
+        //On test si le joueur a le droit de mettre en place une loi
+        $droit = this->verifRelation();
+        if ($droit){
+
             $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=0 WHERE parametre = :param");
             $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $result->execute();
@@ -72,11 +77,24 @@ class Loi {
             return $nbLigne;
         }
         else{
-            $_SESSION['message'] = "Vous n'avez pas assez d'argent pour modifier les lois.";
+            $_SESSION['message'] = "L'insatisfaction du peuple vous empêche de modifier les lois";
             return 0;
         }
     }
-
+    	
+    public function verifRelation() : boolean {
+        if($_SESSION['noblesse'] < 10 || $_SESSION['clerge'] < 10 || $_SESSION['tiersEtat'] < 10){
+            return false;
+        }
+        $moyenne = ($_SESSION['noblesse'] + $_SESSION['clerge'] + $_SESSION['tiersEtat'])/3;
+        else if($moyenne < 30){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    
     public function getParametre() : string {
         return $this->_parametre;
     }

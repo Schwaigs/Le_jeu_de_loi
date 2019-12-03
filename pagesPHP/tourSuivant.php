@@ -72,10 +72,21 @@ require_once '../accesBDD/classesPHP/Heritage.php';
   //On peut passer à la suite
   $_SESSION['section'] ++;
 
+  //on test les differents parametres qui font gagner ou perdre le joueur
   if ($_SESSION['annee'] >= 1789){
     $_SESSION['jeu'] = 'gagne';
+    $_SESSION['messageFin'] = "Vous avez réussi à garder votre lignée sur le trône jusqu'à l'inévitable révolution française. Félicitation, vous avez gagner !";
   }
 
+  if($_SESSION['noblesse'] == 0 || $_SESSION['clerge'] == 0 || $_SESSION['tiersEtat'] == 0 ){
+     $_SESSION['jeu'] = 'perdu';
+     $_SESSION['messageFin'] = "L'un des 3 ordres n'étant pas du tout satisfait de votre gestion du royaume, celui-ci a monter un coup d'état à l'encontre de votre famille. Vous avez perdu.";
+  }
+
+  if( $_SESSION['jeu'] != 'en cours'){
+    header('Location: fin.php');
+    exit();
+  }
 
   header('Location: ../pageDeLancement/lancement.php');
   exit();

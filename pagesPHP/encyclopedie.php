@@ -38,7 +38,7 @@ require_once '../accesBDD/MyPDO.php';
                 <label for="menu'.$i.'">'.$paramLabel.'</label>
                 <input id="menu'.$i.'" type="checkbox" name="menu"/>
                 <ul class="accordion"><br> ';
-                $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre=:param Order by label desc");
+                $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre=:param Order by label");
                 $paramSucces = $result->bindValue(':param',$param, PDO::PARAM_STR);
                 $ok2 = $result->execute();
                 foreach ( $result as $row ) {
