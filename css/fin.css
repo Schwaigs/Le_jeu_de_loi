@@ -1,0 +1,31 @@
+img{
+	width: 500px;
+    height: auto;
+}
+
+p{  
+    font-family: 'Almendra';
+    font-size: 1.5rem;
+}
+
+body{
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-image: url("../images/fondChateau3.jpg");
+    background-size:cover;
+    background-position: center;
+}
+
+form{
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(  231, 230, 229  , 0.85);
+    width: 750px;
+    padding: 2rem;
+    margin-top: 6rem;
+    border-radius: 20px;
+}

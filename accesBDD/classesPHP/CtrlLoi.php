@@ -83,7 +83,7 @@ class CtrlLoi {
                 <label for="menu'.$i.'">'.$paramLabel.'</label>
                 <input id="menu'.$i.'" type="checkbox" name="menu"/>
                 <ul class="accordion_loi">';
-                $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre=:param order by label desc");
+                $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre=:param order by label");
                 $paramSucces = $result->bindValue(':param',$param, PDO::PARAM_STR);
                 $ok2 = $result->execute();
                 foreach ( $result as $row ) {
