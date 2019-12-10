@@ -1,4 +1,4 @@
-<?php
+z<?php
 require_once '../accesBDD/classesPHP/Heritage.php';
 
   //Démarrer la session
@@ -82,7 +82,7 @@ require_once '../accesBDD/classesPHP/Heritage.php';
      $_SESSION['jeu'] = 'perdu';
      $_SESSION['messageFin'] = "L'un des 3 ordres n'étant pas du tout satisfait de votre gestion du royaume, celui-ci a monter un coup d'état à l'encontre de votre famille. Vous avez perdu.";
   }
-
+  //Si le joueur a perdu ou gagner on arrête le jeu ici et on lui affiche un écran de fin
   if( $_SESSION['jeu'] != 'en cours'){
     header('Location: fin.php');
     exit();

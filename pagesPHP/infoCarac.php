@@ -1,7 +1,9 @@
 <?php
 require_once '../accesBDD/classesPHP/Arbre.php';
 
+//Si le joueur a cliquer sur un des personnages on affiche ses caractéristiques
 if ($_SESSION['idCarac'] != -1){
+    //chercheCaracPerso() Cherche les différentes caractéristiques d'un personnage et les mets en forme.
     $carac = caracPerso($_SESSION['idCarac']);
     $sexe;
     if($carac['sexe'] == 'homme'){
@@ -10,6 +12,7 @@ if ($_SESSION['idCarac'] != -1){
         else{
             $sexe = 'F';
     }
+    //On rempli la zone d'affichage des caractéristiques
     echo '
     <img id="imgPerso" src="../imagesPersos/'.$sexe.$_SESSION['idCarac'].'.png">
     <div id="affichageTexte">
@@ -36,6 +39,7 @@ if ($_SESSION['idCarac'] != -1){
     </div>
     ';
 }
+//Si le joueur n'as cliqué sur aucun personnage lui affiche une image et un texte par défaut
 else{
     echo '
     <img id="imgPerso" src="../imagesPersos/aucunPerso.png">

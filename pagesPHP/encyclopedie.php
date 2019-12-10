@@ -14,30 +14,20 @@ require_once '../accesBDD/MyPDO.php';
     <main>
         <h1>Encyclopédie: </h1>
         <p>Choisissez une caractéristique.</p>
+        <!-- On créer une liste sous forme d'accordéon-->
         <ul id="accordion_encyclo">
         <?php
         $result = MyPDO::pdo()->prepare("SELECT * FROM lois");
         $ok = $result->execute();
-        $tabParam=['religion'=>'religion','sexe'=>'sexe','ordreNaissance'=>'ordreNaissance','richesse'=>'richesse'];
+        //Pour chacune des catégorie de loi possible on créer une sous-liste
+        $tabParam=['religion'=>'Religion','sexe'=>'Sexe','ordreNaissance'=>'Ordre de naissance','richesse'=>'Richesse'];
         $i=1;
-        foreach ($tabParam as $param){
-                $paramLabel = '';
-                if ($param == 'religion') {
-                    $paramLabel = 'Religion';
-                }
-                elseif($param == 'sexe'){
-                    $paramLabel = 'Sexe';
-                }
-                elseif($param == 'richesse'){
-                    $paramLabel = 'Richesse';
-                }
-                else{
-                    $paramLabel = 'Ordre de naissance';
-                }
+        foreach ($tabParam as $param => $paramLabel){
                 echo' <li>
                 <label for="menu'.$i.'">'.$paramLabel.'</label>
                 <input id="menu'.$i.'" type="checkbox" name="menu"/>
                 <ul class="accordion"><br> ';
+                //Puis pour chaque catégories on cherche les différentes lois qui y sont associées
                 $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre=:param Order by label");
                 $paramSucces = $result->bindValue(':param',$param, PDO::PARAM_STR);
                 $ok2 = $result->execute();
@@ -52,4 +42,3 @@ require_once '../accesBDD/MyPDO.php';
     </main>
   </body>
 </html>
-
