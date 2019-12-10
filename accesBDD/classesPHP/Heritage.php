@@ -1,13 +1,23 @@
 <?php
-session_start();
 require_once '../accesBDD/bddT3.php';
 require_once '../accesBDD/MyPDO.php';
 
+/*
+* \class Heritage
+* \par Permet de gèrer la recherche des héritiers.
+ */
 class Heritage {
 
     public function __construct(){
     }
 
+    /**
+    *\fn public function cherchePlusAgeJeune(array $personnages, int $loiOrdreNaissance) : int
+    * \brief Cherche le personnage le plus agé ou le plus jeune d'une fraterie selon la loi sur l'odre de naissance qui est mise en place.
+    * \pre personnages contient les frères et soeurs d'une même fraterie.
+    * \pre loiOrdreNaissance permet d'identifier la loi sur l'ordre de naissance. 0 pour l'ultimogéniture et 1 pour la primogéniture.
+    * \return Renvoie l'identifiant du personnage qui correspond à la loi pour cette fraterie.
+    */
     public function cherchePlusAgeJeune(array $personnages, int $loiOrdreNaissance) : int {
         $in_valuesAge = implode(',',$personnages);
         $resultAge = MyPDO::pdo()->prepare("SELECT id,age FROM perso WHERE id in (".$in_valuesAge.")");
@@ -26,6 +36,13 @@ class Heritage {
         return $tabAgeEnfant[max($tabAge)];
     }
 
+    /**
+    *\fn public function choisiOrdreNaissanceHeritiers (array $heritiers, int $loiOrdreNaissance) : array
+    * \brief Cherche les personnages des différentes frateries qui correspondent selon la loi sur l'odre de naissance qui est mise en place.
+    * \pre heritiers contient la liste de tout les héritiers possibles dans la famille.
+    * \pre loiOrdreNaissance permet d'identifier la loi sur l'ordre de naissance. 0 pour l'ultimogéniture et 1 pour la primogéniture.
+    * \return Renvoie un tableau avec pour clé l'identifiant des personnages qui correspondent à la loi et en valeur l'id de leur parent.
+    */
     public function choisiOrdreNaissanceHeritiers (array $heritiers, int $loiOrdreNaissance) : array {
         $enfantHeritier;
         $newListHeritiers;
@@ -87,7 +104,13 @@ class Heritage {
         return $newListHeritiers;
     }
 
-    public function chercherHeritier(){
+
+    /**
+    *\fn public function chercherHeritier() : array
+    * \brief Cherche les personnages qui sont héritiers en comparant leurs caractéristiques aux lois mises en place.
+    * \return Renvoie un tableau avec pour clé l'identifiant du personnages et en valeur l'identifiant de son parent.
+    */
+    public function chercherHeritier() : array{
         /*On stocke dans un tableau en cle l'id de l'héritier et en valeur son parent */
         $parentEnfant = [];
 
@@ -157,7 +180,11 @@ class Heritage {
         return $heritiersOrdre;
     }
 
-
+    /**
+    *\fn public function classePersoHeritier (array $heritiers) : void
+    * \brief Met à jour dans la base la classe des personnages qui sont des héritiers.
+    * \pre heritiers contient la liste de tout les héritiers possibles dans la famille.
+    */
     public function classePersoHeritier (array $heritiers) : void {
         //change dans la base de donnée l'attribut classe des personnages pouvant être des heritiers
         $in_heritiers = implode(',',$heritiers);
@@ -165,6 +192,11 @@ class Heritage {
         $resultHerit->execute();
     }
 
+    /**
+    *\fn public function classePersoNonHeritier (array $heritiers) : void
+    * \brief Met à jour dans la base la classe des personnages qui ne sont pas des héritiers.
+    * \pre heritiers contient la liste de tout les héritiers possibles dans la famille.
+    */
     public function classePersoNonHeritier (array $heritiers) : void {
         //change dans la base de donnée l'attribut classe des personnages ne pouvant pas être des heritiers
         $in_heritiers = implode(',',$heritiers);
@@ -172,6 +204,11 @@ class Heritage {
         $resultHerit->execute();
     }
 
+    /**
+    *\fn public function choisiRoi () : int
+    * \brief Cherche l'héritier le plus légitime et le fait devenir roi.
+    * \return Renvoie l'identifant du nouveau roi.
+    */
     public function choisiRoi () : int {
         /*On compte le nombre d'héritier possible */
         $parentEnfant = $this->chercherHeritier();
@@ -199,6 +236,7 @@ class Heritage {
             $idRoi = $heritiers[0];
         }
 
+        //On récupère des infos sur le roi actuel
         $resultAncienRoi = MyPDO::pdo()->prepare("SELECT id,parent FROM perso WHERE classe='roi'");
         $resultAncienRoi->execute();
         $idRoiActuel;
@@ -295,12 +333,17 @@ class Heritage {
             $_SESSION['cycleRoi'] = 1;
         }
         $_SESSION['cycleFait'] = 0;
-        //On met à jour les jauges
+
+        //On met à jour les jauges de relation avec les 3 ordres
         $this->majJauges($idRoi);
 
         return $idRoi;
     }
 
+    /**
+    *\fn public function majArbreHeritiers() : void
+    * \brief Met à jour les héritiers suite au choix lors d'un évènement.
+    */
     public function majArbreHeritiers() : void {
         //Fonction lancer après un nouvel événement pour mettre un jour l'arbre en fonction des classes des persos
         /*On compte le nombre d'héritier possible */
@@ -328,9 +371,13 @@ class Heritage {
             $resultHerit = MyPDO::pdo()->prepare("UPDATE perso SET classe='nonHeritier' WHERE classe not in ('mort','roi')");
             $resultHerit->execute();
         }
-        
+
     }
 
+    /**
+    *\fn public function majHeritiersLois() : void
+    * \brief Met à jour les héritiers suite à un changement au niveau des lois.
+    */
     public function majHeritiersLois() : void {
         //Fonction lancer après un changement dans les loi pour mettre un jour l'arbre en fonction des classes des persos et mettre a jour les jauges
         /*On compte le nombre d'héritier possible */
@@ -417,10 +464,16 @@ class Heritage {
         }
     }
 
+    /**
+    *\fn public function majJauges(int $idRoi) : void
+    * \brief Met à jour les jauges de relations avec les différents ordres en fonction de l'héritier le plus légitime ou du nouveau roi.
+    * \pre idRoi l'identfiant de l'héritier le plus légitime ou le nouveau roi
+    */
     public function majJauges(int $idRoi) : void {
         $richesseNewRoi;
         $religionNewRoi;
         $affiniteNewRoi;
+        //On récupère les caractéristiques du nouveau roi ou du prochain héritier
         $resultNewRoi = MyPDO::pdo()->prepare("SELECT * from perso WHERE id = :idRoi");
         $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_INT);
         $resultNewRoi->execute();
@@ -432,20 +485,25 @@ class Heritage {
             $religionNewRoi = $row['religion'];
             $affiniteNewRoi = $row['affinite'];
         }
+        //Si le personnage est riche les relations avec la noblesse s'améliorent mais celles avec le tiers-état se détériorent
         if($richesseNewRoi == 1){
             $nouveauScoreNoblesse +=10;
             $nouveauScoreTE -=10;
         }
+        //Et inversement s'il est plutôt pauvre
         else{
             $nouveauScoreNoblesse -=10;
             $nouveauScoreTE +=10;
         }
+        //Si le personnage est catholique les relations avec le clergé s'améliorent
         if($religionNewRoi == 'catholique'){
             $nouveauScoreClerge +=10;
         }
+        //sinon elles se détériorent
         else{
             $nouveauScoreClerge -=10;
         }
+        //Enfin chaque personnage possède une affinité avec un des 3 ordre ce qui améliore les relations avec ce dernier
         if($affiniteNewRoi == 'noblesse'){
             $nouveauScoreNoblesse +=10;
         }
@@ -470,12 +528,18 @@ class Heritage {
         $_SESSION['tiersEtat'] = $nouveauScoreTE;
     }
 
+    /**
+    *\fn public function meilleurSante(array $heritiers) : int
+    * \brief Cherche l'héritier qui a le meilleur état de santé
+    * \pre heritiers contient la liste des héritiers possibles.
+    */
     public function meilleurSante(array $heritiers) : int {
-        //On cherche l'heritier qui se trouve dans le meilleur état de sante//
+        //On cherche l'heritier qui se trouve dans le meilleur état de sante
         $in_heritiers = implode(',',$heritiers);
         $resultSante = MyPDO::pdo()->prepare("SELECT id,etatSante from perso WHERE id in (".$in_heritiers.")");
         $resultSante->execute();
 
+        //On classe les héitiers en groupes selon les 3 états de santé possibles
         $bon = [];
         $moyen= [];
         $mauvais = [];

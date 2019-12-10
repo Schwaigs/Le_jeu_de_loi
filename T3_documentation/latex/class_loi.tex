@@ -1,0 +1,108 @@
+\hypertarget{class_loi}{}\doxysection{Loi Class Reference}
+\label{class_loi}\index{Loi@{Loi}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_loi_a2676afe0616e7e2ad4ffa73c12fcb896}{\+\_\+\+\_\+construct}} (string \$parametre, \$param\+Val)
+\begin{DoxyCompactList}\small\item\em Constucteur d\textquotesingle{}une loi. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_loi_a3116784146f6f34df05e85fd8fc7c93c}{ajout\+Loi}} ()
+\begin{DoxyCompactList}\small\item\em Met à jour dans la bdd la loi qui a été votée ainsi que toutes celles de la même catégorie. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_loi_afade6efc4e01ce9362ab533cd75363d9}{supp\+Loi}} ()
+\begin{DoxyCompactList}\small\item\em Met à jour dans la bdd la loi qui a été supprimée ainsi que toutes celles de la même catégorie. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_loi_a0c3dcaec0dd42b56ad1c2be66c4eb919}{verif\+Relation}} ()
+\begin{DoxyCompactList}\small\item\em Vérifie que le joueur a le droit d\textquotesingle{}influer sur les lois en fonction de sa relation avec les différents ordres. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_loi_a4a79c06c000fbd4759f05e95dfd0c0b3}{get\+Parametre}} ()
+\begin{DoxyCompactList}\small\item\em Accesseur sur la catégorie de la loi. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_loi_a464bee8d974ea297b2bcdcaca923c5b7}{get\+Param\+Val}} ()
+\begin{DoxyCompactList}\small\item\em Accesseur sur la caractéristique de la loi. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_loi_a2676afe0616e7e2ad4ffa73c12fcb896}\label{class_loi_a2676afe0616e7e2ad4ffa73c12fcb896}} 
+\index{Loi@{Loi}!\_\_construct@{\_\_construct}}
+\index{\_\_construct@{\_\_construct}!Loi@{Loi}}
+\doxysubsubsection{\texorpdfstring{\_\_construct()}{\_\_construct()}}
+{\footnotesize\ttfamily public function \+\_\+\+\_\+construct (\begin{DoxyParamCaption}\item[{string}]{\$parametre,  }\item[{}]{\$param\+Val }\end{DoxyParamCaption})}
+
+
+
+Constucteur d\textquotesingle{}une loi. 
+
+\begin{DoxyPrecond}{Precondition}
+parametre contient la catégorie sur laquelle porte la loi. 
+
+param\+Val contient la caractéristique qui est favorisé dans la catégorie. 
+\end{DoxyPrecond}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_loi_a3116784146f6f34df05e85fd8fc7c93c}\label{class_loi_a3116784146f6f34df05e85fd8fc7c93c}} 
+\index{Loi@{Loi}!ajoutLoi@{ajoutLoi}}
+\index{ajoutLoi@{ajoutLoi}!Loi@{Loi}}
+\doxysubsubsection{\texorpdfstring{ajoutLoi()}{ajoutLoi()}}
+{\footnotesize\ttfamily public function ajout\+Loi (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Met à jour dans la bdd la loi qui a été votée ainsi que toutes celles de la même catégorie. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie le nombre de lignes modifiées. 0 en cas d\textquotesingle{}erreur. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_loi_a4a79c06c000fbd4759f05e95dfd0c0b3}\label{class_loi_a4a79c06c000fbd4759f05e95dfd0c0b3}} 
+\index{Loi@{Loi}!getParametre@{getParametre}}
+\index{getParametre@{getParametre}!Loi@{Loi}}
+\doxysubsubsection{\texorpdfstring{getParametre()}{getParametre()}}
+{\footnotesize\ttfamily public function get\+Parametre (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Accesseur sur la catégorie de la loi. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie la catégorie de la loi. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_loi_a464bee8d974ea297b2bcdcaca923c5b7}\label{class_loi_a464bee8d974ea297b2bcdcaca923c5b7}} 
+\index{Loi@{Loi}!getParamVal@{getParamVal}}
+\index{getParamVal@{getParamVal}!Loi@{Loi}}
+\doxysubsubsection{\texorpdfstring{getParamVal()}{getParamVal()}}
+{\footnotesize\ttfamily public function get\+Param\+Val (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Accesseur sur la caractéristique de la loi. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie la caractéristique de la loi. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_loi_afade6efc4e01ce9362ab533cd75363d9}\label{class_loi_afade6efc4e01ce9362ab533cd75363d9}} 
+\index{Loi@{Loi}!suppLoi@{suppLoi}}
+\index{suppLoi@{suppLoi}!Loi@{Loi}}
+\doxysubsubsection{\texorpdfstring{suppLoi()}{suppLoi()}}
+{\footnotesize\ttfamily public function supp\+Loi (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Met à jour dans la bdd la loi qui a été supprimée ainsi que toutes celles de la même catégorie. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie le nombre de lignes modifiées. 0 en cas d\textquotesingle{}erreur. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_loi_a0c3dcaec0dd42b56ad1c2be66c4eb919}\label{class_loi_a0c3dcaec0dd42b56ad1c2be66c4eb919}} 
+\index{Loi@{Loi}!verifRelation@{verifRelation}}
+\index{verifRelation@{verifRelation}!Loi@{Loi}}
+\doxysubsubsection{\texorpdfstring{verifRelation()}{verifRelation()}}
+{\footnotesize\ttfamily public function verif\+Relation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Vérifie que le joueur a le droit d\textquotesingle{}influer sur les lois en fonction de sa relation avec les différents ordres. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie vrai s\textquotesingle{}il peut modifier les lois, sinon faux. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/sarah/\+One\+Drive/\+Documents/études/dut/semestre 3/\+T3/\+T3\+\_\+pour\+\_\+doc (1)/\+T3\+\_\+pour\+\_\+doc/acces\+B\+D\+D/classes\+P\+H\+P/Loi.\+php\end{DoxyCompactItemize}

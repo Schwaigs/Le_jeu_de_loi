@@ -2,6 +2,10 @@
 
 require_once 'MyPDO.php';
 
+/**
+*\fn function initBase() : void
+* \brief Initialise la base de donnée lors du lancement d'une nouvelle partie.
+*/
 function initBase() : void {
     /*On vide la table des personnages*/
     $resultVide = MyPDO::pdo()->prepare("TRUNCATE TABLE perso");
