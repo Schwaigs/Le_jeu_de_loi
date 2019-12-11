@@ -29,6 +29,6 @@ function initBase() : void {
     $resultInsert->execute();
 
     /*On remet a zero la table des lois*/
-    $resultLoi = MyPDO::pdo()->prepare("UPDATE lois SET miseEnPlace=0");
+    $resultLoi = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=0");
     $resultLoi->execute();
 }
