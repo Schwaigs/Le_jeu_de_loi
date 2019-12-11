@@ -18,6 +18,13 @@
     //On sépare donc ses 3 informations
     $value = explode(' ',$_POST['Lois']);
     $ajoutSupp = $value[0];
+    if($ajoutSupp == 'Passer'){
+        $_SESSION['action'] = 'Passer';
+        //Puis on passe à la section suvante, 5 ans plus tard
+        $_SESSION['annee'] = $_SESSION['annee'] +5;
+        header('Location: ../pageDeLancement/lancement.php');
+        exit();
+    }
     $parametre = $value[1];
     $paramVal = $value[2];
     //echo'ajoutSupp = '.$ajoutSupp.' parametre = '.$parametre.'  paramVal = '.$paramVal;
@@ -45,10 +52,7 @@
         }
     }
 
-    //Puis on passe à la section suvante, 3 ans plus tard
-    $_SESSION['annee'] = $_SESSION['annee'] +3;
-    $_SESSION['section'] ++;
-    //On vide la variable décision pour pouvoir afficher au joueur le choix entre évènement et loi
-    unset($_SESSION['decision']);
+    //Puis on passe à la section suvante, 5 ans plus tard
+    $_SESSION['annee'] = $_SESSION['annee'] +5;
     header('Location: ../pageDeLancement/lancement.php');
     exit();

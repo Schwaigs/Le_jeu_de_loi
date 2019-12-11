@@ -106,11 +106,11 @@ class Heritage {
 
 
     /**
-    *\fn public function chercherHeritier() : array
+    *\fn public function chercherHeritiersLois() 
     * \brief Cherche les personnages qui sont héritiers en comparant leurs caractéristiques aux lois mises en place.
     * \return Renvoie un tableau avec pour clé l'identifiant du personnages et en valeur l'identifiant de son parent.
     */
-    public function chercherHeritier() : array{
+    public function chercherHeritiersLois() {
         /*On stocke dans un tableau en cle l'id de l'héritier et en valeur son parent */
         $parentEnfant = [];
 
@@ -121,7 +121,7 @@ class Heritage {
         $richesseVal;
 
         /* On cherche les lois misent en places */
-        $resultLoi = MyPDO::pdo()->prepare("SELECT parametre, paramVal FROM lois WHERE misEnPlace = 1");
+        $resultLoi = MyPDO::pdo()->prepare("SELECT parametre, paramVal FROM lois WHERE misEnPlace = 1 and parametre != 'sante'");
         $resultLoi->execute();
         $nbLigne = $resultLoi->rowCount();
 
@@ -136,7 +136,7 @@ class Heritage {
         }
 
         /* On cherche les personnages de notre base qui sont encore en vie*/
-        $resultPerso = MyPDO::pdo()->prepare("SELECT id,parent,religion,sexe,richesse FROM perso WHERE classe not in ('mort','roi') and age>10");
+        $resultPerso = MyPDO::pdo()->prepare("SELECT id,parent,religion,sexe,richesse FROM perso WHERE classe not in ('mort','roi')");
         $resultPerso->execute();
         $nbLigne = $resultPerso->rowCount();
 
@@ -170,14 +170,82 @@ class Heritage {
         if (!(isset($ordreNaissanceVal))){
             return $parentEnfant;
         }
-        /*echo 'chercheheritier() les heritiers et leurs parents <br>';
-        print_r($parentEnfant);
-        echo'<br>';*/
 
         /* On souhaite maintenant voir dans notre liste d'heritiers s'il a des frères et soeurs,
          il faut alors prendre l'ainée ou le plus jeune selon la loi */
         $heritiersOrdre = $this->choisiOrdreNaissanceHeritiers($parentEnfant, $ordreNaissanceVal);
         return $heritiersOrdre;
+    }
+
+    /**
+    *\fn public function chercherHeritiers()
+    * \brief Cherche les héritiers ayant le lien de parenté le plus proche avec le roi.
+    *\return Renvoie un tableau avec pour valeurs les identifiants des héritiers.
+    */
+    public function chercherHeritiers() {
+        //Fonction lancée après un changement dans les loi pour mettre un jour l'arbre en fonction des classes des persos et mettre a jour les jauges
+        /*On compte le nombre d'héritier possible */
+        $parentEnfant = $this->chercherHeritiersLois();
+
+        //s'il n'y a aucun heritier
+        if(empty($parentEnfant)){
+            return null;
+        }
+
+        //si on a des heritiers potentiels
+        /*On creer un tableau avec uniquement les id des heritiers en valeur*/
+        $heritiers = [];
+        foreach ($parentEnfant as $enfant => $parent){
+            $heritiers[] = $enfant;
+        }
+
+        //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
+        $this->classePersoHeritier($heritiers);
+        $this->classePersoNonHeritier($heritiers);
+
+        $nbHeritiers = count($heritiers);
+        /*si on a un seul id dans le tableau des héritiers alors c'est lui le roi*/
+        if ($nbHeritiers == 1) {
+            return $heritiers;
+        }
+
+        /*si plusieurs héritiers le choix se fait par proximite avec le roi*/
+        //On récupère des infos sur le roi actuel
+        $resultAncienRoi = MyPDO::pdo()->prepare("SELECT id,parent FROM perso WHERE classe='roi'");
+        $resultAncienRoi->execute();
+        $idRoiActuel;
+        $idParentRoiActuel;
+        foreach ($resultAncienRoi as $row){
+            $idRoiActuel = $row['id'];
+            $idParentRoiActuel = $row['parent'];
+        }
+
+        /*On regarde si parmis les héritiers on a :
+        - des frères et soeurs du roi : proximité maximale
+        - des enfants du roi : priorite intermediare
+        - des heritiers dans aucun des deux cas : non prioritaires */
+        $heritiersFS = []; //Freres soeurs
+        $heritiersE = []; //Enfants
+        $heritiersA = []; //Autres
+        foreach ($parentEnfant as $enfant => $parent){
+            if ($parent == $idParentRoiActuel){
+                $heritiersFS[] = $enfant;
+            }
+            elseif ($parent == $idRoiActuel){
+                $heritiersE[] = $enfant;
+            }
+            else{
+                $heritiersA[] = $enfant;
+            }
+        }
+
+        if (!empty($heritiersFS)){
+            return $heritiersFS;
+        }
+        elseif (!empty($heritiersE)){
+            return $heritiersE;
+        }
+        return $heritiersA;
     }
 
     /**
@@ -211,23 +279,15 @@ class Heritage {
     */
     public function choisiRoi () : int {
         /*On compte le nombre d'héritier possible */
-        $parentEnfant = $this->chercherHeritier();
+        $heritiers = $this->chercherHeritiers();
 
         //s'il n'y a aucun heritier le joueur à perdu
-        if(empty($parentEnfant)){
+        if(empty($heritiers)){
             $_SESSION['jeu'] = 'perdu';
-            return 0;
+            $_SESSION['messageFin'] = "Vous n'avez pas d'héritier pour vous remplacer sur le trône, ainsi, une autre famille le recupère. Vous avez perdu.";
+            header('Location: fin.php');
+            exit();
         }
-
-        /*On creer un tableau avec uniquement les id des heritiers en valeur*/
-        $heritiers = [];
-        foreach ($parentEnfant as $enfant => $parent){
-            $heritiers[] = $enfant;
-        }
-
-        //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
-        $this->classePersoHeritier($heritiers);
-        $this->classePersoNonHeritier($heritiers);
 
         $nbHeritiers = count($heritiers);
         $idRoi;
@@ -235,63 +295,9 @@ class Heritage {
         if ($nbHeritiers == 1) {
             $idRoi = $heritiers[0];
         }
-
-        //On récupère des infos sur le roi actuel
-        $resultAncienRoi = MyPDO::pdo()->prepare("SELECT id,parent FROM perso WHERE classe='roi'");
-        $resultAncienRoi->execute();
-        $idRoiActuel;
-        $idParentRoiActuel;
-        foreach ($resultAncienRoi as $row){
-            $idRoiActuel = $row['id'];
-            $idParentRoiActuel = $row['parent'];
-        }
-
-        /*si plusieurs héritiers le choix se fait par proximite avec le roi puis par priorité de sante et enfin aléatoirement*/
-        if ($nbHeritiers > 1){
-            /*On regarde si parmis les héritiers on a :
-            - des frères et soeurs du roi : proximité maximale
-            - des enfants du roi : priorite intermediare
-            - des heritiers dans aucun des deux cas : non prioritaires */
-            $heritiersFS = []; //Freres soeurs
-            $heritiersE = []; //Enfants
-            $heritiersA = []; //Autres
-            foreach ($parentEnfant as $enfant => $parent){
-                if ($parent == $idParentRoiActuel){
-                    $heritiersFS[] = $enfant;
-                }
-                elseif ($parent == $idRoiActuel){
-                    $heritiersE[] = $enfant;
-                }
-                else{
-                    $heritiersA[] = $enfant;
-                }
-            }
-
-            if (!empty($heritiersFS)){
-                //si qu'un seul heritier frère et soeurs alors c'est lui le prochain roi
-                if(count($heritiersFS) == 1){
-                    $idRoi = $heritiersFS[0];
-                }
-                //sinon par état de santé
-                $idRoi = $this->meilleurSante($heritiersFS);
-            }
-            elseif (!empty($heritiersE)){
-                //si un seul heritier enfant du roi alors c'est lui le prochain roi
-                if(count($heritiersE) == 1){
-                    $idRoi = $heritiersE[0];
-                }
-                //sinon par état de santé
-                $idRoi = $this->meilleurSante($heritiersE);
-            }
-            else {
-                //si un seul heritier non proioritaire alors c'est lui le prochain roi
-                if(count($heritiersA) == 1){
-                    $idRoi = $heritiersA[0];
-                }
-
-                //sinon par état de santé
-                $idRoi = $this->meilleurSante($heritiersA);
-            }
+        /*Si plusieurs heritiers on cherche par santé*/
+        else{
+            $idRoi = $this->meilleurSante($heritiers);
         }
 
         /* Si le nouveau roi n'est pas français alors le joueur à perdu */
@@ -307,7 +313,8 @@ class Heritage {
         if($paysNewRoi != 'France'){
             $_SESSION['jeu'] = 'perdu';
             $_SESSION['messageFin'] = "L'héritier qui est monté sur le trône à votre mort était marié a un étranger, ainsi, un autre royaume a récupéré vos terres. Vous avez perdu.";
-            return null; //---------------------------------voir si return null ou 0-------------------
+            header('Location: fin.php');
+            exit();
         }
 
         /*On met a jour la bdd */
@@ -322,148 +329,54 @@ class Heritage {
         $resultNewRoi->execute();
         $nbLigne = $resultNewRoi->rowCount();
 
-        //Nombre de cycle où le nouveau roi sera au pouvoir en fonction de son âge
-        if($ageNewRoi <20){
-            $_SESSION['cycleRoi'] = 3;
-        }
-        else if($ageNewRoi <40  && $ageNewRoi >=20){
-            $_SESSION['cycleRoi'] = 2;
-        }
-        else {
-            $_SESSION['cycleRoi'] = 1;
-        }
-        $_SESSION['cycleFait'] = 0;
-
         //On met à jour les jauges de relation avec les 3 ordres
         $this->majJauges($idRoi);
 
         return $idRoi;
     }
 
+    
     /**
-    *\fn public function majArbreHeritiers() : void
-    * \brief Met à jour les héritiers suite au choix lors d'un évènement.
+    *\fn public function majHeritiers() : void
+    * \brief Met à jour les héritiers et les relations suite à un tour de jeu.
     */
-    public function majArbreHeritiers() : void {
-        //Fonction lancer après un nouvel événement pour mettre un jour l'arbre en fonction des classes des persos
+    public function majHeritiers() : void {
         /*On compte le nombre d'héritier possible */
-        $parentEnfant = $this->chercherHeritier();
-        //si on a des heritiers potentiels
-        if (!empty($parentEnfant)){
-            /*echo 'les heritiers et leurs parents <br>';
-            print_r($parentEnfant);
-            echo'<br>';*/
-            /*On creer un tableau avec uniquement les id des heritiers en valeur*/
-            $heritiers = [];
-            foreach ($parentEnfant as $enfant => $parent){
-                $heritiers[] = $enfant;
-            }
-            /*echo 'les heritiers <br>';
-            print_r($heritiers);
-            echo'<br>';*/
+        $heritiers = $this->chercherHeritiers();
 
-            //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
-            $this->classePersoHeritier($heritiers);
-            $this->classePersoNonHeritier($heritiers);
-        }
-        else{
-            //sinon tout le monde passe en non heritier
+        //s'il n'y a aucun heritier
+        if(empty($heritiers)){
+            //tous les personnages passent en non heritier
             $resultHerit = MyPDO::pdo()->prepare("UPDATE perso SET classe='nonHeritier' WHERE classe not in ('mort','roi')");
             $resultHerit->execute();
         }
 
-    }
+        $nbHeritiers = count($heritiers);
+        $idRoi;
 
-    /**
-    *\fn public function majHeritiersLois() : void
-    * \brief Met à jour les héritiers suite à un changement au niveau des lois.
-    */
-    public function majHeritiersLois() : void {
-        //Fonction lancer après un changement dans les loi pour mettre un jour l'arbre en fonction des classes des persos et mettre a jour les jauges
-        /*On compte le nombre d'héritier possible */
-        $parentEnfant = $this->chercherHeritier();
-        //si on a des heritiers potentiels
-        if (!empty($parentEnfant)){
-            /*On creer un tableau avec uniquement les id des heritiers en valeur*/
-            $heritiers = [];
-            foreach ($parentEnfant as $enfant => $parent){
-                $heritiers[] = $enfant;
-            }
-
-            //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
-            $this->classePersoHeritier($heritiers);
-            $this->classePersoNonHeritier($heritiers);
-
-            $nbHeritiers = count($heritiers);
-            $idRoi;
-            /*si on a un seul id dans le tableau des héritiers alors c'est lui le roi*/
-            if ($nbHeritiers == 1) {
-                $idRoi = $heritiers[0];
-            }
-
-            $resultAncienRoi = MyPDO::pdo()->prepare("SELECT id,parent FROM perso WHERE classe='roi'");
-            $resultAncienRoi->execute();
-            $idRoiActuel;
-            $idParentRoiActuel;
-            foreach ($resultAncienRoi as $row){
-                $idRoiActuel = $row['id'];
-                $idParentRoiActuel = $row['parent'];
-            }
-           /* echo 'id Roi actuel = '.$idRoiActuel.'<br>';
-            echo 'id parent Roi actuel = '.$idParentRoiActuel.'<br>';*/
-
-            /*si plusieurs héritiers le choix se fait par proximite avec le roi*/
-            if ($nbHeritiers > 1){
-                /*On regarde si parmis les héritiers on a :
-                - des frères et soeurs du roi : proximité maximale
-                - des enfants du roi : priorite intermediare
-                - des heritiers dans aucun des deux cas : non prioritaires */
-                $heritiersFS = []; //Freres soeurs
-                $heritiersE = []; //Enfants
-                $heritiersA = []; //Autres
-                foreach ($parentEnfant as $enfant => $parent){
-                    if ($parent == $idParentRoiActuel){
-                        $heritiersFS[] = $enfant;
-                    }
-                    elseif ($parent == $idRoiActuel){
-                        $heritiersE[] = $enfant;
-                    }
-                    else{
-                        $heritiersA[] = $enfant;
-                    }
-                }
-
-                if (!empty($heritiersFS)){
-                    //si qu'un seul heritier frère et soeurs alors c'est lui le prochain roi
-                    if(count($heritiersFS) == 1){
-                        $idRoi = $heritiersFS[0];
-                    }
-                }
-                elseif (!empty($heritiersE)){
-                    //si un seul heritier enfant du roi alors c'est lui le prochain roi
-                    if(count($heritiersE) == 1){
-                        $idRoi = $heritiersE[0];
-                    }
-                }
-                else {
-                    //si un seul heritier non proioritaire alors c'est lui le prochain roi
-                    if(count($heritiersA) == 1){
-                        $idRoi = $heritiersA[0];
-                    }
-                }
-            }
-            //Si on a un unique heritier alors on met à jour les jauges
-            if (isset($idRoi)){
-                $this->majJauges($idRoi);
-            }
+        /*si on a un seul id dans le tableau des héritiers*/
+        if ($nbHeritiers == 1) {
+            //alors on met à jour les jauges en fonction de lui
+            $this->majJauges($heritiers[0]);
         }
-        //sinon tout le monde passe en non heritier
+        /*Si plusieurs heritiers on cherche par santé*/
         else{
-            $resultHerit = MyPDO::pdo()->prepare("UPDATE perso SET classe='nonHeritier' WHERE classe not in ('mort','roi')");
-            $resultHerit->execute();
+            $heritSante = $this->meilleurSanteListe($heritiers);
+            //on regarde si on a plusieurs personnages qui sont favorisés par la santé
+            $nbHeritiers = count($heritSante);
+            if($nbHeritiers == 1){
+                //on met à jour les jauges en fonction de l'unique heritier
+                $this->majJauges($heritSante[0]);
+            }
+            else{
+                $_SESSION['noblesse'] -= 10;
+                $_SESSION['clerge'] -= 10;
+                $_SESSION['tiersEtat'] -= 10;
+            }
         }
-    }
 
+    }
+    
     /**
     *\fn public function majJauges(int $idRoi) : void
     * \brief Met à jour les jauges de relations avec les différents ordres en fonction de l'héritier le plus légitime ou du nouveau roi.
@@ -534,6 +447,16 @@ class Heritage {
     * \pre heritiers contient la liste des héritiers possibles.
     */
     public function meilleurSante(array $heritiers) : int {
+        //Si pas de loi priorisant la santé alors on tire au sort l'héritier parmis ceux possibles
+        $resultLoi = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE misEnPlace = 1 and parametre = 'sante'");
+        $resultLoi->execute();
+        $nbLigne = $resultLoi->rowCount();
+        if ($nbLigne == 0) {
+            $indexAlea = rand( 0, count($heritiers)-1);
+            return $heritiers[$indexAlea];
+        }
+
+        //Si la loi priorisant la santé est mise en place alors on tire au sort selon les héritiers qui vont le mieux
         //On cherche l'heritier qui se trouve dans le meilleur état de sante
         $in_heritiers = implode(',',$heritiers);
         $resultSante = MyPDO::pdo()->prepare("SELECT id,etatSante from perso WHERE id in (".$in_heritiers.")");
@@ -557,7 +480,6 @@ class Heritage {
         }
 
         //priorite à la meilleur sante
-
         if (!empty($bon)){
             //si qu'un seul heritier en bonne sante alors c'est lui le prochain roi
             if(count($bon) == 1){
@@ -586,5 +508,52 @@ class Heritage {
         $indexAlea = rand( 0, count($mauvais)-1);
         return $mavais[$indexAlea];
 
+    }
+
+    /**
+    *\fn public function meilleurSanteListe(array $heritiers) : array
+    * \brief Cherche les heritiers qui ont le meilleur état de santé
+    * \pre heritiers contient la liste des héritiers possibles.
+    */
+    public function meilleurSanteListe(array $heritiers) : array {
+        //Si pas de loi priorisant la santé alors on garde les mêmes heritiers
+        $resultLoi = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE misEnPlace = 1 and parametre = 'sante'");
+        $resultLoi->execute();
+        $nbLigne = $resultLoi->rowCount();
+        if ($nbLigne == 0) {
+            return $heritiers;
+        }
+
+        //Si la loi priorisant la santé est mise en place alors on prends les héritiers qui vont le mieux
+        //On cherche les heritiers qui se trouvent dans le meilleur état de sante
+        $in_heritiers = implode(',',$heritiers);
+        $resultSante = MyPDO::pdo()->prepare("SELECT id,etatSante from perso WHERE id in (".$in_heritiers.")");
+        $resultSante->execute();
+
+        //On classe les héitiers en groupes selon les 3 états de santé possibles
+        $bon = [];
+        $moyen= [];
+        $mauvais = [];
+
+        foreach ($resultSante as $row){
+            if ($row['etatSante']=='bon'){
+                $bon[] =  $row['id'];
+            }
+            elseif ($row['etatSante']=='moyen'){
+                $moyen[] = $row['id'];
+            }
+            else{
+                $mauvais[] = $row['id'];
+            }
+        }
+
+        //priorite à la meilleur sante
+        if (!empty($bon)){
+            return $bon;
+        }
+        elseif (!empty($moyen)){
+            return $moyen;
+        }
+        return $mavais;
     }
 }

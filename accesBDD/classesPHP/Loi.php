@@ -149,7 +149,7 @@ class Loi {
     }
 
     /**
-    *\fn public function verifRelation() : boolean
+    *\fn public function verifRelation() : bool
     * \brief Vérifie que le joueur a le droit d'influer sur les lois en fonction de sa relation avec les différents ordres.
     * \return Renvoie vrai s'il peut modifier les lois, sinon faux.
     */

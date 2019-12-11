@@ -41,7 +41,7 @@ class CtrlLoi {
         $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE misEnPlace=1");
         $ok = $result->execute();
         //On sauvegarde dans un tableau les différentes catégories de loi sur lesquels on peut agir
-        $tabParam=['religion'=>'religion','sexe'=>'sexe','ordreNaissance'=>'ordreNaissance','richesse'=>'richesse'];
+        $tabParam=['religion'=>'Religion','sexe'=>'Sexe','ordreNaissance'=>'Ordre de naissance','richesse'=>'Richesse','sante'=>'Santé'];
         $i=1;
         echo"<h2> Abroger une Loi </h2>";
         if (0 != $result->rowCount()){
@@ -55,21 +55,8 @@ class CtrlLoi {
                 /*On supprime du tableau tabParam la catégorie de cette loi
                 car si elle est déjà en place alos aucune autre de cette catégorie ne doit pouvoir être votée
                 Ainsi la catégorie ne sera pas présente dans le second accordéon*/
+                $paramLabel = $tabParam[$row['parametre']];
                 unset($tabParam[$row['parametre']]);
-                $paramLabel = '';
-                //On met en forme le nom des catégories pour l'affichage
-                if ($row['parametre'] == 'religion') {
-                    $paramLabel = 'Religion';
-                }
-                elseif($row['parametre'] == 'sexe'){
-                    $paramLabel = 'Sexe';
-                }
-                elseif($row['parametre'] == 'richesse'){
-                    $paramLabel = 'Richesse';
-                }
-                else{
-                    $paramLabel = 'Ordre de naissance';
-                }
                 //enfin on créer notre élément de la liste accordéon
                 echo '<li>
                     <label for="menu'.$i.'">'.$paramLabel.'</label>
@@ -80,6 +67,7 @@ class CtrlLoi {
                 </li>';
                 $i++;
             }
+            echo '</ul>';
         }
         //Si aucune loi n'est en place on affiche un texte par défaut
         else{
@@ -91,20 +79,7 @@ class CtrlLoi {
             //On créer une liste accordéon pour les catégories de loi pour lesquelles aucune n'est en place
             echo'<ul id="accordion_ajout">';
             //On passe en revue les catégories qui ne sont pas dans le premier accordéon
-            foreach ($tabParam as $param){
-                $paramLabel = '';
-                if ($param == 'religion') {
-                    $paramLabel = 'Religion';
-                }
-                elseif($param == 'sexe'){
-                    $paramLabel = 'Sexe';
-                }
-                elseif($param == 'richesse'){
-                    $paramLabel = 'Richesse';
-                }
-                else{
-                    $paramLabel = 'Ordre de naissance';
-                }
+            foreach ($tabParam as $param => $paramLabel){
                 //On créer une liste par catégorie
                 echo' <li>
                 <label for="menu'.$i.'">'.$paramLabel.'</label>
@@ -124,6 +99,7 @@ class CtrlLoi {
                     </li>';
                 $i++;
             }
+            echo '</ul>';
         }
         //Si une loi est en place pour chaque catégorie on affiche un texte par défaut
         else{

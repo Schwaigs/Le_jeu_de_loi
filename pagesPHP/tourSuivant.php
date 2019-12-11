@@ -68,7 +68,7 @@ require_once '../accesBDD/classesPHP/Heritage.php';
   $heritage = new Heritage();
   try{
     //cherche les heritiers possibles apres la mise en place de la loi
-      $heritage->majArbreHeritiers();
+      $heritage->majHeritiers();
   }
   catch( PDOException $e ) {
     echo 'Erreur : '.$e->getMessage();
