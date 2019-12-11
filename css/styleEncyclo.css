@@ -2,7 +2,7 @@
  * Headers and titles
  ************************/
  header {
-	margin-bottom: 2rem;
+
 	margin-top: 1rem;
 }
 
@@ -10,14 +10,41 @@
  * Global
  ************************/
 body {
+  font-family: 'Almendra', serif;
+  font-size: 1.2rem;
+
 	background-color: #444450;
 	padding-bottom: 5rem;
-	font-family: 'Roboto', sans-serif;
+  background-image: url("../images/bibli.png");
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
 
 main {
-	background-color: #999999;
+	background-image: url("../images/livre_coupe2.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
   line-height: 140%;
+  margin-right: 40rem;
+  margin-left: 40rem;
+  margin-top: 4rem;
+  height: 50rem;
+}
+
+#texteEncyclo {
+  padding-right: 8rem;
+  padding-left: 10rem;
+  padding-top: 4rem;
+}
+
+#texteEncyclo > h1 {
+  justify-content: center;
+  text-align: center;
+}
+
+label:hover {
+  cursor: pointer;
 }
 
  .accordion > li {
@@ -25,21 +52,22 @@ main {
      overflow: hidden;
  }
 
- input[type="checkbox"] {
-     display: none;
+ input[type="radio"] {
+   display: none;
  }
 
  input:checked + .accordion > li {
-     height: 2em;
+     height: 2rem;
+     padding-bottom: 4rem;
  }
 
  #accordion_encyclo {
      list-style: none;
-     padding:0em;
+     padding:0rem;
  }
 
  #accordion_encyclo > li{
-     padding: 0.5em;
+     padding: 0.3rem;
  }
 
  #accordion_encyclo > li > label{

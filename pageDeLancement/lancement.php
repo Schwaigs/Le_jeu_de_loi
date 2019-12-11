@@ -193,18 +193,85 @@
         </div>
         <!-- Zone principale de jeu -->
         <div class="container" id="event">
-          <div class="flex-event-header">
-            <div style="flex-grow: 7">
-              <h1>Les aléas de la vie</h1>
+
+          <div class="jauges">
+            <div class="columnDiffJauges" id="jaugeUne">
+              <p> Noblesse </p>
+              <!-- Le height gère la hauteur globale de la jauge -->
+              <div class="bar-container" style="height: 10rem;">
+                <div class="goal-bar">
+                  <div class="bar-wrap">
+                    <!-- On gère la taille de la jauge via le translateY-->
+                    <div class="bar" style="transform: translateY(<?php echo 100-$_SESSION['noblesse'] ?>%);">
+                      <div class="bar-info">
+                        <div class="bar-info-inner">
+                          <!-- Valeur brute qui servira au debuggage (sera affiché la valeur de la varaible)-->
+                          <?php echo $_SESSION['noblesse'] ?> / 100
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- /.goal-bar -->
+              </div>
+            </div>
+
+            <div class="columnDiffJauges" id="jaugeDeux">
+              <p> Clergé </p>
+              <!-- Le height gère la hauteur globale de la jauge -->
+              <div class="bar-container" style="height: 10rem;">
+                <div class="goal-bar">
+                  <div class="bar-wrap">
+                    <!-- On gère la taille de la jauge via le translateY-->
+                    <div class="bar" style="transform: translateY(<?php echo 100-$_SESSION['clerge'] ?>%);">
+                      <div class="bar-info">
+                        <div class="bar-info-inner">
+                          <!-- Valeur brute qui servira au debuggage (sera affiché la valeur de la varaible)-->
+                          <?php echo $_SESSION['clerge'] ?> / 100
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- /.goal-bar -->
+              </div>
+            </div>
+
+            <div class="columnDiffJauges" id="jaugeTrois">
+              <p> Tiers état </p>
+              <!-- Le height gère la hauteur globale de la jauge -->
+              <div class="bar-container" style="height: 10rem;">
+                <div class="goal-bar">
+                  <div class="bar-wrap">
+                    <!-- On gère la taille de la jauge via le translateY-->
+                    <div class="bar" style="transform: translateY(<?php echo 100-$_SESSION['tiersEtat'] ?>%);">
+                      <div class="bar-info">
+                        <div class="bar-info-inner">
+                          <!-- Valeur brute qui servira au debuggage (sera affiché la valeur de la varaible)-->
+                          <?php echo $_SESSION['tiersEtat'] ?> / 100
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> <!-- /.goal-bar -->
+              </div>
             </div>
           </div>
-          <div class="contenuEvent">
+
+          <div class="evenements">
+            <div class="flex-event-header">
+              <div style="flex-grow: 10">
+                <h1>Les aléas de la vie</h1>
+              </div>
+
+            </div>
+            <div class="contenuEvent">
               <!-- Remplissage par la page des event et de vote créé à part -->
-              <?php
-              include '../pagesPHP/choixEventLoi.php';
-              ?>
+                <?php
+                include '../pagesPHP/choixEventLoi.php';
+                ?>
+            </div>
           </div>
         </div>
+
         <div class="column">
           <!-- Zone des lois en place -->
           <div id="lois">
@@ -216,7 +283,6 @@
           </div>
           <!-- Zone des caractéristiques des personnages -->
           <div id="carac">
-            <h2>Registre royal:</h2>
             <div id="affichageImageEtTexte">
                 <!-- Remplissage par la page d'affichage des caractéristiques créé à part -->
                 <?php

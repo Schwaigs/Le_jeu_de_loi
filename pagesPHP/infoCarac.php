@@ -44,6 +44,18 @@ else{
     echo '
     <img id="imgPerso" src="../imagesPersos/aucunPerso.png">
     <div id="affichageTexte">
-        <p> Inconnu <p>
+    <h4>Prénom : Inconnu </h4>
+
+    <div class="ligne1" id="divPersonnage">
+        <p>Parent : Inconnu </p>
+        <p>Sexe : Inconnu </p>
+        <p>Age : Inconnu </p>
+        <p>Religion : Inconnu </p>
+        <p>Pays : Inconnu </p>
+        <p>Etat de sante : Inconnu </p>
+        <p>Richesse : Inconnu </p>
+        <p>Affinité: Inconnu </p>
+        <p>Vivant : Inconnu </p>
+    </div>
     ';
 }
