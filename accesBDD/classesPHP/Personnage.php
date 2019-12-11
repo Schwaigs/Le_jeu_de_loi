@@ -19,7 +19,6 @@ class Personnage {
     */
     public function choixReligion() : string {
         //choisi aléatoirement une religion pour la creation d'un personnage
-        //parmis celles disponible dans la bdd selon différentes probabilitées
         $religionAlea;
 
         $numAlea = rand(1,100);
@@ -80,7 +79,6 @@ class Personnage {
     */
     public function choixNationnalite() : string {
         //choisi aléatoirement une nationnalite pour la creation d'un personnage
-        //parmis celles disponible dans la bdd selon différentes probabilitées
         $nationnaliteAlea;
 
         $numAlea = rand(1,100);
@@ -127,13 +125,24 @@ class Personnage {
     }
 
     /**
+    *\fn public function choixRichesse() : int
+    * \brief Choisit aléatoirement un niveau de richesse faible ou élevé pour la creation d'un personnage.
+    * \return Renvoie la richesse sous forme d'entier.
+    */
+    public function choixRichesse() : int {
+        //choisi aléatoirement la richesse pour la creation d'un personnage
+        //1 = élevé et 0 = faible
+        $numAlea = rand(0,1);
+        return $numAlea;
+    }
+
+    /**
     *\fn public function choixEtatSante() : string
     * \brief Choisit aléatoirement un état de santé pour la creation d'un personnage selon différentes probabilitées.
     * \return Renvoie l'état de santé sous forme de chaine de caractères.
     */
     public function choixEtatSante() : string {
         //choisi aléatoirement un etat de sante pour la creation d'un personnage
-        //parmis ceux disponibles dans la bdd selon différentes probabilitées
         $etatSanteAlea;
 
         $numAlea = rand(1,100);
@@ -150,6 +159,31 @@ class Personnage {
             $etatSanteAlea = 'faible';
         }
         return $etatSanteAlea;
+    }
+
+    /**
+    *\fn public function choixAffinite() : string
+    * \brief Choisit aléatoirement une affinité avec l'un des 3 ordres pour la creation d'un personnage selon différentes probabilitées.
+    * \return Renvoie l'affinité sous forme de chaine de caractères.
+    */
+    public function choixAffinite() : string {
+        //choisi aléatoirement une affinité pour la creation d'un personnage
+        $affiniteAlea;
+
+        $numAlea = rand(1,100);
+        /* 40 % de noblesse */
+        if ($numAlea < 41){
+            $affiniteAlea = 'noblesse';
+        }
+        /* 40 % clergé */
+        if (($numAlea > 40) && ($numAlea < 81)){
+            $affiniteAlea = 'clergé';
+        }
+        /* 20 % tiers état */
+        if ($numAlea > 80){
+            $affiniteAlea = 'tiers état';
+        }
+        return $affiniteAlea;
     }
 
     /**
@@ -191,7 +225,7 @@ class Personnage {
         /*On met null pour l'id car la base gère l'auto-incrémentation
          age toujours 0 vu qu'il s'agit de naissances
          la classe est nonHeritier car à la naissance il est trop jeune*/
-        $result = MyPDO::pdo()->prepare("INSERT INTO perso VALUES(null,:prenom,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,'nonHeritier')");
+        $result = MyPDO::pdo()->prepare("INSERT INTO perso VALUES(null,:prenom,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,'heritier',:richesse,:affinite)");
 
         //chaque caractéristique est choisit aléatoirement à l'aide des différentes fonctions
         $religion = $this->choixReligion();
@@ -205,6 +239,10 @@ class Personnage {
         $sexe = $this->choixSexe();
         //echo'sexe = '.$sexe.'<br>';
         $sexeSucces = $result->bindValue(':sexe',$sexe, PDO::PARAM_STR);
+
+        $richesse = $this->choixRichesse();
+        //echo'richesse = '.$richesse.'<br>';
+        $richesseSucces = $result->bindValue(':richesse',$richesse, PDO::PARAM_INT);
 
         //Le choix du prénom se fait en fonction du sexe
         $prenom;
@@ -220,6 +258,10 @@ class Personnage {
         $etatSante = $this->choixEtatSante();
         //echo'etatSante = '.$etatSante.'<br>';
         $etatSanteSucces = $result->bindValue(':etatSante',$etatSante, PDO::PARAM_STR);
+
+        $affinite = $this->choixAffinite();
+        //echo'affinite = '.$affinite.'<br>';
+        $affiniteSucces = $result->bindValue(':affinite',$affinite, PDO::PARAM_STR);
 
         $parent = $this->choixParent();
         //s'il n'y a pas de parent possible on n'execute pas la requete et on renvoie que 0 lignes ont été modifiées dans la bdd
@@ -247,7 +289,7 @@ class Personnage {
     */
     public function vieillirPerso() : void {
         //Chaque tour de jeu représente un période de 3 ans
-        $result = MyPDO::pdo()->prepare("UPDATE perso SET age = age+3 where classe <> 'mort'");
+        $result = MyPDO::pdo()->prepare("UPDATE perso SET age = age+5 where classe <> 'mort'");
         $result->execute();
     }
 
@@ -259,26 +301,30 @@ class Personnage {
     public function mortPerso() : int {
         //Les personnages autres que le roi meurent de manière aléatoire
         $result = MyPDO::pdo()->prepare("SELECT id,age,etatSante From perso where classe not in ('mort','roi')");
+        $result->execute();
         $listePerso = [];
         $probaMort;
 
         //En fonction de son état de santé et de son âge chaque personnage se voit attribué une certaine probabilité de mourir
         foreach ($result as $row){
-            if ($row['age'] <30){
-                $probaMort = 5;
+            if ($row['age'] <5){
+                $probaMort = 40;
+            }
+            else if ($row['age'] >= 5  && $row['age'] < 30){
+                $probaMort = 15;
             }
             else if ($row['age'] >= 30  && $row['age'] < 60){
-                $probaMort = 30;
+                $probaMort = 40;
             }
             else{
-                $probaMort = 80;
+                $probaMort = 90;
             }
 
             if ($row['etatSante'] == 'bon'){
-                $probaMort *= 0.8;
+                $probaMort *= 1;
             }
             else if ($row['etatSante'] == 'moyen'){
-                $probaMort *= 1.2;
+                $probaMort *= 1.25;
             }
             else{
                 $probaMort *= 1.5;
@@ -286,12 +332,15 @@ class Personnage {
 
             $listePerso[$row['id']] = $probaMort;
         }
+        $nbPerso = count($listePerso);
+        //echo'nbPerso base = '.$nbPerso.'<br>';
 
         $compteurMort =0;
 
         //Puis on parcours la liste de nos personnages et pour chacun on tire un nombre aléatoire
         foreach ($listePerso as $idPerso => $proba){
             $numAlea = rand(1,100);
+            //echo'Perso '.$idPerso.' proba = '.$proba.' numAlea = '.$numAlea.'<br>';
             //Si le chiffre tiré est inférieur à sa probabilité de mourir alors il meurt
             if($proba > $numAlea){
                 $resultMort= MyPDO::pdo()->prepare("UPDATE perso SET classe='mort' WHERE id=:id");

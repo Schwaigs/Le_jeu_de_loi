@@ -1,3 +1,7 @@
+<?php
+  //Démarrer la session
+  session_start();
+?>
 <!DOCTYPE html>
     <head>
         <meta charset="utf-8">
@@ -17,11 +21,13 @@
             else{
                 echo "<img src=../images/lose.png>";
             }
+            echo'<br>';
             //Le message affiché explique au joueur la situation qui l'a amené à la fin du jeu
             if (!empty($_SESSION['messageFin'])){
                 echo "<p> " .$_SESSION['messageFin'] ."</p>";
             }
         ?>
+        <br>
         <input type="submit" value="Rejouer">
     </body>
 </html>

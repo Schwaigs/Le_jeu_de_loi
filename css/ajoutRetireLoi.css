@@ -11,7 +11,7 @@ input:checked + .accordion_loi > li {
     height: 2em;
 }
 
-#accordion_ajout, #accordion_supp {
+#accordion_ajout, #accordion_supp, #passer {
     width:300px;
     list-style: none;
     padding:0em;

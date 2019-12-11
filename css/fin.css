@@ -15,7 +15,8 @@ body{
     margin-right: auto;
     background-image: url("../images/fondChateau3.jpg");
     background-size:cover;
-    background-position: center;
+    background-position-x: center;
+    background-position-y: 30%;
 }
 
 form{
