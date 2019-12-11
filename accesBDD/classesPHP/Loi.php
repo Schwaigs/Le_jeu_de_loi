@@ -37,7 +37,7 @@ class Loi {
     */
     public function ajoutLoi() : int {
         //On test si le joueur a le droit de mettre en place une loi
-        $droit = this->verifRelation();
+        $droit = $this->verifRelation();
         if ($droit){
 
             //On met mis en place à 1 pour la loi ajoutée
@@ -82,7 +82,7 @@ class Loi {
     */
     public function suppLoi() : int {
         //On test si le joueur a le droit de mettre en place une loi
-        $droit = this->verifRelation();
+        $droit = $this->verifRelation();
         if ($droit){
 
             $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=0 WHERE parametre = :param");
