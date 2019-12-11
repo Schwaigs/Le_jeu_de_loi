@@ -39,6 +39,11 @@ require_once '../accesBDD/classesPHP/Heritage.php';
     }
 
   }
+  else {
+    //Si c'est un évènement suite à une loi
+    $_SESSION[$_SESSION['choix']['ordreConcerneOui']] += ($_SESSION['choix']['actionOui']);
+    $_SESSION[$_SESSION['choix']['ordreConcerneNon']] += ($_SESSION['choix']['actionNon']);
+  }
 
 
   //Retour au formulaire de choix entre events ou lois
