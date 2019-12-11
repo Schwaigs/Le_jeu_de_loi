@@ -9,34 +9,6 @@
   session_start();
   require_once '../accesBDD/initBase.php';
 
-
-  //Mise en place de la section, on débute à 1 et on va jusqu'à 5 sections (=1 cycle)
-  //Puis on recommence
-  if (!isset($_SESSION['section'])){
-      /*
-      * \var section est une variable de session qui correspond tour de jeu auquel on est dans un cycle de 5 tours.
-      */
-      $_SESSION['section'] = 1;
-  }
-
-  //Si on passe la 5ème section, on recommence un nouveau cycle de 5 sections
-  if ($_SESSION['section'] > 5){
-      $_SESSION['section'] = 1;
-      $_SESSION['cycleFait'] ++;
-      //Si le roi a atteint son nbmax de cycle on passe à un autre roi
-      if($_SESSION['cycleFait'] >= $_SESSION['cycleRoi']){
-          $heritage = new Heritage();
-          try{
-              $idNouveauRoi = $heritage->choisiRoi();
-          }
-          catch( PDOException $e ) {
-              echo 'Erreur : '.$e->getMessage();
-              exit;
-          }
-          $_SESSION['message'] = "Il est temps pour vous de passer la main, l'un de vos héritiers récupère le trône";
-      }
-  }
-
   //On initialise le nombre de lois que l'on peut voter à 2 par cycle de 5 sections,
   //si on est au début d'une section on a le droit à 2 votes
   if (!isset($_SESSION['nbLois']) || $_SESSION['section'] == 1){
@@ -44,20 +16,6 @@
     * \var nbLois est une variable de session qui correspond aux nombre de lois que l'on peut voter dans le cycle actuel.
     */
       $_SESSION['nbLois'] = 2;
-  }
-
-  if (!isset($_SESSION['cycleFait'])){
-    /*
-    * \var cycleFait est une variable de session qui correspond aux nombre de cycles de jeu éffectués par le roi actuel.
-    */
-    $_SESSION['cycleFait'] = 0;
-  }
-
-  if (!isset($_SESSION['cycleRoi'])){
-    /*
-    * \var cycleRoi est une variable de session qui correspond aux nombre de cycles de jeu que peut faire le roi actuel en fonction de son âge d'arrivée sur le trône.
-    */
-    $_SESSION['cycleRoi'] = 2;
   }
 
   if (!isset($_SESSION['suivant'])){
@@ -133,6 +91,10 @@
     * \var tiersEtat est une variable de session qui évalue la relation entre le joueur et le tiers-état.
     */
     $_SESSION['tiersEtat'] = 50;
+  }
+
+  if (!isset($_SESSION['action'])) {
+    $_SESSION['action'] = 'lois';
   }
 
   require_once '../accesBDD/classesPHP/Arbre.php';

@@ -63,7 +63,25 @@ class Loi {
                 echo 'Erreur : '.$e->getMessage();
                 exit;
             }
-            $_SESSION['nbLois']--;
+
+            //Voter une loi influe sur les relations avec les différents ordres
+            $result2 = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre = :param AND paramVal = :pVal");
+            $paramSucces2 = $result2->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
+            $pValSucces2 = $result2->bindValue(':pVal',$this->getParamVal(), PDO::PARAM_STR);
+            $result2->execute();
+
+            //Chaque ordre gagne ou perd de la satisafction au pouvoir
+            foreach ($result2 as $row2) {
+              $_SESSION['noblesse'] += $row2['noblesseVoter'];
+              $_SESSION['clerge'] += $row2['clergeVoter'];
+              $_SESSION['tiersEtat']+= $row2['tiersEtatVoter'];
+
+              //Choisir le prochain évènement en fonction de la loi
+              $_SESSION['numEvent'] = $row2['idEventAssocie'];
+            }
+
+            //Mettre à jour l'action réaliser
+            $_SESSION['action'] = 'voter';
 
             //on renvoie le nb de lignes modifiées dans la base
             return $nbLigne;
@@ -85,6 +103,7 @@ class Loi {
         $droit = $this->verifRelation();
         if ($droit){
 
+
             $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=0 WHERE parametre = :param");
             $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $result->execute();
@@ -99,7 +118,25 @@ class Loi {
                 echo 'Erreur : '.$e->getMessage();
                 exit;
             }
-            $_SESSION['nbLois']--;
+
+            //Abroger une loi influe sur les relations avec les différents ordres
+            $result2 = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre = :param AND paramVal = :pVal");
+            $paramSucces2 = $result2->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
+            $pValSucces2 = $result2->bindValue(':pVal',$this->getParamVal(), PDO::PARAM_STR);
+            $result2->execute();
+
+            //Chaque ordre gagne ou perd de la satisafction au pouvoir
+            foreach ($result2 as $row2) {
+              $_SESSION['noblesse'] += $row2['noblesseAbroger'];
+              $_SESSION['clerge'] += $row2['clergeAbroger'];
+              $_SESSION['tiersEtat']+= $row2['tiersEtatAbroger'];
+
+              //Choisir le prochain évènement en fonction de la loi
+              $_SESSION['numEvent'] = $row2['idEventAssocieAbroger'];
+            }
+
+            //Mettre à jour l'action réaliser
+            $_SESSION['action'] = 'abroger';
 
             //on renvoie le nb de lignes modifiées dans la base
             return $nbLigne;
@@ -116,19 +153,19 @@ class Loi {
     * \brief Vérifie que le joueur a le droit d'influer sur les lois en fonction de sa relation avec les différents ordres.
     * \return Renvoie vrai s'il peut modifier les lois, sinon faux.
     */
-    public function verifRelation() : boolean {
-        //Pour faire passer un changement de loi le joueur doit avoir des relations supérieurs à 10/100 avec chacun des 3 ordres
-        if($_SESSION['noblesse'] < 10 || $_SESSION['clerge'] < 10 || $_SESSION['tiersEtat'] < 10){
-            return false;
-        }
-        //De plus la moyenne des relations avec les 3 ordres doit être supérieur à 30/100
-        $moyenne = ($_SESSION['noblesse'] + $_SESSION['clerge'] + $_SESSION['tiersEtat'])/3;
-        else if($moyenne < 30){
-            return false;
+    public function verifRelation() : bool {
+      $res = true;
+
+      //De plus la moyenne des relations avec les 3 ordres doit être supérieur à 30/100
+      $moyenne = ($_SESSION['noblesse'] + $_SESSION['clerge'] + $_SESSION['tiersEtat'])/3;
+        //Pour faire passer un changement de loi le joueur doit avoir des relations supérieurs à 20/100 avec les ordres en moyenne
+        if($moyenne < 20){
+            $res = false;
         }
         else{
-            return true;
+            $res = true;
         }
+        return $res;
     }
 
     /**
