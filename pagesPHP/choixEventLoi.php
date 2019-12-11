@@ -88,7 +88,7 @@ require_once '../accesBDD/classesPHP/CtrlLoi.php';
         //Stocker l'évènement temporairement
         $_SESSION['choix'] = $row;
         if ($_SESSION['numEvent'] >99) {
-          //Passer et n'afficher que le texte
+          //Aucun choix à faire mais les relations continuent de changer 
         }
         else if ($row['choix'] == 1){
           $_SESSION['choixAFaire'] = true;
