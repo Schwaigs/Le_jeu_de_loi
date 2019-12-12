@@ -7,7 +7,7 @@
 
   //Démarrer la session
   session_start();
-  
+
   require_once '../accesBDD/initBase.php';
 
   if (!isset($_SESSION['suivant'])){
@@ -130,11 +130,11 @@
 
     <header>
       <div class="flex-container">
-        <div id="annee" style="flex-grow: 1"> <h1><?php echo $_SESSION['annee'] ?></h1> </div>
+        <div id="annee" style="flex-grow: 2"> <h1><?php echo $_SESSION['annee'] ?></h1> </div>
         <!-- Si on clique sur le titre on recommence une nouvelle partie -->
-        <div id="titreJeu" style="flex-grow: 8"><a href="../pagesPHP/quitter.php">Jeu de lois</a></div>
+        <div id="titreJeu" style="flex-grow: 6"><a href="../pagesPHP/quitter.php">Jeu de lois</a></div>
         <!-- Si on clique sur le livre on arrive sur la page d'encyclopédie qui éxplique certains termes -->
-        <div id="encyclo" style="flex-grow: 1">
+        <div id="encyclo" style="flex-grow: 2">
           <a href="../pagesPHP/encyclopedie.php" onclick="window.open(this.href); return false;"><img id="imgEncyclo" src="../images/encyclopedie.png"></a>
         </div>
       </div>
@@ -169,7 +169,10 @@
 
           <!-- Bouton pour ouvrir/déplier le bandeau -->
           <br>
-          <span onclick="ouvreArbre()">Afficher >></span>
+          <span onclick="ouvreArbre()">
+	           <div id="imgBoutonArbre">  </div>
+	        </span>
+	          <!-- Lorsque la souris passe au dessus de l'image, elle change-->
           <script src="../js/index.js"></script>
         </div>
         <!-- Zone principale de jeu -->
@@ -177,19 +180,14 @@
 
           <div class="jauges">
             <div class="columnDiffJauges" id="jaugeUne">
-              <p> Noblesse </p>
+              <!-- Valeur brute qui servira au debuggage (sera affiché la valeur de la varaible)-->
+	            <p> Noblesse : <?php echo $_SESSION['noblesse']?> / 100</p>
               <!-- Le height gère la hauteur globale de la jauge -->
               <div class="bar-container" style="height: 10rem;">
                 <div class="goal-bar">
                   <div class="bar-wrap">
                     <!-- On gère la taille de la jauge via le translateY-->
                     <div class="bar" style="transform: translateY(<?php echo 100-$_SESSION['noblesse'] ?>%);">
-                      <div class="bar-info">
-                        <div class="bar-info-inner">
-                          <!-- Valeur brute qui servira au debuggage (sera affiché la valeur de la varaible)-->
-                          <?php echo $_SESSION['noblesse'] ?> / 100
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div> <!-- /.goal-bar -->
@@ -197,19 +195,14 @@
             </div>
 
             <div class="columnDiffJauges" id="jaugeDeux">
-              <p> Clergé </p>
+              <!-- Valeur brute qui servira au debuggage (sera affiché la valeur de la varaible)-->
+              <p> Clergé : <?php echo $_SESSION['clerge']?> / 100</p>
               <!-- Le height gère la hauteur globale de la jauge -->
               <div class="bar-container" style="height: 10rem;">
                 <div class="goal-bar">
                   <div class="bar-wrap">
                     <!-- On gère la taille de la jauge via le translateY-->
                     <div class="bar" style="transform: translateY(<?php echo 100-$_SESSION['clerge'] ?>%);">
-                      <div class="bar-info">
-                        <div class="bar-info-inner">
-                          <!-- Valeur brute qui servira au debuggage (sera affiché la valeur de la varaible)-->
-                          <?php echo $_SESSION['clerge'] ?> / 100
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div> <!-- /.goal-bar -->
@@ -217,19 +210,14 @@
             </div>
 
             <div class="columnDiffJauges" id="jaugeTrois">
-              <p> Tiers état </p>
+              <!-- Valeur brute qui servira au debuggage (sera affiché la valeur de la varaible)-->
+	            <p> Tiers état : <?php echo $_SESSION['tiersEtat']?> / 100</p>
               <!-- Le height gère la hauteur globale de la jauge -->
               <div class="bar-container" style="height: 10rem;">
                 <div class="goal-bar">
                   <div class="bar-wrap">
                     <!-- On gère la taille de la jauge via le translateY-->
                     <div class="bar" style="transform: translateY(<?php echo 100-$_SESSION['tiersEtat'] ?>%);">
-                      <div class="bar-info">
-                        <div class="bar-info-inner">
-                          <!-- Valeur brute qui servira au debuggage (sera affiché la valeur de la varaible)-->
-                          <?php echo $_SESSION['tiersEtat'] ?> / 100
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div> <!-- /.goal-bar -->
