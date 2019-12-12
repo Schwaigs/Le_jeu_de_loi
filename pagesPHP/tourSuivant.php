@@ -1,4 +1,4 @@
-z<?php
+<?php
 require_once '../accesBDD/classesPHP/Heritage.php';
 
   //Démarrer la session
@@ -55,7 +55,7 @@ require_once '../accesBDD/classesPHP/Heritage.php';
         $nouveauScoreOrdre1= 0;
     }
     $_SESSION[$_SESSION['choix']['ordreConcerneOui']] = $nouveauScoreOrdre1;
-    
+
     $nouveauScoreOrdre2 = $_SESSION[$_SESSION['choix']['ordreConcerneNon']] + ($_SESSION['choix']['actionNon']);
     if($nouveauScoreOrdre2 > 100){
       $nouveauScoreOrdre2 = 100;
@@ -84,7 +84,7 @@ require_once '../accesBDD/classesPHP/Heritage.php';
     $perso->creerPersonnage();
   }
   $perso->mortPerso();
-  
+
   //On peut passer à la suite
   $_SESSION['action'] = 'lois';
 
@@ -96,16 +96,10 @@ require_once '../accesBDD/classesPHP/Heritage.php';
     exit();
   }
 
-  else if($_SESSION['noblesse'] == 0 || $_SESSION['clerge'] == 0 || $_SESSION['tiersEtat'] == 0 ){
-     $_SESSION['jeu'] = 'perdu';
-     $_SESSION['messageFin'] = "L'un des 3 ordres n'étant pas du tout satisfait de votre gestion du royaume, celui-ci a monter un coup d'état à l'encontre de votre famille. Vous avez perdu.";
-     header('Location: fin.php');
-     exit();
-  }
   //Le roi meurt à la fin de son règne et on cherche le nouvel héritier
   include '../pagesDeTests/testHeritage.php';
 
-  
+
 
   header('Location: ../pageDeLancement/lancement.php');
   exit();

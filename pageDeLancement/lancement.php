@@ -7,14 +7,7 @@
 
   //Démarrer la session
   session_start();
-  if (!isset($_GET['refresh'])){
-    /*
-    * \var refresh est une variable de session qui permet de rafraichir la page lors de chaque action.
-    */
-    header('Location: lancement.php?refresh=0');
-    exit();
-  }
-  
+
   require_once '../accesBDD/initBase.php';
 
   if (!isset($_SESSION['suivant'])){
@@ -90,6 +83,34 @@
     * \var tiersEtat est une variable de session qui évalue la relation entre le joueur et le tiers-état.
     */
     $_SESSION['tiersEtat'] = 50;
+  }
+
+  if (!isset($_SESSION['delaisMort'])){
+      /*
+      * \var suivant est une variable de session qui permet de savoir si le joueur a déjà choisit entre un événement ou un vote.
+      */
+      $_SESSION['delaisMort'] = 2;
+  }
+
+  if (($_SESSION['tiersEtat'] == 0) || ($_SESSION['clerge'] == 0) || ($_SESSION['noblesse'] == 0)) {
+    $_SESSION['delaisMort'] --;
+    if ($_SESSION['delaisMort'] < 0) {
+      $_SESSION['jeu'] = 'perdu';
+      $_SESSION['messageFin'] = "L'un des 3 ordres n'étant pas du tout satisfait de votre gestion du royaume, celui-ci a monter un coup d'état à l'encontre de votre famille. Vous avez perdu.";
+      header('Location: ../pagesPHP/fin.php');
+      exit();
+    }
+  }
+  else {
+    $_SESSION['delaisMort'] = 2;
+  }
+
+  if (!isset($_GET['refresh'])){
+    /*
+    * \var refresh est une variable de session qui permet de rafraichir la page lors de chaque action.
+    */
+    header('Location: lancement.php?refresh=0');
+    exit();
   }
 
   if (!isset($_SESSION['action'])) {
@@ -227,6 +248,7 @@
             <div class="contenuEvent">
               <!-- Remplissage par la page des event et de vote créé à part -->
                 <?php
+                echo 'délai mort : ' .$_SESSION['delaisMort'];
                 include '../pagesPHP/choixEventLoi.php';
                 ?>
             </div>
