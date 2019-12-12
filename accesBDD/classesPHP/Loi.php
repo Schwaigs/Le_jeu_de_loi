@@ -2,8 +2,8 @@
 
 require_once '../accesBDD/bddT3.php';
 require_once '../accesBDD/MyPDO.php';
-require_once '../accesBDD/classesPHP/Heritage.php';
 
+require_once '../accesBDD/classesPHP/Heritage.php';
 /*
 * \class Loi
 * \brief Permet de gèrer une loi précisement.
@@ -40,7 +40,7 @@ class Loi {
         $droit = $this->verifRelation();
         if ($droit){
 
-            //On met mis en place à 1 pour la loi ajoutée
+            ///On met mis en place à 1 pour la loi ajoutée
             $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=1 WHERE parametre = :param AND paramVal = :pVal");
             $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $pValSucces = $result->bindValue(':pVal',$this->getParamVal(), PDO::PARAM_STR);
@@ -54,35 +54,30 @@ class Loi {
             $result->execute();
             $nbLigne += $result->rowCount();
 
-            $heritage = new Heritage();
-            try{
-            //cherche les heritiers possibles apres la mise en place de la loi
-                $heritage->majHeritiers();
-            }
-            catch( PDOException $e ) {
-                echo 'Erreur : '.$e->getMessage();
-                exit;
-            }
-
             //Voter une loi influe sur les relations avec les différents ordres
             $result2 = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre = :param AND paramVal = :pVal");
             $paramSucces2 = $result2->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $pValSucces2 = $result2->bindValue(':pVal',$this->getParamVal(), PDO::PARAM_STR);
             $result2->execute();
-
+            $noblesseVote;
+            $clergeVote;
+            $TeVote;
             //Chaque ordre gagne ou perd de la satisafction au pouvoir
             foreach ($result2 as $row2) {
-              $_SESSION['noblesse'] += $row2['noblesseVoter'];
-              $_SESSION['clerge'] += $row2['clergeVoter'];
-              $_SESSION['tiersEtat']+= $row2['tiersEtatVoter'];
+              $noblesseVote = $row2['noblesseVoter'];
+              $clergeVote = $row2['clergeVoter'];
+              $TeVote = $row2['tiersEtatVoter'];
 
               //Choisir le prochain évènement en fonction de la loi
               $_SESSION['numEvent'] = $row2['idEventAssocie'];
             }
-
+            //appel de la fonction qui met à jour les jauges
+            $this->majJaugesLois($noblesseVote,$clergeVote,$TeVote);
+            $this->tourSuivantLois();
             //Mettre à jour l'action réaliser
             $_SESSION['action'] = 'voter';
-
+            include '../pagesDeTests/testMajHeritiers.php';
+            
             //on renvoie le nb de lignes modifiées dans la base
             return $nbLigne;
         }
@@ -103,41 +98,34 @@ class Loi {
         $droit = $this->verifRelation();
         if ($droit){
 
-
             $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=0 WHERE parametre = :param");
             $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $result->execute();
             $nbLigne = $result->rowCount();
-
-            $heritage = new Heritage();
-            try{
-            //cherche les heritiers possibles apres la mise en place de la loi
-               $heritage->majHeritiers();
-            }
-            catch( PDOException $e ) {
-                echo 'Erreur : '.$e->getMessage();
-                exit;
-            }
 
             //Abroger une loi influe sur les relations avec les différents ordres
             $result2 = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre = :param AND paramVal = :pVal");
             $paramSucces2 = $result2->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $pValSucces2 = $result2->bindValue(':pVal',$this->getParamVal(), PDO::PARAM_STR);
             $result2->execute();
-
+            $noblesseAbroge;
+            $clergeAbroge;
+            $TeAbroge;
             //Chaque ordre gagne ou perd de la satisafction au pouvoir
             foreach ($result2 as $row2) {
-              $_SESSION['noblesse'] += $row2['noblesseAbroger'];
-              $_SESSION['clerge'] += $row2['clergeAbroger'];
-              $_SESSION['tiersEtat']+= $row2['tiersEtatAbroger'];
+              $noblesseAbroge = $row2['noblesseAbroger'];
+              $clergeAbroge = $row2['clergeAbroger'];
+              $TeAbroge = $row2['tiersEtatAbroger'];
 
               //Choisir le prochain évènement en fonction de la loi
               $_SESSION['numEvent'] = $row2['idEventAssocieAbroger'];
             }
-
+            //appel de la fonction qui met à jour les jauges
+            $this->majJaugesLois($noblesseAbroge,$clergeAbroge,$TeAbroge);
+            $this->tourSuivantLois();
             //Mettre à jour l'action réaliser
             $_SESSION['action'] = 'abroger';
-
+            include '../pagesDeTests/testMajHeritiers.php';
             //on renvoie le nb de lignes modifiées dans la base
             return $nbLigne;
         }
@@ -146,6 +134,67 @@ class Loi {
             $_SESSION['message'] = "L'insatisfaction du peuple vous empêche de modifier les lois";
             return 0;
         }
+    }
+
+    public function passerLoi() : void {
+        //On met à jour la jauge de l'ordre ayant une affinité avec roi actuel 
+        $affinite;
+        $result = MyPDO::pdo()->prepare("SELECT affinite from perso WHERE classe = roi");
+        $result->execute();
+        foreach ($result as $row){
+            $affinite = $row['affinite'];
+        }
+        $nouveauScoreNoblesse= $_SESSION['noblesse'];
+        $nouveauScoreClerge= $_SESSION['clerge'];
+        $nouveauScoreTE= $_SESSION['tiersEtat'];
+        if($affinite == 'noblesse'){
+            $nouveauScoreNoblesse +=10;
+        }
+        elseif($affinite == 'tiers état'){
+            $nouveauScoreTE +=10;
+        }
+        else{
+            $nouveauScoreClerge +=10;
+        }
+        //On remplace les jauges par les nouvelles valeurs et on verifie qu'on ne dépassse pas 100 qui est le max
+        if($nouveauScoreClerge > 100){
+            $nouveauScoreClerge = 100;
+        }
+        if($nouveauScoreNoblesse > 100){
+            $nouveauScoreNoblesse = 100;
+        }
+        if($nouveauScoreTE > 100){
+            $nouveauScoreTE = 100;
+        }
+        $_SESSION['noblesse'] = $nouveauScoreNoblesse;
+        $_SESSION['clerge'] = $nouveauScoreClerge;
+        $_SESSION['tiersEtat'] = $nouveauScoreTE;
+        $_SESSION['action'] = 'Passer';
+        $this->tourSuivantLois();
+        include '../pagesDeTests/testMajHeritiers.php';
+    }
+
+    public function tourSuivantLois() : void {
+        //Puis on passe à la section suvante, 5 ans plus tard
+        $_SESSION['annee'] = $_SESSION['annee'] +5;
+        //On test si le joueur a gagné
+        if ($_SESSION['annee'] >= 1789){
+            $_SESSION['jeu'] = 'gagne';
+            $_SESSION['messageFin'] = "Vous avez réussi à garder votre lignée sur le trône jusqu'à l'inévitable révolution française. Félicitation, vous avez gagné !";
+            header('Location: fin.php');
+            exit();
+        }
+        //Les personnages vieilissent car les années passent
+        require_once '../accesBDD/classesPHP/Personnage.php';
+        $perso = new Personnage();
+        $perso->vieillirPerso();
+
+        //Chaque tour de jeu il y a des morts et une à 5 naissance(s)
+        $nbNaissance = rand(1,5);
+        for ($i=0; $i < $nbNaissance; $i++) {
+            $perso->creerPersonnage();
+        }
+        $perso->mortPerso();
     }
 
     /**
@@ -166,6 +215,36 @@ class Loi {
             $res = true;
         }
         return $res;
+    }
+
+    public function majJaugesLois(int $noblesseChangement, int $clergeChangement, int $TeChangement) : void{
+        //Chaque ordre gagne ou perd de la satisafction au pouvoir
+        $nouveauScoreNoblesse= $_SESSION['noblesse'] + $noblesseChangement;
+        $nouveauScoreClerge= $_SESSION['clerge'] + $clergeChangement;
+        $nouveauScoreTE= $_SESSION['tiersEtat'] + $TeChangement; 
+        
+        //On remplace les jauges par les nouvelles valeurs et on verifie qu'on ne dépassse pas 100 qui est le max et 0 qui est le min
+        if($nouveauScoreClerge > 100){
+            $nouveauScoreClerge = 100;
+        }
+        else if($nouveauScoreClerge < 0){
+            $nouveauScoreClerge = 0;
+        }
+        if($nouveauScoreNoblesse > 100){
+            $nouveauScoreNoblesse = 100;
+        }
+        else if($nouveauScoreNoblesse < 0){
+            $nouveauScoreNoblesse = 0;
+        }
+        if($nouveauScoreTE > 100){
+            $nouveauScoreTE = 100;
+        }
+        else if($nouveauScoreTE < 0){
+            $nouveauScoreTE = 0;
+        }
+        $_SESSION['noblesse'] = $nouveauScoreNoblesse;
+        $_SESSION['clerge'] = $nouveauScoreClerge;
+        $_SESSION['tiersEtat'] = $nouveauScoreTE;
     }
 
     /**

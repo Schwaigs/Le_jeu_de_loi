@@ -12,7 +12,7 @@
     </head>
     <body>
         <!-- Si le joueur clique sur rejouer on lance la procédure quitter.php qui détruit sa session et le renvoie sur la page d'acceuil -->
-        <form action="acceuil.php" method="POST">
+        <form action="quitter.php" method="POST">
         <?php
             //l'image affichée change selon si le joueur a gagné ou perdu
             if ($_SESSION['jeu'] == 'gagne'){

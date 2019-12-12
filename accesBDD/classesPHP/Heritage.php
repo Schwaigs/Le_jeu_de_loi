@@ -22,20 +22,20 @@ class Heritage {
         $in_valuesAge = implode(',',$personnages);
         echo ' cherchePlusAgeJeune() les heritiers du meme parents <br>';
         echo $in_valuesAge.'<br>';
-        $resultAge = MyPDO::pdo()->prepare("SELECT id,age FROM perso WHERE id in (".$in_valuesAge.")");
+        $resultAge = MyPDO::pdo()->prepare("SELECT id,ordreNaissance FROM perso WHERE id in (".$in_valuesAge.")");
         $resultAge->execute();
 
         $tabAgeEnfant;
         $tabAge;
         foreach ($resultAge as $row){
-            $tabAgeEnfant[$row['age']] = $row['id'];
-            $tabAge[] = $row['age'];
+            $tabAgeEnfant[$row['ordreNaissance']] = $row['id'];
+            $tabAge[] = $row['ordreNaissance'];
         }
         //si on cherche le plus jeune
         if($loiOrdreNaissance == 0){
-            return $tabAgeEnfant[min($tabAge)];
+            return $tabAgeEnfant[max($tabAge)];
         }
-        return $tabAgeEnfant[max($tabAge)];
+        return $tabAgeEnfant[min($tabAge)];
     }
 
     /**
@@ -465,15 +465,24 @@ class Heritage {
         else{
             $nouveauScoreClerge +=10;
         }
-        //On remplace les jauges par les nouvelles valeurs et on verifie qu'on ne dépassse pas 100 qui est le max
+        //On remplace les jauges par les nouvelles valeurs et on verifie qu'on ne dépassse pas 100 qui est le max et 0 qui est le min
         if($nouveauScoreClerge > 100){
             $nouveauScoreClerge = 100;
+        }
+        else if($nouveauScoreClerge < 0){
+            $nouveauScoreClerge = 0;
         }
         if($nouveauScoreNoblesse > 100){
             $nouveauScoreNoblesse = 100;
         }
+        else if($nouveauScoreNoblesse < 0){
+            $nouveauScoreNoblesse = 0;
+        }
         if($nouveauScoreTE > 100){
             $nouveauScoreTE = 100;
+        }
+        else if($nouveauScoreTE < 0){
+            $nouveauScoreTE = 0;
         }
         $_SESSION['noblesse'] = $nouveauScoreNoblesse;
         $_SESSION['clerge'] = $nouveauScoreClerge;
