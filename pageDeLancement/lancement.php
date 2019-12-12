@@ -7,7 +7,7 @@
 
   //Démarrer la session
   session_start();
-
+  
   require_once '../accesBDD/initBase.php';
 
   if (!isset($_SESSION['suivant'])){
@@ -28,7 +28,7 @@
       /*
       * \var année est une variable de session qui contient l'année courante dans le jeu.
       */
-      $_SESSION['annee'] = 1763;
+      $_SESSION['annee'] = 1730;
   }
 
   if (!isset($_SESSION['idCarac'])){
@@ -86,10 +86,10 @@
   }
 
   if (!isset($_SESSION['delaisMort'])){
-      /*
-      * \var suivant est une variable de session qui permet de savoir si le joueur a déjà choisit entre un événement ou un vote.
-      */
-      $_SESSION['delaisMort'] = 2;
+    /*
+    * \var suivant est une variable de session qui permet de savoir si le joueur a déjà choisit entre un événement ou un vote.
+    */
+    $_SESSION['delaisMort'] = 2;
   }
 
   if (($_SESSION['tiersEtat'] == 0) || ($_SESSION['clerge'] == 0) || ($_SESSION['noblesse'] == 0)) {
@@ -157,12 +157,12 @@
              <?php
                  include '../pagesPHP/arbreGenealogique.php';
                  if (!isset($_GET['refresh'])){
-                   /*
-                   * \var refresh est une variable de session qui permet de rafraichir la page lors de chaque action.
-                   */
-                   header('Location: lancement.php?refresh=0');
-                   exit();
-                 } 
+                  /*
+                  * \var refresh est une variable de session qui permet de rafraichir la page lors de chaque action.
+                  */
+                  header('Location: lancement.php?refresh=0');
+                  exit();
+                }
              ?>
            </div>
           </div>
@@ -247,7 +247,7 @@
             <div class="contenuEvent">
               <!-- Remplissage par la page des event et de vote créé à part -->
                 <?php
-                echo 'délai mort : ' .$_SESSION['delaisMort'];
+                 echo 'délai mort : ' .$_SESSION['delaisMort'];
                 include '../pagesPHP/choixEventLoi.php';
                 ?>
             </div>
