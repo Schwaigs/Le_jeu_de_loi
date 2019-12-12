@@ -1,3 +1,6 @@
+<?php
+  session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr" dir="ltr">
   <head>
@@ -42,7 +45,7 @@
               }
               //  Construisez et exécute une requête préparée
               $result = $pdo->prepare(
-                  "SELECT * FROM lois WHERE misEnPlace=0"
+                  "SELECT * FROM loisDe". $_SESSION['login'] ." WHERE misEnPlace=0"
               );
               // 2. Assigne 10 au 1er paramètre
               // $ok1 = $result->bindValue(

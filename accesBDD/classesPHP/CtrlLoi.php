@@ -17,7 +17,7 @@ class CtrlLoi {
     * \brief Rempli le panneau d'affichage des lois qui sont mises en place actuellement.
     */
     public function afficheLoiEnPlace() : void {
-        $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE misEnPlace=1");
+        $result = MyPDO::pdo()->prepare("SELECT * FROM loisDe". $_SESSION['login'] ." WHERE misEnPlace=1");
         $ok2 = $result->execute();
         /*Si aucune loi n'est mise en place alors un message par défaut est affiché*/
         if (0 == $result->rowCount()){
@@ -39,7 +39,7 @@ class CtrlLoi {
     * \li Une pour voter les lois dont aucune de la catéorie n'est est en place.
     */
     public function remplissageVote() : void {
-        $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE misEnPlace=1");
+        $result = MyPDO::pdo()->prepare("SELECT * FROM loisDe". $_SESSION['login'] ." WHERE misEnPlace=1");
         $ok = $result->execute();
         //On sauvegarde dans un tableau les différentes catégories de loi sur lesquels on peut agir
         $tabParam=['religion'=>'Religion','sexe'=>'Sexe','ordreNaissance'=>'Ordre de naissance','richesse'=>'Richesse','sante'=>'Santé'];
@@ -85,7 +85,7 @@ class CtrlLoi {
                 <label for="menu'.$i.'">'.$paramLabel.'</label>
                 <input id="menu'.$i.'" type="checkbox" name="menu"/>
                 <ul class="accordion_loi">';
-                $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre=:param order by label");
+                $result = MyPDO::pdo()->prepare("SELECT * FROM loisDe". $_SESSION['login'] ." WHERE parametre=:param order by label");
                 $paramSucces = $result->bindValue(':param',$param, PDO::PARAM_STR);
                 $ok2 = $result->execute();
                 foreach ( $result as $row ) {

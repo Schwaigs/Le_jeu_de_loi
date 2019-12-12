@@ -1,5 +1,4 @@
 <?php
-
 require_once '../accesBDD/bddT3.php';
 require_once '../accesBDD/MyPDO.php';
 require_once '../accesBDD/classesPHP/Heritage.php';
@@ -56,7 +55,7 @@ class Arbre {
                 //le sexe nous sert pour l'image du personnage
                 $sexe =  $this->chercheSexePerso($tableParentEnfants[$idParent][$i]);
                 //le lien mene vers la meme page (l'index) mais avec en get l'indentifiant du personnage
-                echo'<a '.$class.' href="../pageDeLancement/lancement.php?refresh=0&id='.$tableParentEnfants[$idParent][$i].'"><img src="../imagesPersos/'.$sexe.$tableParentEnfants[$idParent][$i].'.png"></a>';
+                echo'<a '.$class.' href="../pageDeLancement/lancement.php?refresh=0&id='.$tableParentEnfants[$idParent][$i].'"><img src="../imagesperso/'.$sexe.$tableParentEnfants[$idParent][$i].'.png"></a>';
                 //et on fait la même chose avec ses propres enfants
                 $this->remplissageArbre($tableParentEnfants[$idParent][$i],$tableParentEnfants);
                 echo'</li>';
@@ -73,7 +72,7 @@ class Arbre {
     * \return Revoie la classe du personnage sous forme de chaine de caractères.
     */
     public function chercheClassePerso(int $id) : string {
-        $resultClasse = MyPDO::pdo()->prepare("SELECT classe FROM perso WHERE id=:id");
+        $resultClasse = MyPDO::pdo()->prepare("SELECT classe FROM persoDe" . $_SESSION['login']. " WHERE id=:id");
         $idSucces = $resultClasse->bindValue(':id',$id, PDO::PARAM_INT);
         $resultClasse->execute();
         $classe;
@@ -99,7 +98,7 @@ class Arbre {
     * \return Revoie le sexe du personnage sous forme de chaine de charactères.
     */
     public function chercheSexePerso(int $id) : string {
-        $resultSexe = MyPDO::pdo()->prepare("SELECT sexe FROM perso WHERE id=:id");
+        $resultSexe = MyPDO::pdo()->prepare("SELECT sexe FROM persoDe" . $_SESSION['login']. " WHERE id=:id");
         $idSucces = $resultSexe->bindValue(':id',$id, PDO::PARAM_INT);
         $resultSexe->execute();
         $sexe ='';
@@ -124,7 +123,7 @@ class Arbre {
     */
     public function cherchePersoArbre() : array{
         //on prends tous les personnages de notre base personnage
-        $resultBase = MyPDO::pdo()->prepare("SELECT id,parent FROM perso");
+        $resultBase = MyPDO::pdo()->prepare("SELECT id,parent FROM persoDe" . $_SESSION['login']. "");
         $resultBase->execute();
         //on crée un tableau contenant tout les id de notre base
         $tabId;
@@ -135,7 +134,7 @@ class Arbre {
                 $ListePersoParent[$row['id']] = $row['parent'];
                 $tabId[] = $row['id'];
             }
-            
+
         }
         //on tris nos personnages selon leur fratrie et leur parents
         $tabParentEnfant = $this->triParFratrie($ListePersoParent);
@@ -145,7 +144,7 @@ class Arbre {
             /*On a trier les personnages en fonction de leur parent juste avant
              donc si un personnage n'est pas dans ce tableau en tant que parent c'est qu'il n'as pas d'enfants*/
             if (!(array_key_exists($enfant,$tabParentEnfant))){
-                $resultClasse = MyPDO::pdo()->prepare("SELECT classe FROM perso WHERE id=:id");
+                $resultClasse = MyPDO::pdo()->prepare("SELECT classe FROM persoDe" . $_SESSION['login']. " WHERE id=:id");
                 $idSucces = $resultClasse->bindValue(':id',$enfant, PDO::PARAM_INT);
                 $resultClasse->execute();
                 $classe;
@@ -153,7 +152,7 @@ class Arbre {
                     $classe = $row['classe'];
                 }
                 if ($classe == 'mort'){
-                    $resultMort = MyPDO::pdo()->prepare("DELETE FROM perso WHERE id=:id");
+                    $resultMort = MyPDO::pdo()->prepare("DELETE FROM persoDe" . $_SESSION['login']. " WHERE id=:id");
                     $idSucces = $resultMort->bindValue(':id',$enfant, PDO::PARAM_INT);
                     $resultMort->execute();
                 }
@@ -179,7 +178,7 @@ class Arbre {
         //on crée d'abord le personnage racine
         $persoRacine = 1;
         $class = $this->chercheClassePerso($persoRacine);
-        echo'<a '.$class.' href="../pageDeLancement/lancement.php?refresh=0&id=1"><img src="../imagesPersos/H1.png"></a>';
+        echo'<a '.$class.' href="../pageDeLancement/lancement.php?refresh=0&id=1"><img src="../imagesperso/H1.png"></a>';
 
         //la suite de l'arbre est créer de maniere récursive
         $this->remplissageArbre($persoRacine,$tabParentEnfant);

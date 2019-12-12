@@ -45,9 +45,9 @@ function initBase($id) : void {
           "INSERT INTO loisDe". $id ." VALUES
           ('ordreNaissance', '0', 'Priorité des droits de succession et d’héritage du benjamin par rapport aux autres frères et sœurs. ', 0, 'Ultimogéniture\r\n', 0, 0, 0, 0, 0, 0, 100, 200),
           ('ordreNaissance', '1', 'Priorité des droits de succession et d’héritage de l\'aîné par rapport aux autres frères et sœurs. ', 0, 'Primogéniture', 0, 0, 0, 0, 0, 0, 101, 201),
-          ('religion', 'autre', 'Croyance en quelque divinité que ce soit autre que celle des protestants et catholiques ou absence de croyance.', -1, 'Religion tierce', -75, -10, -10, 35, 5, 5, 102, 202),
-          ('religion', 'catholique', 'Religion chrétienne dans laquelle le pape exerce l\'autorité en matière de dogme et de morale.', 1, 'Catholicisme', 20, 0, 0, -75, -15, -15, 103, 203),
-          ('religion', 'protestant', 'Religion chrétienne fondée sur l\'enseignement, la personne et la vie de Jésus de Nazareth, qui rejette l\'autorité du pape.', -1, 'Protestantisme', -50, -5, -5, 10, 0, 0, 104, 204),
+          ('religion', 'autre', 'Croyance en quelque divinité que ce soit autre que celle des protestants et catholiques ou absence de croyance.', 0, 'Religion tierce', -75, -10, -10, 35, 5, 5, 102, 202),
+          ('religion', 'catholique', 'Religion chrétienne dans laquelle le pape exerce l\'autorité en matière de dogme et de morale.', 0, 'Catholicisme', 20, 0, 0, -75, -15, -15, 103, 203),
+          ('religion', 'protestant', 'Religion chrétienne fondée sur l\'enseignement, la personne et la vie de Jésus de Nazareth, qui rejette l\'autorité du pape.', 0, 'Protestantisme', -50, -5, -5, 10, 0, 0, 104, 204),
           ('richesse', '0', 'Exclusion des personnes ayant un fort patrimoine de la succession au trône.', 0, 'Pauvreté', 0, -20, 5, 0, 10, -5, 105, 205),
           ('richesse', '1', 'Exclusion des personnes ayant un faible patrimoine de la succession au trône.', 0, 'Richesse', 0, 10, -5, 0, -25, 0, 106, 206),
           ('sante', '1', 'Priorité des droits de succession et d’héritage aux personnes en bonne santé. ', 0, 'Sanité', 0, 10, -10, 0, -10, 10, 109, 209),

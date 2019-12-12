@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../accesBDD/classesPHP/Heritage.php';
 ?>
 
@@ -14,7 +15,7 @@ require_once '../accesBDD/classesPHP/Heritage.php';
         $heritage = new Heritage();
         try{
             $heritage->majHeritiers();
-           
+
         }
         catch( PDOException $e ) {
             echo 'Erreur : '.$e->getMessage();
