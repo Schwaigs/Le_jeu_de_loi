@@ -25,5 +25,3 @@ echo '<link rel="stylesheet" href="../css/ajoutRetireLoi.css">';
         <br>
     <input type="submit" value="Valider">
 </form>
-
-
