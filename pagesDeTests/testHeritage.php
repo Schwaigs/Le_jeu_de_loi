@@ -14,17 +14,13 @@ require_once '../accesBDD/classesPHP/Heritage.php';
         $heritage = new Heritage();
         try{
             $idNouveauRoi = $heritage->choisiRoi();
-            if($idNouveauRoi == 0){
-                echo "vous n'avez aucun héritiers, vous avez perdu";
-            }
-            else{
-                echo 'id du nouveau roi = '.$idNouveauRoi;
-            }
         }
         catch( PDOException $e ) {
             echo 'Erreur : '.$e->getMessage();
             exit;
         }
+        header('Location: ../pageDeLancement/lancement.php');
+        exit();
     ?>
 
     </body>

@@ -20,6 +20,8 @@ require_once '../accesBDD/classesPHP/Heritage.php';
             echo 'Erreur : '.$e->getMessage();
             exit;
         }
+        header('Location: ../pageDeLancement/lancement.php');
+        exit();
     ?>
 
     </body>

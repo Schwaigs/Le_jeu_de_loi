@@ -14,7 +14,7 @@ require_once '../accesBDD/classesPHP/CtrlLoi.php';
     /*Il y a 3 évènements différents qui peuvent apparaitre : Dernièrement
         - une loi a été votée
         - une loi a été abrogée
-        - une loi a été voté                                                */
+        - rien n'a été fait sur les lois*/
     $resultEvent;
     if (($_SESSION['action'] != 'voter') && ($_SESSION['action'] != 'abroger')) {
       //Choisir un évènement en fonction des jauges de relations les plus basses

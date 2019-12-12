@@ -7,6 +7,14 @@
 
   //Démarrer la session
   session_start();
+  if (!isset($_GET['refresh'])){
+    /*
+    * \var refresh est une variable de session qui permet de rafraichir la page lors de chaque action.
+    */
+    header('Location: lancement.php?refresh=0');
+    exit();
+  }
+  
   require_once '../accesBDD/initBase.php';
 
   if (!isset($_SESSION['suivant'])){
@@ -231,7 +239,7 @@
             <h2>Lois promulguées:</h2>
               <!-- Remplissage par la page d'affichage des lois créé à part -->
               <?php
-              include '../pagesPHP/afficheLois.php'
+              include '../pagesPHP/afficheLois.php';
               ?>
           </div>
           <!-- Zone des caractéristiques des personnages -->

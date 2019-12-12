@@ -19,7 +19,7 @@ class Arbre {
     * \return Renvoie un tableau de tableaux. En clé un parent, en valeur un tableau contenant son propre id puis ceux de ses enfants.
     */
     public function triParFratrie(array $tabPersoParents) : array{
-        //renvoie un tableau de tableau, organisé par parent, chaque sous tableau etant la liste de frères et soeurs qui son les enfant du parent
+        //renvoie un tableau de tableau, organisé par parent, chaque sous tableau etant la liste de frères et soeurs qui sont les enfant du parent
         //on l'initialise avec la racine 1
         $tableParentEnfants[1][] = 1;
         foreach ($tabPersoParents as $enfant => $parent){
@@ -56,7 +56,7 @@ class Arbre {
                 //le sexe nous sert pour l'image du personnage
                 $sexe =  $this->chercheSexePerso($tableParentEnfants[$idParent][$i]);
                 //le lien mene vers la meme page (l'index) mais avec en get l'indentifiant du personnage
-                echo'<a '.$class.' href="../pageDeLancement/lancement.php?id='.$tableParentEnfants[$idParent][$i].'"><img src="../imagesPersos/'.$sexe.$tableParentEnfants[$idParent][$i].'.png"></a>';
+                echo'<a '.$class.' href="../pageDeLancement/lancement.php?refresh=0&id='.$tableParentEnfants[$idParent][$i].'"><img src="../imagesPersos/'.$sexe.$tableParentEnfants[$idParent][$i].'.png"></a>';
                 //et on fait la même chose avec ses propres enfants
                 $this->remplissageArbre($tableParentEnfants[$idParent][$i],$tableParentEnfants);
                 echo'</li>';
@@ -135,6 +135,7 @@ class Arbre {
                 $ListePersoParent[$row['id']] = $row['parent'];
                 $tabId[] = $row['id'];
             }
+            
         }
         //on tris nos personnages selon leur fratrie et leur parents
         $tabParentEnfant = $this->triParFratrie($ListePersoParent);
@@ -178,7 +179,7 @@ class Arbre {
         //on crée d'abord le personnage racine
         $persoRacine = 1;
         $class = $this->chercheClassePerso($persoRacine);
-        echo'<a '.$class.' href="../pageDeLancement/lancement.php?id=1"><img src="../imagesPersos/H1.png"></a>';
+        echo'<a '.$class.' href="../pageDeLancement/lancement.php?refresh=0&id=1"><img src="../imagesPersos/H1.png"></a>';
 
         //la suite de l'arbre est créer de maniere récursive
         $this->remplissageArbre($persoRacine,$tabParentEnfant);

@@ -23,6 +23,9 @@ require_once '../accesBDD/classesPHP/Heritage.php';
         if ($_SESSION[$_SESSION['row']['ordreConcerneNon']] > 100) {
           $_SESSION[$_SESSION['row']['ordreConcerneNon']] = 100;
         }
+        else if ($_SESSION[$_SESSION['row']['ordreConcerneNon']] < 0) {
+          $_SESSION[$_SESSION['row']['ordreConcerneNon']] = 0;
+        }
       }
       else {
         header('Location: ../pageDeLancement/lancement.php');
@@ -37,12 +40,30 @@ require_once '../accesBDD/classesPHP/Heritage.php';
     if ($_SESSION[$_SESSION['row']['ordreConcerneOui']] > 100) {
       $_SESSION[$_SESSION['row']['ordreConcerneOui']] = 100;
     }
+    else if ($_SESSION[$_SESSION['row']['ordreConcerneOui']] < 0) {
+      $_SESSION[$_SESSION['row']['ordreConcerneOui']] = 0;
+    }
 
   }
   else {
     //Si c'est un évènement suite à une loi
-    $_SESSION[$_SESSION['choix']['ordreConcerneOui']] += ($_SESSION['choix']['actionOui']);
-    $_SESSION[$_SESSION['choix']['ordreConcerneNon']] += ($_SESSION['choix']['actionNon']);
+    $nouveauScoreOrdre1 = $_SESSION[$_SESSION['choix']['ordreConcerneOui']] + ($_SESSION['choix']['actionOui']);
+    if($nouveauScoreOrdre1 > 100){
+      $nouveauScoreOrdre1 = 100;
+    }
+    else if($nouveauScoreOrdre1 < 0){
+        $nouveauScoreOrdre1= 0;
+    }
+    $_SESSION[$_SESSION['choix']['ordreConcerneOui']] = $nouveauScoreOrdre1;
+    
+    $nouveauScoreOrdre2 = $_SESSION[$_SESSION['choix']['ordreConcerneNon']] + ($_SESSION['choix']['actionNon']);
+    if($nouveauScoreOrdre2 > 100){
+      $nouveauScoreOrdre2 = 100;
+    }
+    else if($nouveauScoreOrdre2 < 0){
+        $nouveauScoreOrdre2 = 0;
+    }
+    $_SESSION[$_SESSION['choix']['ordreConcerneNon']] = $nouveauScoreOrdre2;
   }
 
 
@@ -57,43 +78,34 @@ require_once '../accesBDD/classesPHP/Heritage.php';
   $perso = new Personnage();
   $perso->vieillirPerso();
 
-  //Chaque il y a des morts ou une à 5 naissance(s)
+  //Chaque tour de jeu il y a des morts et une à 5 naissance(s)
   $nbNaissance = rand(1,5);
   for ($i=0; $i < $nbNaissance; $i++) {
     $perso->creerPersonnage();
   }
   $perso->mortPerso();
-
-  //On met a jour l'arbre
-  $heritage = new Heritage();
-  try{
-    //cherche les heritiers possibles apres la mise en place de la loi
-      $heritage->majHeritiers();
-  }
-  catch( PDOException $e ) {
-    echo 'Erreur : '.$e->getMessage();
-    exit;
-  }
-
+  
   //On peut passer à la suite
-  $_SESSION['section'] ++;
   $_SESSION['action'] = 'lois';
 
   //on test les differents parametres qui font gagner ou perdre le joueur
   if ($_SESSION['annee'] >= 1789){
     $_SESSION['jeu'] = 'gagne';
     $_SESSION['messageFin'] = "Vous avez réussi à garder votre lignée sur le trône jusqu'à l'inévitable révolution française. Félicitation, vous avez gagner !";
+    header('Location: fin.php');
+    exit();
   }
 
   else if($_SESSION['noblesse'] == 0 || $_SESSION['clerge'] == 0 || $_SESSION['tiersEtat'] == 0 ){
      $_SESSION['jeu'] = 'perdu';
      $_SESSION['messageFin'] = "L'un des 3 ordres n'étant pas du tout satisfait de votre gestion du royaume, celui-ci a monter un coup d'état à l'encontre de votre famille. Vous avez perdu.";
+     header('Location: fin.php');
+     exit();
   }
-  //Si le joueur a perdu ou gagner on arrête le jeu ici et on lui affiche un écran de fin
-  if( $_SESSION['jeu'] != 'en cours'){
-    header('Location: fin.php');
-    exit();
-  }
+  //Le roi meurt à la fin de son règne et on cherche le nouvel héritier
+  include '../pagesDeTests/testHeritage.php';
+
+  
 
   header('Location: ../pageDeLancement/lancement.php');
   exit();
