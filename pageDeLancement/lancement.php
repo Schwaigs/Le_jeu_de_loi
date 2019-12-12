@@ -105,14 +105,6 @@
     $_SESSION['delaisMort'] = 2;
   }
 
-  if (!isset($_GET['refresh'])){
-    /*
-    * \var refresh est une variable de session qui permet de rafraichir la page lors de chaque action.
-    */
-    header('Location: lancement.php?refresh=0');
-    exit();
-  }
-
   if (!isset($_SESSION['action'])) {
     $_SESSION['action'] = 'lois';
   }
@@ -164,6 +156,13 @@
              <!-- Remplissage par la page de l'abre généalogique créé à part -->
              <?php
                  include '../pagesPHP/arbreGenealogique.php';
+                 if (!isset($_GET['refresh'])){
+                   /*
+                   * \var refresh est une variable de session qui permet de rafraichir la page lors de chaque action.
+                   */
+                   header('Location: lancement.php?refresh=0');
+                   exit();
+                 } 
              ?>
            </div>
           </div>
