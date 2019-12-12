@@ -57,7 +57,7 @@ class Loi {
             $heritage = new Heritage();
             try{
             //cherche les heritiers possibles apres la mise en place de la loi
-                $heritage->majHeritiers()
+                $heritage->majHeritiers();
             }
             catch( PDOException $e ) {
                 echo 'Erreur : '.$e->getMessage();
@@ -112,7 +112,7 @@ class Loi {
             $heritage = new Heritage();
             try{
             //cherche les heritiers possibles apres la mise en place de la loi
-               $heritage->majHeritiers()
+               $heritage->majHeritiers();
             }
             catch( PDOException $e ) {
                 echo 'Erreur : '.$e->getMessage();
