@@ -1,0 +1,13 @@
+main {
+  text-align: left;
+  margin-top:5vh; /* poussé de la moitié de hauteur de viewport */
+  padding: 20px;
+  background-color: #ABA598;
+  border-radius: 5%
+}
+
+html {
+  background: url(../images/login.jpg) no-repeat center fixed;
+  -webkit-background-size: cover; /* pour anciens Chrome et Safari */
+  background-size: cover; /* version standardisée */
+}

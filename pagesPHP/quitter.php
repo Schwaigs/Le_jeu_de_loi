@@ -4,6 +4,6 @@
   //supprime la session du joueur
   session_destroy();
   //renvoie sur la page d'acceuil du site
-  header('Location: ../pageDeLancement/login.php');
+  header('Location: ../pageDeLancement/acceuil.php');
   exit();
   ?>

@@ -9,15 +9,6 @@
   session_start();
   require_once '../accesBDD/initBase.php';
 
-  //On initialise le nombre de lois que l'on peut voter à 2 par cycle de 5 sections,
-  //si on est au début d'une section on a le droit à 2 votes
-  if (!isset($_SESSION['nbLois']) || $_SESSION['section'] == 1){
-    /*
-    * \var nbLois est une variable de session qui correspond aux nombre de lois que l'on peut voter dans le cycle actuel.
-    */
-      $_SESSION['nbLois'] = 2;
-  }
-
   if (!isset($_SESSION['suivant'])){
       /*
       * \var suivant est une variable de session qui permet de savoir si le joueur a déjà choisit entre un événement ou un vote.
