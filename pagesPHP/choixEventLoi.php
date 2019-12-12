@@ -10,7 +10,7 @@ require_once '../accesBDD/classesPHP/CtrlLoi.php';
     include '../pagesPHP/ajoutRetireLoi.php';
   }
   else {
-    echo 'numEvent = ' . $_SESSION['numEvent'];
+    //echo 'numEvent = ' . $_SESSION['numEvent'];
     /*Il y a 3 évènements différents qui peuvent apparaitre : Dernièrement
         - une loi a été votée
         - une loi a été abrogée
