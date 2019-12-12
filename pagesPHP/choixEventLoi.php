@@ -17,7 +17,6 @@ require_once '../accesBDD/classesPHP/CtrlLoi.php';
 
     //Si aucune loi n'a été voté ou abrogé recemment
     if (($_SESSION['action'] != 'voter') && ($_SESSION['action'] != 'abroger')) {
-
       //Choisir un évènement en fonction des jauges de relations les plus basses
       if ($_SESSION['noblesse'] < $_SESSION['tiersEtat']){
         if ($_SESSION['clerge'] < $_SESSION['noblesse']){
@@ -57,10 +56,9 @@ require_once '../accesBDD/classesPHP/CtrlLoi.php';
       }
 
     }
-    
     $resultEvent = MyPDO::pdo()->prepare("SELECT * FROM newEvents");
     $execution = $resultEvent->execute();
-
+    
     foreach ( $resultEvent as $row ) {
       //Si on a l'évènement tiré au hasard
       if ($row['id'] == $_SESSION['numEvent']){
@@ -71,7 +69,7 @@ require_once '../accesBDD/classesPHP/CtrlLoi.php';
         //Stocker l'évènement temporairement
         $_SESSION['choix'] = $row;
         if ($_SESSION['numEvent'] >99) {
-          //Aucun choix à faire mais les relations continuent de changer
+          //Aucun choix à faire mais les relations continuent de changer 
         }
         else if ($row['choix'] == 1){
           $_SESSION['choixAFaire'] = true;

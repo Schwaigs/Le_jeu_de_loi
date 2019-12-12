@@ -20,8 +20,8 @@ class Heritage {
     */
     public function cherchePlusAgeJeune(array $personnages, int $loiOrdreNaissance) : int {
         $in_valuesAge = implode(',',$personnages);
-        echo ' cherchePlusAgeJeune() les heritiers du meme parents <br>';
-        echo $in_valuesAge.'<br>';
+        /*echo ' cherchePlusAgeJeune() les heritiers du meme parents <br>';
+        echo $in_valuesAge.'<br>';*/
         $resultAge = MyPDO::pdo()->prepare("SELECT id,ordreNaissance FROM perso WHERE id in (".$in_valuesAge.")");
         $resultAge->execute();
 
@@ -52,7 +52,7 @@ class Heritage {
         /*On creer un tableau qui contitent le nb d'occurence d'un parent chez les heritiers */
         $nbParent;
         foreach ($heritiers as $enfant => $parent){
-            echo ' choisiOdreNaissanceHeritier() parentEnfant :  enfant = '.$enfant.'  =>  parent = '.$parent.' <br>';
+            //echo ' choisiOdreNaissanceHeritier() parentEnfant :  enfant = '.$enfant.'  =>  parent = '.$parent.' <br>';
             if ( (!(isset($nbParent))) || (!(array_key_exists($parent,$nbParent))) ){
                 $nbParent[$parent] = 1;
             }
@@ -60,14 +60,14 @@ class Heritage {
                 $nbParent[$parent] += 1;
             }
         }
-        echo 'choisiOdreNaissanceHeritier() les occurence parents <br>';
+        /*echo 'choisiOdreNaissanceHeritier() les occurence parents <br>';
         print_r($nbParent);
-        echo'<br>';
+        echo'<br>';*/
         $enfantsMemeParent;
         $corresEnfantParent;
         /* On regarde l'occurence de chaque parent */
         foreach ($nbParent as $parentNB => $nbOcc){
-            echo ' choisiOdreNaissanceHeritier() nbParent :  parent = '.$parentNB.'  =>  occ = '.$nbOcc.' <br>';
+            //echo ' choisiOdreNaissanceHeritier() nbParent :  parent = '.$parentNB.'  =>  occ = '.$nbOcc.' <br>';
             //s'il n'y a qu'une occurence l'enfant est héritier et on passe au parent suivant
             if($nbOcc == 1){
                 foreach ($heritiers as $enfant => $parentH){
@@ -84,19 +84,19 @@ class Heritage {
                     $corresEnfantParent[$enfant] = $parentNB;
                 }
             }
-            echo 'choisiOdreNaissanceHeritier() les heritiers du meme parents <br>';
+            /*echo 'choisiOdreNaissanceHeritier() les heritiers du meme parents <br>';
             print_r($enfantsMemeParent);
             echo'<br>';
             echo 'choisiOdreNaissanceHeritier() loi ordre naissance '.$loiOrdreNaissance.' <br>';
             echo 'choisiOdreNaissanceHeritier() correspondance enfant parent <br>';
             print_r($corresEnfantParent);
-            echo'<br>';
+            echo'<br>';*/
 
             /* pour chaque parent qui a plusieurs enfants on cherche celui qui correspond à la loi */
             $enfantHeritier = $this->cherchePlusAgeJeune($enfantsMemeParent,$loiOrdreNaissance);
-            echo 'choisiOdreNaissanceHeritier() apres plusJeuneAge <br>';
+            /*echo 'choisiOdreNaissanceHeritier() apres plusJeuneAge <br>';
             print_r($enfantHeritier);
-            echo'<br>';
+            echo'<br>';*/
             //on vide le tableau $enfantsMemeParent pour la prochaine fratrie
             $i = 0;
             while(!empty($enfantsMemeParent)){
@@ -104,13 +104,13 @@ class Heritage {
                 $i++;
             }
             $parent = $corresEnfantParent[$enfantHeritier];
-            echo 'choisiOdreNaissanceHeritier() parent = '.$parent.'  => enfantHeritier = '.$enfantHeritier.'<br>';
+            //echo 'choisiOdreNaissanceHeritier() parent = '.$parent.'  => enfantHeritier = '.$enfantHeritier.'<br>';
             //et on l'ajoute à la liste des heritiers
             $newListHeritiers[$enfantHeritier] =  $parent;
         }
-        echo 'choisiOdreNaissanceHeritier() les heritiers et leurs parents <br>';
+        /*echo 'choisiOdreNaissanceHeritier() les heritiers et leurs parents <br>';
         print_r($newListHeritiers);
-        echo'<br>';
+        echo'<br>';*/
         return $newListHeritiers;
     }
 
@@ -226,7 +226,7 @@ class Heritage {
                 $idRoiActuel = $row['id'];
                 $idParentRoiActuel = $row['parent'];
             }
-            echo 'id roi actuel = '.$idRoiActuel.' <br>';
+            //echo 'id roi actuel = '.$idRoiActuel.' <br>';
             /*On regarde si parmis les héritiers on a :
             - des frères et soeurs du roi : proximité maximale
             - des enfants du roi : priorite intermediare
@@ -235,50 +235,50 @@ class Heritage {
             $heritiersE = []; //Enfants
             $heritiersA = []; //Autres
             foreach ($parentEnfant as $enfant => $parent){
-                echo ' parentEnfant :  enfant = '.$enfant.'  =>  parent = '.$parent.' <br>';
+                //echo ' parentEnfant :  enfant = '.$enfant.'  =>  parent = '.$parent.' <br>';
                 if ($parent == $idParentRoiActuel){
-                    echo '  Freres soeurs :  enfant = '.$enfant.'<br>';
+                    //echo '  Freres soeurs :  enfant = '.$enfant.'<br>';
                     $heritiersFS[] = $enfant;
                 }
                 elseif ($parent == $idRoiActuel){
-                    echo '  Enfants :  enfant = '.$enfant.'<br>';
+                    //echo '  Enfants :  enfant = '.$enfant.'<br>';
                     $heritiersE[] = $enfant;
                 }
                 else{
-                    echo '  Autres :  enfant = '.$enfant.'<br>';
+                    //echo '  Autres :  enfant = '.$enfant.'<br>';
                     $heritiersA[] = $enfant;
                 }
             }
 
             if (!empty($heritiersFS)){
-                echo 'freres soeurs <br>';
+                /*echo 'freres soeurs <br>';
                 print_r($heritiersFS);
-                echo '<br>';
+                echo '<br>';*/
                 $ResHeritiers = $heritiersFS;
-                echo ' resheritiers freres soeurs <br>';
+                /*echo ' resheritiers freres soeurs <br>';
                 print_r($ResHeritiers);
-                echo '<br>';
+                echo '<br>';*/
             }
             elseif (!empty($heritiersE)){
-                echo 'enfants <br>';
+                /*echo 'enfants <br>';
                 print_r($heritiersE);
-                echo '<br>';
+                echo '<br>';*/
                 $ResHeritiers = $heritiersE;
-                echo ' resheritiers enfants <br>';
+                /*echo ' resheritiers enfants <br>';
                 print_r($ResHeritiers);
-                echo '<br>';
+                echo '<br>';*/
             }
             else{
-                echo 'autres <br>';
+                /*echo 'autres <br>';
                 print_r($heritiersE);
-                echo '<br>';
+                echo '<br>';*/
                 $ResHeritiers = $heritiersA;
-                echo ' resheritiers autres <br>';
+                /*echo ' resheritiers autres <br>';
                 print_r($ResHeritiers);
-                echo '<br>';
+                echo '<br>';*/
             }
         }
-        echo 'resHeritiers <br>';
+        //echo 'resHeritiers <br>';
         print_r($ResHeritiers);
 
         //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
@@ -342,12 +342,14 @@ class Heritage {
         /* Si le nouveau roi n'est pas français alors le joueur à perdu */
         $paysNewRoi;
         $ageNewRoi;
+        $prenomNewRoi;
         $resultNewRoi = MyPDO::pdo()->prepare("SELECT * from perso WHERE id = :idRoi");
         $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_INT);
         $resultNewRoi->execute();
         foreach ($resultNewRoi as $row){
             $paysNewRoi = $row['nationnalite'];
             $ageNewRoi = $row['age'];
+            $prenomNewRoi = $row['prenom'];
         }
         if($paysNewRoi != 'France'){
             $_SESSION['jeu'] = 'perdu';
@@ -357,6 +359,13 @@ class Heritage {
         }
 
         /*On met a jour la bdd */
+        $resultMess = MyPDO::pdo()->prepare("SELECT prenom from perso WHERE classe='roi'");
+        $idSucces = $resultMess->bindValue(':idRoi',$idRoi, PDO::PARAM_INT);
+        $resultMess->execute();
+        $prenomRoi;
+        foreach ($resultMess as $row){
+            $prenomRoi = $row['prenom'];
+        }
         /* l'ancien roi est destitué et meurt */
         $resultAncienRoi = MyPDO::pdo()->prepare("UPDATE perso SET classe='mort' WHERE classe='roi'");
         $resultAncienRoi->execute();
@@ -368,8 +377,12 @@ class Heritage {
         $resultNewRoi->execute();
         $nbLigne = $resultNewRoi->rowCount();
 
+        $_SESSION['message'] = "Le roi ".$prenomRoi." est mort. Son héritier ".$prenomNewRoi." monte alors sur le trône.";
         //On met à jour les jauges de relation avec les 3 ordres
         $this->majJauges($idRoi);
+
+        //Cherche les nouveaux héritiers pour les couleurs sur l'arbre
+        $this->majHeritiersSansJauges();
 
         return $idRoi;
     }
@@ -412,6 +425,26 @@ class Heritage {
                     $_SESSION['clerge'] -= 10;
                     $_SESSION['tiersEtat'] -= 10;
                 }
+            }
+        }
+    }
+
+    public function majHeritiersSansJauges() : void {
+        /*On compte le nombre d'héritier possible */
+        $heritiers = $this->chercherHeritiers();
+
+        //s'il n'y a aucun heritier
+        if(empty($heritiers)){
+            //tous les personnages passent en non heritier
+            $resultHerit = MyPDO::pdo()->prepare("UPDATE perso SET classe='nonHeritier' WHERE classe not in ('mort','roi')");
+            $resultHerit->execute();
+        }
+        else{
+            $nbHeritiers = count($heritiers);
+
+            /*Si plusieurs heritiers on cherche par santé*/
+            if ($nbHeritiers > 1) {
+                $heritSante = $this->meilleurSanteListe($heritiers);
             }
         }
     }
@@ -595,13 +628,20 @@ class Heritage {
             }
         }
 
+        $ResHeritiers = [];
         //priorite à la meilleur sante
         if (!empty($bon)){
-            return $bon;
+            $ResHeritiers = $bon;
         }
         elseif (!empty($moyen)){
-            return $moyen;
+            $ResHeritiers = $moyen;
         }
-        return $mavais;
+        else{
+            $ResHeritiers =$mavais;
+        }
+        //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
+        $this->classePersoHeritier($ResHeritiers);
+        $this->classePersoNonHeritier($ResHeritiers);
+        return $ResHeritiers;
     }
 }
