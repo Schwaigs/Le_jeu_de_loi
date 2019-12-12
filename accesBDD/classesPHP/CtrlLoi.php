@@ -21,9 +21,10 @@ class CtrlLoi {
         $ok2 = $result->execute();
         /*Si aucune loi n'est mise en place alors un message par défaut est affiché*/
         if (0 == $result->rowCount()){
-            echo 'Aucune loi est en place pour le moment';
+            echo '<p>Degrés de parenté</p>';
         }
         else{
+            echo '<p>Degrés de parenté</p>';
             /*Afficher la liste des lois que l'utilistateur a choisit */
             foreach ( $result as $row ) {
                 echo '<p>'. $row['label'] . '</p>';
