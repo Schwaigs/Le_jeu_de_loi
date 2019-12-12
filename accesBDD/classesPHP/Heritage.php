@@ -192,6 +192,7 @@ class Heritage {
             return null;
         }
 
+        $ResHeritiers = [];
         //si on a des heritiers potentiels
         /*On creer un tableau avec uniquement les id des heritiers en valeur*/
         $heritiers = [];
@@ -199,53 +200,56 @@ class Heritage {
             $heritiers[] = $enfant;
         }
 
-        //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
-        $this->classePersoHeritier($heritiers);
-        $this->classePersoNonHeritier($heritiers);
-
         $nbHeritiers = count($heritiers);
         /*si on a un seul id dans le tableau des héritiers alors c'est lui le roi*/
         if ($nbHeritiers == 1) {
-            return $heritiers;
+            $ResHeritiers = $heritiers;
         }
-
-        /*si plusieurs héritiers le choix se fait par proximite avec le roi*/
-        //On récupère des infos sur le roi actuel
-        $resultAncienRoi = MyPDO::pdo()->prepare("SELECT id,parent FROM perso WHERE classe='roi'");
-        $resultAncienRoi->execute();
-        $idRoiActuel;
-        $idParentRoiActuel;
-        foreach ($resultAncienRoi as $row){
-            $idRoiActuel = $row['id'];
-            $idParentRoiActuel = $row['parent'];
-        }
-
-        /*On regarde si parmis les héritiers on a :
-        - des frères et soeurs du roi : proximité maximale
-        - des enfants du roi : priorite intermediare
-        - des heritiers dans aucun des deux cas : non prioritaires */
-        $heritiersFS = []; //Freres soeurs
-        $heritiersE = []; //Enfants
-        $heritiersA = []; //Autres
-        foreach ($parentEnfant as $enfant => $parent){
-            if ($parent == $idParentRoiActuel){
-                $heritiersFS[] = $enfant;
+        else{
+            /*si plusieurs héritiers le choix se fait par proximite avec le roi*/
+            //On récupère des infos sur le roi actuel
+            $resultAncienRoi = MyPDO::pdo()->prepare("SELECT id,parent FROM perso WHERE classe='roi'");
+            $resultAncienRoi->execute();
+            $idRoiActuel;
+            $idParentRoiActuel;
+            foreach ($resultAncienRoi as $row){
+                $idRoiActuel = $row['id'];
+                $idParentRoiActuel = $row['parent'];
             }
-            elseif ($parent == $idRoiActuel){
-                $heritiersE[] = $enfant;
+
+            /*On regarde si parmis les héritiers on a :
+            - des frères et soeurs du roi : proximité maximale
+            - des enfants du roi : priorite intermediare
+            - des heritiers dans aucun des deux cas : non prioritaires */
+            $heritiersFS = []; //Freres soeurs
+            $heritiersE = []; //Enfants
+            $heritiersA = []; //Autres
+            foreach ($parentEnfant as $enfant => $parent){
+                if ($parent == $idParentRoiActuel){
+                    $heritiersFS[] = $enfant;
+                }
+                elseif ($parent == $idRoiActuel){
+                    $heritiersE[] = $enfant;
+                }
+                else{
+                    $heritiersA[] = $enfant;
+                }
+            }
+
+            if (!empty($heritiersFS)){
+                $ResHeritiers = $heritiersFS;
+            }
+            elseif (!empty($heritiersE)){
+                $ResHeritiers = $heritiersE;
             }
             else{
-                $heritiersA[] = $enfant;
+                $ResHeritiers = $heritiersA;
             }
         }
-
-        if (!empty($heritiersFS)){
-            return $heritiersFS;
-        }
-        elseif (!empty($heritiersE)){
-            return $heritiersE;
-        }
-        return $heritiersA;
+        //met a jour la basse de donnée pour l'affichage en couleur de l'arbre
+        $this->classePersoHeritier($Resheritiers);
+        $this->classePersoNonHeritier($Resheritiers);
+        return $Resheritiers;
     }
 
     /**
