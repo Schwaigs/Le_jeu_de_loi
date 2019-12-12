@@ -2,13 +2,27 @@
   //Démarrer la session
   session_start();
 
-  if (!isset($_POST['login']) || empty(htmlspecialchars($_POST['login']))){
-      header('Location: login.php');
-      exit();
+  if (isset($_POST['demarage'])){
+    //Initialisation de la base
+    require_once '../accesBDD/initBase.php';
+    $succes = initBase();
+
+    //Numéro associé à un utilistateur
+    $_SESSION['login'] = rand(1,100000);
+    header('Location: lancement.php');
+    exit();
   }
-  require_once '../accesBDD/initBase.php';
-  $succes = initBase();
-  $_SESSION['login'] = htmlspecialchars($_POST['login']);
-  header('Location: lancement.php');
+  elseif (isset($_POST['tutoriel'])){
+    header('Location: tutoriel.php');
+    exit();
+  }
+  elseif (isset($_POST['aide'])){
+    header('Location: aide.php');
+    exit();
+  }
+
+  //Si rien n'est bon, c'est une erreur et on retourne sur l'écran d'acceuil
+  header('Location: acceuil.php');
   exit();
+
   ?>
