@@ -77,7 +77,7 @@ class Loi {
             //Mettre à jour l'action réaliser
             $_SESSION['action'] = 'voter';
             include '../pagesDeTests/testMajHeritiers.php';
-            
+
             //on renvoie le nb de lignes modifiées dans la base
             return $nbLigne;
         }
@@ -137,7 +137,7 @@ class Loi {
     }
 
     public function passerLoi() : void {
-        //On met à jour la jauge de l'ordre ayant une affinité avec roi actuel 
+        //On met à jour la jauge de l'ordre ayant une affinité avec roi actuel
         $affinite;
         $result = MyPDO::pdo()->prepare("SELECT affinite from perso WHERE classe = roi");
         $result->execute();
@@ -221,8 +221,8 @@ class Loi {
         //Chaque ordre gagne ou perd de la satisafction au pouvoir
         $nouveauScoreNoblesse= $_SESSION['noblesse'] + $noblesseChangement;
         $nouveauScoreClerge= $_SESSION['clerge'] + $clergeChangement;
-        $nouveauScoreTE= $_SESSION['tiersEtat'] + $TeChangement; 
-        
+        $nouveauScoreTE= $_SESSION['tiersEtat'] + $TeChangement;
+
         //On remplace les jauges par les nouvelles valeurs et on verifie qu'on ne dépassse pas 100 qui est le max et 0 qui est le min
         if($nouveauScoreClerge > 100){
             $nouveauScoreClerge = 100;

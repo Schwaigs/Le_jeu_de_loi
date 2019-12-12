@@ -43,9 +43,9 @@ class CtrlLoi {
         //On sauvegarde dans un tableau les différentes catégories de loi sur lesquels on peut agir
         $tabParam=['religion'=>'Religion','sexe'=>'Sexe','ordreNaissance'=>'Ordre de naissance','richesse'=>'Richesse','sante'=>'Santé'];
         $i=1;
+        echo"<p> Vous devez choisir de modifier une seule des lois suivantes </p>";
         echo"<h2> Abroger une Loi </h2>";
         if (0 != $result->rowCount()){
-            echo"<p>Choisissez une caractéristique.</p>";
             //On créer une liste accordéon pour les catégories de loi où l'une d'elles est déjà en place
             echo '<ul id="accordion_supp">';
             foreach ($result as $row){
@@ -75,7 +75,6 @@ class CtrlLoi {
         }
         echo"<h2> Voter une Loi </h2>";
         if(!empty($tabParam)){
-            echo"<p>Choisissez une caractéristique.</p>";
             //On créer une liste accordéon pour les catégories de loi pour lesquelles aucune n'est en place
             echo'<ul id="accordion_ajout">';
             //On passe en revue les catégories qui ne sont pas dans le premier accordéon
