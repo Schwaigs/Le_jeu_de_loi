@@ -1,7 +1,7 @@
 html {
   margin:0;
   padding:0;
-  background: url(../images/fondEcranLogin.png) no-repeat center fixed;
+  background: url(../images/login.jpg) no-repeat center fixed;
   -webkit-background-size: cover; /* pour anciens Chrome et Safari */
   background-size: cover; /* version standardisée */
 }
@@ -17,6 +17,8 @@ body {
 form {
   background-color: #ABA598;
   margin: 0px 40%;
+  padding: 20px;
+  border-radius: 25%;
 }
 
 input {
