@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="../css/tuto.css">
   </head>
   <body>
-    <div class="black_overlay">
+    <main>
       <p> CECI EST UN TUTO </p>
       <a href="acceuil.php">Retour à l'acceuil</a>
-    </div>
-
+      <div class="black_overlay">
+      </div>
+  </main>
   </body>
 </html>
