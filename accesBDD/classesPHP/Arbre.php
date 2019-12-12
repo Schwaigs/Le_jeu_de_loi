@@ -55,7 +55,7 @@ class Arbre {
                 //le sexe nous sert pour l'image du personnage
                 $sexe =  $this->chercheSexePerso($tableParentEnfants[$idParent][$i]);
                 //le lien mene vers la meme page (l'index) mais avec en get l'indentifiant du personnage
-                echo'<a '.$class.' href="../pageDeLancement/lancement.php?refresh=0&id='.$tableParentEnfants[$idParent][$i].'"><img src="../imagesperso/'.$sexe.$tableParentEnfants[$idParent][$i].'.png"></a>';
+                echo'<a '.$class.' href="../pageDeLancement/lancement.php?refresh=0&id='.$tableParentEnfants[$idParent][$i].'"><img src="../imagesPersos/'.$sexe.$tableParentEnfants[$idParent][$i].'.png"></a>';
                 //et on fait la même chose avec ses propres enfants
                 $this->remplissageArbre($tableParentEnfants[$idParent][$i],$tableParentEnfants);
                 echo'</li>';
@@ -178,7 +178,7 @@ class Arbre {
         //on crée d'abord le personnage racine
         $persoRacine = 1;
         $class = $this->chercheClassePerso($persoRacine);
-        echo'<a '.$class.' href="../pageDeLancement/lancement.php?refresh=0&id=1"><img src="../imagesperso/H1.png"></a>';
+        echo'<a '.$class.' href="../pageDeLancement/lancement.php?refresh=0&id=1"><img src="../imagesPersos/H1.png"></a>';
 
         //la suite de l'arbre est créer de maniere récursive
         $this->remplissageArbre($persoRacine,$tabParentEnfant);

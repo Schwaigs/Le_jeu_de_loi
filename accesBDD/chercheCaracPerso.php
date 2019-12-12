@@ -6,7 +6,7 @@ function caracPerso($id) : array {
 
     $caracteristiques = [];
 
-    $result = MyPDO::pdo()->prepare("SELECT * FROM persoDe". $_SESSION['login'] ."WHERE id = :id");
+    $result = MyPDO::pdo()->prepare("SELECT * FROM persoDe". $_SESSION['login'] ." WHERE id = :id");
     $idSucces = $result->bindValue(':id',$id, PDO::PARAM_INT);
     $result->execute();
     $nbLigne = $result->rowCount();
@@ -42,7 +42,7 @@ function caracPerso($id) : array {
         $caracteristiques['parent'] = 'Roland';
     }
     else{
-        $result = MyPDO::pdo()->prepare("SELECT prenom FROM persoDe". $_SESSION['login'] ."WHERE id = :parent");
+        $result = MyPDO::pdo()->prepare("SELECT prenom FROM persoDe". $_SESSION['login'] ." WHERE id = :parent");
         $idSucces = $result->bindValue(':parent',$idParent, PDO::PARAM_INT);
         $result->execute();
         foreach($result as $row){
