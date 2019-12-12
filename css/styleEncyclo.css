@@ -2,8 +2,6 @@
  * Headers and titles
  ************************/
  header {
-
-	margin-top: 1rem;
 }
 
 /************************
@@ -14,10 +12,10 @@ body {
   font-size: 1.2rem;
 
 	background-color: #444450;
-	padding-bottom: 5rem;
   background-image: url("../images/bibli.png");
   background-repeat: no-repeat;
   background-size: 100%;
+  margin: 0;
 }
 
 main {
@@ -28,28 +26,64 @@ main {
   line-height: 140%;
   margin-right: 40rem;
   margin-left: 40rem;
-  margin-top: 4rem;
-  height: 50rem;
+  margin-top: 1rem;
+  height: 48rem;
 }
 
 #texteEncyclo {
   padding-right: 8rem;
   padding-left: 10rem;
-  padding-top: 4rem;
+  padding-top: 3rem;
 }
 
 #texteEncyclo > h1 {
   justify-content: center;
   text-align: center;
+  margin-bottom: 0.7rem;
+}
+
+#texteEncyclo > p {
+	margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
 }
 
 label:hover {
   cursor: pointer;
 }
 
+
+#quitterEncyclo {
+  background-image: url("../images/Parchemin_titre_gauche.png");
+  background-size: 100% 100%;
+  width: 20rem;
+  height: 5rem;
+  left: 1rem;
+  bottom: 10rem;
+}
+#quitterEncyclo > a {
+  text-decoration: none;
+}
+#quitterEncyclo > a > p {
+  left: 1rem;
+  bottom: 10rem;
+  margin-left: 11rem;
+  padding-top: 0.6rem;
+  font-size: 1.8rem;
+  color: black;
+}
+
+/************************
+* Accordion
+************************/
+.accordion {
+ padding-left: 1rem;
+}
+
+
  .accordion > li {
      height: 0;
      overflow: hidden;
+     font-size: 0.8rem;
  }
 
  input[type="radio"] {
@@ -58,16 +92,16 @@ label:hover {
 
  input:checked + .accordion > li {
      height: 2rem;
-     padding-bottom: 4rem;
+     padding-bottom: 4.5rem;
  }
 
  #accordion_encyclo {
      list-style: none;
-     padding:0rem;
+     padding:0.7rem;
  }
 
  #accordion_encyclo > li{
-     padding: 0.3rem;
+     padding: 0.2rem;
  }
 
  #accordion_encyclo > li > label{

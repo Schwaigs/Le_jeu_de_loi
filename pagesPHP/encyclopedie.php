@@ -13,7 +13,7 @@ require_once '../accesBDD/MyPDO.php';
   <body>
     <main>
       <div id="texteEncyclo">
-        <h1>Encyclopédie: </h1>
+        <h1>Encyclopédie </h1>
         <p>Choisissez une caractéristique.</p>
         <!-- On créer une liste sous forme d'accordéon-->
         <ul id="accordion_encyclo">
@@ -42,5 +42,11 @@ require_once '../accesBDD/MyPDO.php';
         ?>
       </div>
     </main>
+    <div id="quitterEncyclo">
+	      <a href="../pageDeLancement/lancement.php" onclick="window.close(this.href); return false;">
+	      <!--  <img id="imgQuitterEncyclo" src="../images/Parchemin_titre_gauche.png" width="400" height="100"> -->
+	        <p>Retour</p>
+	      </a>
+	  </div>
   </body>
 </html>

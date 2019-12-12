@@ -1,6 +1,6 @@
 .accordion_loi > li {
     height: 0;
-    overflow: hidden;
+    overflow: auto;
 }
 
 input[type="checkbox"] {
@@ -8,7 +8,17 @@ input[type="checkbox"] {
 }
 
 input:checked + .accordion_loi > li {
-    height: 2em;
+  height: 2rem;
+}
+
+label {
+  font-weight: bold;
+  width: auto;
+  display: block;
+}
+
+label:hover {
+  cursor: pointer;
 }
 
 #accordion_ajout, #accordion_supp, #passer {
@@ -19,6 +29,12 @@ input:checked + .accordion_loi > li {
 
 #accordion_ajout > li, #accordion_supp > li{
     padding: 0.5em;
+}
+
+#accordion_ajout > li:before, #accordion_supp > li:before{
+  float: right !important;
+  content:"\276F";
+  padding-right: 5px;
 }
 
 #accordion_ajout > li > label, #accordion_supp > li > label{
