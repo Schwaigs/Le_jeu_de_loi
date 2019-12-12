@@ -22,7 +22,7 @@ class Heritage {
         $in_valuesAge = implode(',',$personnages);
         /*echo ' cherchePlusAgeJeune() les heritiers du meme parents <br>';
         echo $in_valuesAge.'<br>';*/
-        $resultAge = MyPDO::pdo()->prepare("SELECT id,ordreNaissance FROM perso WHERE id in (".$in_valuesAge.")");
+        $resultAge = MyPDO::pdo()->prepare("SELECT id,ordreNaissance FROM persoDe". $_SESSION['login'] ." WHERE id in (".$in_valuesAge.")");
         $resultAge->execute();
 
         $tabAgeEnfant;
@@ -116,7 +116,7 @@ class Heritage {
 
 
     /**
-    *\fn public function chercherHeritiersLois() 
+    *\fn public function chercherHeritiersLois()
     * \brief Cherche les personnages qui sont héritiers en comparant leurs caractéristiques aux lois mises en place.
     * \return Renvoie un tableau avec pour clé l'identifiant du personnages et en valeur l'identifiant de son parent.
     */
@@ -131,7 +131,7 @@ class Heritage {
         $richesseVal;
 
         /* On cherche les lois misent en places */
-        $resultLoi = MyPDO::pdo()->prepare("SELECT parametre, paramVal FROM lois WHERE misEnPlace = 1 and parametre != 'sante'");
+        $resultLoi = MyPDO::pdo()->prepare("SELECT parametre, paramVal FROM loisDe". $_SESSION['login'] ." WHERE misEnPlace = 1 and parametre != 'sante'");
         $resultLoi->execute();
         $nbLigne = $resultLoi->rowCount();
 
@@ -146,7 +146,7 @@ class Heritage {
         }
 
         /* On cherche les personnages de notre base qui sont encore en vie*/
-        $resultPerso = MyPDO::pdo()->prepare("SELECT id,parent,religion,sexe,richesse FROM perso WHERE classe not in ('mort','roi')");
+        $resultPerso = MyPDO::pdo()->prepare("SELECT id,parent,religion,sexe,richesse FROM persoDe". $_SESSION['login'] ." WHERE classe not in ('mort','roi')");
         $resultPerso->execute();
         $nbLigne = $resultPerso->rowCount();
 
@@ -218,7 +218,7 @@ class Heritage {
         else{
             /*si plusieurs héritiers le choix se fait par proximite avec le roi*/
             //On récupère des infos sur le roi actuel
-            $resultAncienRoi = MyPDO::pdo()->prepare("SELECT id,parent FROM perso WHERE classe='roi'");
+            $resultAncienRoi = MyPDO::pdo()->prepare("SELECT id,parent FROM persoDe". $_SESSION['login'] ." WHERE classe='roi'");
             $resultAncienRoi->execute();
             $idRoiActuel;
             $idParentRoiActuel;
@@ -295,7 +295,7 @@ class Heritage {
     public function classePersoHeritier (array $heritiers) : void {
         //change dans la base de donnée l'attribut classe des personnages pouvant être des heritiers
         $in_heritiers = implode(',',$heritiers);
-        $resultHerit = MyPDO::pdo()->prepare("UPDATE perso SET classe='heritier' WHERE id in (".$in_heritiers.")");
+        $resultHerit = MyPDO::pdo()->prepare("UPDATE persoDe". $_SESSION['login'] ." SET classe='heritier' WHERE id in (".$in_heritiers.")");
         $resultHerit->execute();
     }
 
@@ -307,7 +307,7 @@ class Heritage {
     public function classePersoNonHeritier (array $heritiers) : void {
         //change dans la base de donnée l'attribut classe des personnages ne pouvant pas être des heritiers
         $in_heritiers = implode(',',$heritiers);
-        $resultHerit = MyPDO::pdo()->prepare("UPDATE perso SET classe='nonHeritier' WHERE classe not in ('mort','roi') AND id not in (".$in_heritiers.")");
+        $resultHerit = MyPDO::pdo()->prepare("UPDATE persoDe". $_SESSION['login'] ." SET classe='nonHeritier' WHERE classe not in ('mort','roi') AND id not in (".$in_heritiers.")");
         $resultHerit->execute();
     }
 
@@ -343,7 +343,7 @@ class Heritage {
         $paysNewRoi;
         $ageNewRoi;
         $prenomNewRoi;
-        $resultNewRoi = MyPDO::pdo()->prepare("SELECT * from perso WHERE id = :idRoi");
+        $resultNewRoi = MyPDO::pdo()->prepare("SELECT * from persoDe". $_SESSION['login'] ." WHERE id = :idRoi");
         $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_INT);
         $resultNewRoi->execute();
         foreach ($resultNewRoi as $row){
@@ -359,7 +359,7 @@ class Heritage {
         }
 
         /*On met a jour la bdd */
-        $resultMess = MyPDO::pdo()->prepare("SELECT prenom from perso WHERE classe='roi'");
+        $resultMess = MyPDO::pdo()->prepare("SELECT prenom from persoDe". $_SESSION['login'] ." WHERE classe='roi'");
         $idSucces = $resultMess->bindValue(':idRoi',$idRoi, PDO::PARAM_INT);
         $resultMess->execute();
         $prenomRoi;
@@ -367,12 +367,12 @@ class Heritage {
             $prenomRoi = $row['prenom'];
         }
         /* l'ancien roi est destitué et meurt */
-        $resultAncienRoi = MyPDO::pdo()->prepare("UPDATE perso SET classe='mort' WHERE classe='roi'");
+        $resultAncienRoi = MyPDO::pdo()->prepare("UPDATE persoDe". $_SESSION['login'] ." SET classe='mort' WHERE classe='roi'");
         $resultAncienRoi->execute();
         $nbLigne = $resultAncienRoi->rowCount();
 
         /* On change le nouveau roi */
-        $resultNewRoi = MyPDO::pdo()->prepare("UPDATE perso SET classe='roi' WHERE id = :idRoi");
+        $resultNewRoi = MyPDO::pdo()->prepare("UPDATE persoDe". $_SESSION['login'] ." SET classe='roi' WHERE id = :idRoi");
         $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_INT);
         $resultNewRoi->execute();
         $nbLigne = $resultNewRoi->rowCount();
@@ -387,7 +387,7 @@ class Heritage {
         return $idRoi;
     }
 
-    
+
     /**
     *\fn public function majHeritiers() : void
     * \brief Met à jour les héritiers et les relations suite à un tour de jeu.
@@ -399,7 +399,7 @@ class Heritage {
         //s'il n'y a aucun heritier
         if(empty($heritiers)){
             //tous les personnages passent en non heritier
-            $resultHerit = MyPDO::pdo()->prepare("UPDATE perso SET classe='nonHeritier' WHERE classe not in ('mort','roi')");
+            $resultHerit = MyPDO::pdo()->prepare("UPDATE persoDe". $_SESSION['login'] ." SET classe='nonHeritier' WHERE classe not in ('mort','roi')");
             $resultHerit->execute();
         }
         else{
@@ -436,7 +436,7 @@ class Heritage {
         //s'il n'y a aucun heritier
         if(empty($heritiers)){
             //tous les personnages passent en non heritier
-            $resultHerit = MyPDO::pdo()->prepare("UPDATE perso SET classe='nonHeritier' WHERE classe not in ('mort','roi')");
+            $resultHerit = MyPDO::pdo()->prepare("UPDATE persoDe". $_SESSION['login'] ." SET classe='nonHeritier' WHERE classe not in ('mort','roi')");
             $resultHerit->execute();
         }
         else{
@@ -448,7 +448,7 @@ class Heritage {
             }
         }
     }
-    
+
     /**
     *\fn public function majJauges(int $idRoi) : void
     * \brief Met à jour les jauges de relations avec les différents ordres en fonction de l'héritier le plus légitime ou du nouveau roi.
@@ -459,7 +459,7 @@ class Heritage {
         $religionNewRoi;
         $affiniteNewRoi;
         //On récupère les caractéristiques du nouveau roi ou du prochain héritier
-        $resultNewRoi = MyPDO::pdo()->prepare("SELECT * from perso WHERE id = :idRoi");
+        $resultNewRoi = MyPDO::pdo()->prepare("SELECT * from persoDe". $_SESSION['login'] ." WHERE id = :idRoi");
         $idSucces = $resultNewRoi->bindValue(':idRoi',$idRoi, PDO::PARAM_INT);
         $resultNewRoi->execute();
         $nouveauScoreNoblesse= $_SESSION['noblesse'];
@@ -529,7 +529,7 @@ class Heritage {
     */
     public function meilleurSante(array $heritiers) : int {
         //Si pas de loi priorisant la santé alors on tire au sort l'héritier parmis ceux possibles
-        $resultLoi = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE misEnPlace = 1 and parametre = 'sante'");
+        $resultLoi = MyPDO::pdo()->prepare("SELECT * FROM loisDe". $_SESSION['login'] ." WHERE misEnPlace = 1 and parametre = 'sante'");
         $resultLoi->execute();
         $nbLigne = $resultLoi->rowCount();
         if ($nbLigne == 0) {
@@ -540,7 +540,7 @@ class Heritage {
         //Si la loi priorisant la santé est mise en place alors on tire au sort selon les héritiers qui vont le mieux
         //On cherche l'heritier qui se trouve dans le meilleur état de sante
         $in_heritiers = implode(',',$heritiers);
-        $resultSante = MyPDO::pdo()->prepare("SELECT id,etatSante from perso WHERE id in (".$in_heritiers.")");
+        $resultSante = MyPDO::pdo()->prepare("SELECT id,etatSante from persoDe". $_SESSION['login'] ." WHERE id in (".$in_heritiers.")");
         $resultSante->execute();
 
         //On classe les héitiers en groupes selon les 3 états de santé possibles
@@ -598,7 +598,7 @@ class Heritage {
     */
     public function meilleurSanteListe(array $heritiers) : array {
         //Si pas de loi priorisant la santé alors on garde les mêmes heritiers
-        $resultLoi = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE misEnPlace = 1 and parametre = 'sante'");
+        $resultLoi = MyPDO::pdo()->prepare("SELECT * FROM loisDe". $_SESSION['login'] ." WHERE misEnPlace = 1 and parametre = 'sante'");
         $resultLoi->execute();
         $nbLigne = $resultLoi->rowCount();
         if ($nbLigne == 0) {
@@ -608,7 +608,7 @@ class Heritage {
         //Si la loi priorisant la santé est mise en place alors on prends les héritiers qui vont le mieux
         //On cherche les heritiers qui se trouvent dans le meilleur état de sante
         $in_heritiers = implode(',',$heritiers);
-        $resultSante = MyPDO::pdo()->prepare("SELECT id,etatSante from perso WHERE id in (".$in_heritiers.")");
+        $resultSante = MyPDO::pdo()->prepare("SELECT id,etatSante from persoDe". $_SESSION['login'] ." WHERE id in (".$in_heritiers.")");
         $resultSante->execute();
 
         //On classe les héitiers en groupes selon les 3 états de santé possibles

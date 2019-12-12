@@ -102,7 +102,7 @@ class Personnage {
     public function chercherOrdreNaissance(int $parent) : int {
         //cherche dans la base tout les frères et soeurs plus âgés qu'un personnage
         //pour connaitre son ordre de naissance
-        $result = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE parent = :idParent");
+        $result = MyPDO::pdo()->prepare("SELECT id FROM persoDe". $_SESSION['login'] ." WHERE parent = :idParent");
         $idSucces = $result->bindValue(':idParent',$parent, PDO::PARAM_INT);
         $result->execute();
         //le nombre de lignes renvoyées par la requete correspond directement au nb de frères et soeurs plus agés
@@ -195,7 +195,7 @@ class Personnage {
         //choisi aléatoirement un parent pour la creation d'un personnage
         //parmis les perso la bdd
         //on récupère les id de chaque parent potentiel
-       $resultParents = MyPDO::pdo()->prepare("SELECT id FROM perso WHERE age < 50 AND age > 15 AND classe!='mort'");
+       $resultParents = MyPDO::pdo()->prepare("SELECT id FROM persoDe". $_SESSION['login'] ." WHERE age < 50 AND age > 15 AND classe!='mort'");
 
         $resultParents->execute();
         $nbLigne = $resultParents->rowCount();
@@ -289,7 +289,7 @@ class Personnage {
     */
     public function vieillirPerso() : void {
         //Chaque tour de jeu représente un période de 3 ans
-        $result = MyPDO::pdo()->prepare("UPDATE perso SET age = age+5 where classe <> 'mort'");
+        $result = MyPDO::pdo()->prepare("UPDATE persoDe". $_SESSION['login'] ." SET age = age+5 where classe <> 'mort'");
         $result->execute();
     }
 
@@ -300,7 +300,7 @@ class Personnage {
     */
     public function mortPerso() : int {
         //Les personnages autres que le roi meurent de manière aléatoire
-        $result = MyPDO::pdo()->prepare("SELECT id,age,etatSante From perso where classe not in ('mort','roi')");
+        $result = MyPDO::pdo()->prepare("SELECT id,age,etatSante From persoDe". $_SESSION['login'] ." Where classe not in ('mort','roi')");
         $result->execute();
         $listePerso = [];
         $probaMort;
@@ -343,7 +343,7 @@ class Personnage {
             //echo'Perso '.$idPerso.' proba = '.$proba.' numAlea = '.$numAlea.'<br>';
             //Si le chiffre tiré est inférieur à sa probabilité de mourir alors il meurt
             if($proba > $numAlea){
-                $resultMort= MyPDO::pdo()->prepare("UPDATE perso SET classe='mort' WHERE id=:id");
+                $resultMort= MyPDO::pdo()->prepare("UPDATE persoDe". $_SESSION['login'] ." SET classe='mort' WHERE id=:id");
                 $idSucces = $resultMort->bindValue(':id',$idPerso, PDO::PARAM_INT);
                 $resultMort->execute();
                 $compteurMort++;

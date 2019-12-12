@@ -1,4 +1,4 @@
-<?php
+" SET<?php
 
 require_once '../accesBDD/bddT3.php';
 require_once '../accesBDD/MyPDO.php';
@@ -41,21 +41,21 @@ class Loi {
         if ($droit){
 
             ///On met mis en place à 1 pour la loi ajoutée
-            $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=1 WHERE parametre = :param AND paramVal = :pVal");
+            $result = MyPDO::pdo()->prepare("UPDATE loisDe". $_SESSION['login'] ." SET misEnPlace=1 WHERE parametre = :param AND paramVal = :pVal");
             $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $pValSucces = $result->bindValue(':pVal',$this->getParamVal(), PDO::PARAM_STR);
             $result->execute();
             $nbLigne = $result->rowCount();
 
             //On met mis en place à -1 pour les autres lois qui concernent le même critère
-            $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=-1 WHERE parametre = :param AND paramVal != :pVal");
+            $result = MyPDO::pdo()->prepare("UPDATE loisDe". $_SESSION['login'] ." SET misEnPlace=-1 WHERE parametre = :param AND paramVal != :pVal");
             $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $pValSucces = $result->bindValue(':pVal',$this->getParamVal(), PDO::PARAM_STR);
             $result->execute();
             $nbLigne += $result->rowCount();
 
             //Voter une loi influe sur les relations avec les différents ordres
-            $result2 = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre = :param AND paramVal = :pVal");
+            $result2 = MyPDO::pdo()->prepare("SELECT * FROM loisDe". $_SESSION['login'] ." WHERE parametre = :param AND paramVal = :pVal");
             $paramSucces2 = $result2->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $pValSucces2 = $result2->bindValue(':pVal',$this->getParamVal(), PDO::PARAM_STR);
             $result2->execute();
@@ -77,7 +77,7 @@ class Loi {
             //Mettre à jour l'action réaliser
             $_SESSION['action'] = 'voter';
             include '../pagesDeTests/testMajHeritiers.php';
-            
+
             //on renvoie le nb de lignes modifiées dans la base
             return $nbLigne;
         }
@@ -98,13 +98,13 @@ class Loi {
         $droit = $this->verifRelation();
         if ($droit){
 
-            $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=0 WHERE parametre = :param");
+            $result = MyPDO::pdo()->prepare("UPDATE loisDe". $_SESSION['login'] ." SET misEnPlace=0 WHERE parametre = :param");
             $paramSucces = $result->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $result->execute();
             $nbLigne = $result->rowCount();
 
             //Abroger une loi influe sur les relations avec les différents ordres
-            $result2 = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre = :param AND paramVal = :pVal");
+            $result2 = MyPDO::pdo()->prepare("SELECT * FROM loisDe". $_SESSION['login'] ." WHERE parametre = :param AND paramVal = :pVal");
             $paramSucces2 = $result2->bindValue(':param',$this->getParametre(), PDO::PARAM_STR);
             $pValSucces2 = $result2->bindValue(':pVal',$this->getParamVal(), PDO::PARAM_STR);
             $result2->execute();
@@ -137,9 +137,9 @@ class Loi {
     }
 
     public function passerLoi() : void {
-        //On met à jour la jauge de l'ordre ayant une affinité avec roi actuel 
+        //On met à jour la jauge de l'ordre ayant une affinité avec roi actuel
         $affinite;
-        $result = MyPDO::pdo()->prepare("SELECT affinite from perso WHERE classe = roi");
+        $result = MyPDO::pdo()->prepare("SELECT affinite from persoDe". $_SESSION['login'] ." WHERE classe = roi");
         $result->execute();
         foreach ($result as $row){
             $affinite = $row['affinite'];
@@ -221,8 +221,8 @@ class Loi {
         //Chaque ordre gagne ou perd de la satisafction au pouvoir
         $nouveauScoreNoblesse= $_SESSION['noblesse'] + $noblesseChangement;
         $nouveauScoreClerge= $_SESSION['clerge'] + $clergeChangement;
-        $nouveauScoreTE= $_SESSION['tiersEtat'] + $TeChangement; 
-        
+        $nouveauScoreTE= $_SESSION['tiersEtat'] + $TeChangement;
+
         //On remplace les jauges par les nouvelles valeurs et on verifie qu'on ne dépassse pas 100 qui est le max et 0 qui est le min
         if($nouveauScoreClerge > 100){
             $nouveauScoreClerge = 100;

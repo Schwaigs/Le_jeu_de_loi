@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../accesBDD/classesPHP/Heritage.php';
 ?>
 

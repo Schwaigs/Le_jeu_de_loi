@@ -33,7 +33,7 @@
   $label = substr($_POST['Lois'],$indexTab+1);
 
 
-  $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=1 WHERE label = :label");
+  $result = MyPDO::pdo()->prepare("UPDATE loisDe". $_SESSION['login'] ." SET misEnPlace=1 WHERE label = :label");
   $description = $result->bindValue(':label',$label, PDO::PARAM_STR);
   $result->execute();
   if ($result->rowCount() == 0){
@@ -41,7 +41,7 @@
     exit();
   }
   echo 'nb ligne : ' . $result->rowCount()  . '<br>';
-  $result = MyPDO::pdo()->prepare("UPDATE lois SET misEnPlace=-1 WHERE parametre = :parametre AND label != :label");
+  $result = MyPDO::pdo()->prepare("UPDATE loisDe". $_SESSION['login'] ." SET misEnPlace=-1 WHERE parametre = :parametre AND label != :label");
   $description = $result->bindValue(':parametre',$param, PDO::PARAM_STR);
   $description &= $result->bindValue(':label',$label, PDO::PARAM_STR);
   $result->execute();

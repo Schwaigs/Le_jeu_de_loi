@@ -1,5 +1,6 @@
 <?php
 require_once '../accesBDD/initBase.php';
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +12,9 @@ require_once '../accesBDD/initBase.php';
     <body>
 
     <?php
-        $succes = initBase();
+      //Numéro associé à un utilistateur
+      $_SESSION['login'] = rand(1,10000000);
+      $succes = initBase($_SESSION['login']);
     ?>
 
     </body>

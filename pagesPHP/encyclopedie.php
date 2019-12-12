@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../accesBDD/bddT3.php';
 require_once '../accesBDD/MyPDO.php';
 ?>
@@ -18,8 +19,9 @@ require_once '../accesBDD/MyPDO.php';
         <!-- On créer une liste sous forme d'accordéon-->
         <ul id="accordion_encyclo">
         <?php
-        $result = MyPDO::pdo()->prepare("SELECT * FROM lois");
+        $result = MyPDO::pdo()->prepare("SELECT * FROM loisDe". $_SESSION['login'] ."");
         $ok = $result->execute();
+
         //Pour chacune des catégorie de loi possible on créer une sous-liste
         $tabParam=['religion'=>'Religion','sexe'=>'Sexe','ordreNaissance'=>'Ordre de naissance','richesse'=>'Richesse','sante'=>'Santé'];
         $i=1;
@@ -29,7 +31,7 @@ require_once '../accesBDD/MyPDO.php';
                 <input id="menu'.$i.'" type="radio" name="menu"/>
                 <ul class="accordion"><br> ';
                 //Puis pour chaque catégories on cherche les différentes lois qui y sont associées
-                $result = MyPDO::pdo()->prepare("SELECT * FROM lois WHERE parametre=:param Order by label");
+                $result = MyPDO::pdo()->prepare("SELECT * FROM loisDe". $_SESSION['login'] ." WHERE parametre=:param Order by label");
                 $paramSucces = $result->bindValue(':param',$param, PDO::PARAM_STR);
                 $ok2 = $result->execute();
                 foreach ( $result as $row ) {

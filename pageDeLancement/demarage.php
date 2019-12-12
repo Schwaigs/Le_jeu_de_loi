@@ -5,10 +5,13 @@
   if (isset($_POST['demarage'])){
     //Initialisation de la base
     require_once '../accesBDD/initBase.php';
-    $succes = initBase();
 
     //Numéro associé à un utilistateur
-    $_SESSION['login'] = rand(1,100000);
+    $_SESSION['login'] = rand(1,10000000);
+
+    //Les tables vont appartenir à l'utilisateur uniquement pour la session de jeu
+    $succes = initBase($_SESSION['login']);
+
     header('Location: lancement.php');
     exit();
   }
