@@ -13,7 +13,7 @@
     exit();
   }
   elseif (isset($_POST['tutoriel'])){
-    header('Location: tutoriel.php');
+    header('Location: tuto.php');
     exit();
   }
   elseif (isset($_POST['aide'])){
