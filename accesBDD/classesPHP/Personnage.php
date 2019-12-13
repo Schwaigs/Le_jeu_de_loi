@@ -229,19 +229,19 @@ class Personnage {
 
         //chaque caractéristique est choisit aléatoirement à l'aide des différentes fonctions
         $religion = $this->choixReligion();
-        echo'religion = '.$religion.'<br>';
+        //echo'religion = '.$religion.'<br>';
         $religionSucces = $result->bindValue(':religion',$religion, PDO::PARAM_STR);
 
         $nationnalite = $this->choixNationnalite();
-        echo'nationnalite = '.$nationnalite.'<br>';
+        //echo'nationnalite = '.$nationnalite.'<br>';
         $nationnaliteSucces = $result->bindValue(':nationnalite',$nationnalite, PDO::PARAM_STR);
 
         $sexe = $this->choixSexe();
-        echo'sexe = '.$sexe.'<br>';
+        //echo'sexe = '.$sexe.'<br>';
         $sexeSucces = $result->bindValue(':sexe',$sexe, PDO::PARAM_STR);
 
         $richesse = $this->choixRichesse();
-        echo'richesse = '.$richesse.'<br>';
+        //echo'richesse = '.$richesse.'<br>';
         $richesseSucces = $result->bindValue(':richesse',$richesse, PDO::PARAM_INT);
 
         //Le choix du prénom se fait en fonction du sexe
@@ -253,14 +253,14 @@ class Personnage {
             $prenom = $this->choixPrenomFemme();
         }
         $prenomSucces = $result->bindValue(':prenom',$prenom, PDO::PARAM_STR);
-        echo'prenom = '.$prenom.'<br>';
+        //echo'prenom = '.$prenom.'<br>';
 
         $etatSante = $this->choixEtatSante();
-        echo'etatSante = '.$etatSante.'<br>';
+        //echo'etatSante = '.$etatSante.'<br>';
         $etatSanteSucces = $result->bindValue(':etatSante',$etatSante, PDO::PARAM_STR);
 
         $affinite = $this->choixAffinite();
-        echo'affinite = '.$affinite.'<br>';
+        //echo'affinite = '.$affinite.'<br>';
         $affiniteSucces = $result->bindValue(':affinite',$affinite, PDO::PARAM_STR);
 
         $parent = $this->choixParent();
@@ -269,11 +269,11 @@ class Personnage {
             $_SESSION['message'] = "Aucun membre de votre famille ne peut avoir d'enfant actuellement";
             return 0;
         }
-        echo'parent = '.$parent.'<br>';
+        //echo'parent = '.$parent.'<br>';
         $parentSucces = $result->bindValue(':parent',$parent, PDO::PARAM_INT);
 
         $ordreNaissance = $this->chercherOrdreNaissance($parent);
-        echo'ordreNaissance = '.$ordreNaissance.'<br>';
+        //echo'ordreNaissance = '.$ordreNaissance.'<br>';
         $ordreNaissanceSucces = $result->bindValue(':ordreNaissance',$ordreNaissance, PDO::PARAM_INT);
 
         $result->execute();

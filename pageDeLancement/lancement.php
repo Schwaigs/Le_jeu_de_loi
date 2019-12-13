@@ -28,7 +28,7 @@
       /*
       * \var année est une variable de session qui contient l'année courante dans le jeu.
       */
-      $_SESSION['annee'] = 1500;
+      $_SESSION['annee'] = 1700;
   }
 
   if (!isset($_SESSION['idCarac'])){
@@ -164,7 +164,7 @@
            <div class="tree">
              <!-- Remplissage par la page de l'abre généalogique créé à part -->
              <?php
-                 include '../pagesPHP/arbreGenealogique.php';
+              // include '../pagesPHP/arbreGenealogique.php';
                  if (!isset($_GET['refresh'])){
                   /*
                   * \var refresh est une variable de session qui permet de rafraichir la page lors de chaque action.

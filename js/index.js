@@ -9,10 +9,10 @@
    //   document.getElementById("bandeauLoiDepl").style.height = "0%";
    // }
 
-   document.getElementById("arbreDepl").style.width = "66%";
+   window.open("../pagesPHP/arbreGenealogique.php");
  }
 
  /* Close when someone clicks on the "x" symbol inside the overlay */
  function fermeArbre() {
-   document.getElementById("arbreDepl").style.width = "0%";
+
  }

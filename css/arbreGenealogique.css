@@ -3,9 +3,9 @@
 .tree ul {
     padding-top: 20px; /*décale le haut de l'arbre pour pas qu'il soit collé en haut de la fenêtre*/
     position: relative; /*le décalage n'est pas fixe*/
-	transition: all 0.5s; 
+	transition: all 0.5s;
 	-webkit-transition: all 0.5s;
-	-moz-transition: all 0.5s; 
+	-moz-transition: all 0.5s;
 }
 
 .tree li {
@@ -14,14 +14,14 @@
 	list-style-type: none; /*pas de puces devants nos elements de liste*/
 	position: relative;
 	padding: 20px 5px 0 5px;
-	
+
 	transition: all 0.5s;
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
 }
 
 /* création des traits horizontaux à gauche (before) et à droite (after)*/
-.tree li::before, .tree li::after{ 
+.tree li::before, .tree li::after{
 	content: '';
 	position: absolute; top: 0; right: 50%;
 	border-top: 1px solid black; /*couleur de la ligne*/
@@ -29,7 +29,7 @@
 }
 
 /*création des traits verticaux*/
-.tree li::after{ 
+.tree li::after{
 	right: auto; left: 50%;
 	border-left: 1px solid black; /*couleur de la ligne*/
 }
@@ -75,11 +75,11 @@
 	font-family: arial, verdana, tahoma;
 	font-size: 11px;
 	display: inline-block; /*permet que les bordures des éléments se joigent correctement aux traits*/
-	
+
 	border-radius: 5px; /*arrondi les bors des éléments*/
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
-	
+
 	transition: all 0.5s;
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
@@ -115,4 +115,3 @@
 .tree li a:hover, .tree li a:hover, #roi:hover{
 	border: 0.3rem solid black; /*elargissement de la bordure et changement de sa couleur*/
 }
-
