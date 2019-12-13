@@ -136,10 +136,6 @@ class Loi {
         }
     }
 
-    /**
-    *\fn public function passerLoi() : void
-    * \brief Met à jour la jauge de l'ordre ayant une affinité avec roi actuel si le joueur choisit de ne pas agir sur les lois.
-    */
     public function passerLoi() : void {
         //On met à jour la jauge de l'ordre ayant une affinité avec roi actuel
         $affinite;
@@ -178,11 +174,10 @@ class Loi {
         include '../pagesDeTests/testMajHeritiers.php';
     }
 
-    /**
-    *\fn public function tourSuivantLois() : void
-    * \brief Lance les diférents tests et fonctions à effectuer à la suite d'un tour de jeu sur les lois.
-    */
     public function tourSuivantLois() : void {
+        //Remettre le compteur du délai avant de perdre
+        $_SESSION['delaisMortInit'] = false;
+
         //Puis on passe à la section suvante, 5 ans plus tard
         $_SESSION['annee'] = $_SESSION['annee'] +5;
         //On test si le joueur a gagné
@@ -225,13 +220,6 @@ class Loi {
         return $res;
     }
 
-    /**
-    *\fn public function majJaugesLois(int $noblesseChangement, int $clergeChangement, int $TeChangement) : void
-    * \brief Met à jour les jauges de relations avec les différents ordres en fonction de la loi qui a été mise en place ou abrogée.
-    * \pre noblesseChangement l'impact qu'a la loi sur la relation avec la noblesse.
-    * \pre clergeChangement l'impact qu'a la loi sur la relation avec le clerge.
-    * \pre TeChangement l'impact qu'a la loi sur la relation avec le tiers état.
-    */
     public function majJaugesLois(int $noblesseChangement, int $clergeChangement, int $TeChangement) : void{
         //Chaque ordre gagne ou perd de la satisafction au pouvoir
         $nouveauScoreNoblesse= $_SESSION['noblesse'] + $noblesseChangement;
