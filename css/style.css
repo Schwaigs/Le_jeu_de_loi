@@ -137,8 +137,10 @@ main {
 
 						 .goal-bar {
 							  position: relative;
-							  height: 100%;
-							  padding-left: 1rem;
+								padding-right: 2.5rem;
+								padding-left: 2.5rem;
+								padding-top: 0.8rem;
+								height: 80%;
 							}
 
 						 .bar-wrap {
@@ -154,7 +156,7 @@ main {
 							  position: absolute;
 							  width: 100%;
 							  height: 100%;
-							  background: rgb(193, 232, 139);
+							  background: rgb(100, 100, 100);
 							  transform: translateY(100%);
 							  transition: all 0.2s;
 							}
@@ -163,6 +165,19 @@ main {
 							  position: relative;
 							  margin: 0.7rem;
 							}
+
+			#jaugeUne > .bar-container {
+				background-image: url("../images/Banniere_noblesse.png");
+				background-size: 100% 100%;	
+			}
+			#jaugeDeux > .bar-container {
+				background-image: url("../images/Banniere_clerge.png");
+				background-size: 100% 100%;
+			}
+			#jaugeTrois > .bar-container {
+				background-image: url("../images/Banniere_tiersEtat.png");
+				background-size: 100% 100%;
+			}
 
 
 		 /************************
@@ -275,7 +290,7 @@ main {
 		cursor: pointer;
 		background-image: url("../images/Bouton_arbre_survol.png");
 	}
- 
+
  /************************
   * Encart personnage/carac
   ************************/
