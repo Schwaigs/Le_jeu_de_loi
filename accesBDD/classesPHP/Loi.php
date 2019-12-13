@@ -183,6 +183,9 @@ class Loi {
     * \brief Lance les diférents tests et fonctions à effectuer à la suite d'un tour de jeu sur les lois.
     */
     public function tourSuivantLois() : void {
+        //Remettre le compteur du délai avant de perdre
+        $_SESSION['delaisMortInit'] = false;
+
         //Puis on passe à la section suvante, 5 ans plus tard
         $_SESSION['annee'] = $_SESSION['annee'] +5;
         //On test si le joueur a gagné
