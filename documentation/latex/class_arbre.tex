@@ -1,0 +1,102 @@
+\hypertarget{class_arbre}{}\doxysection{Arbre Class Reference}
+\label{class_arbre}\index{Arbre@{Arbre}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_arbre_a86c7957e2a1a8d2b11fe51800a28e2cc}{tri\+Par\+Fratrie}} (array \$tab\+Perso\+Parents)
+\begin{DoxyCompactList}\small\item\em Tri nos personnages sous formes de frateries en regroupant les enfants d\textquotesingle{}un même parent. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_arbre_a7bed7ee905fdebd5715edd14b2c1cc90}{remplissage\+Arbre}} (int \$id\+Parent, array \$table\+Parent\+Enfants)
+\begin{DoxyCompactList}\small\item\em Créer une sous partie de l\textquotesingle{}arbre généalogique en forme de liste H\+T\+ML. On ajoute à l\textquotesingle{}arbre tout les enfants d\textquotesingle{}un parent donné. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_arbre_a65211578c42a42ef9791ff6baed03f78}{cherche\+Classe\+Perso}} (int \$id)
+\begin{DoxyCompactList}\small\item\em Cherche dans la bdd la classe d\textquotesingle{}un personnage donné pour lui faire correspondre la bonne couleur sur l\textquotesingle{}arbre généalogique. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_arbre_a22ed424b44fa6d5977d1a18085f4113d}{cherche\+Sexe\+Perso}} (int \$id)
+\begin{DoxyCompactList}\small\item\em Cherche dans la bdd le sexe d\textquotesingle{}un personnage donné pour lui faire correspondre la bonne image sur l\textquotesingle{}arbre généalogique. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_arbre_ab6edfc88c2fe1b50a6e801f9c5a95caa}{cherche\+Perso\+Arbre}} ()
+\begin{DoxyCompactList}\small\item\em Cherche dans la bdd tout les personnages devant figurer sur l\textquotesingle{}arbre généalogique. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_arbre_ac6c0ae656e45f5c6d7b73a469c294b77}\label{class_arbre_ac6c0ae656e45f5c6d7b73a469c294b77}} 
+\mbox{\hyperlink{class_arbre_ac6c0ae656e45f5c6d7b73a469c294b77}{init\+Arbre}} ()
+\begin{DoxyCompactList}\small\item\em Créer l\textquotesingle{}arbre généalogique sous forme de liste en H\+T\+ML. Initialise la racine puis lance la création de chaque fraterie de manière récursive. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_arbre_a65211578c42a42ef9791ff6baed03f78}\label{class_arbre_a65211578c42a42ef9791ff6baed03f78}} 
+\index{Arbre@{Arbre}!chercheClassePerso@{chercheClassePerso}}
+\index{chercheClassePerso@{chercheClassePerso}!Arbre@{Arbre}}
+\doxysubsubsection{\texorpdfstring{chercheClassePerso()}{chercheClassePerso()}}
+{\footnotesize\ttfamily public function cherche\+Classe\+Perso (\begin{DoxyParamCaption}\item[{int}]{\$id }\end{DoxyParamCaption})}
+
+
+
+Cherche dans la bdd la classe d\textquotesingle{}un personnage donné pour lui faire correspondre la bonne couleur sur l\textquotesingle{}arbre généalogique. 
+
+\begin{DoxyPrecond}{Precondition}
+id contient l\textquotesingle{}id du personnage dont on souhaite connaitre la classe. 
+\end{DoxyPrecond}
+\begin{DoxyReturn}{Returns}
+Revoie la classe du personnage sous forme de chaine de caractères. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_arbre_ab6edfc88c2fe1b50a6e801f9c5a95caa}\label{class_arbre_ab6edfc88c2fe1b50a6e801f9c5a95caa}} 
+\index{Arbre@{Arbre}!cherchePersoArbre@{cherchePersoArbre}}
+\index{cherchePersoArbre@{cherchePersoArbre}!Arbre@{Arbre}}
+\doxysubsubsection{\texorpdfstring{cherchePersoArbre()}{cherchePersoArbre()}}
+{\footnotesize\ttfamily public function cherche\+Perso\+Arbre (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Cherche dans la bdd tout les personnages devant figurer sur l\textquotesingle{}arbre généalogique. 
+
+\begin{DoxyReturn}{Returns}
+Revoie un tableau trié de tous les personnages à afficher. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_arbre_a22ed424b44fa6d5977d1a18085f4113d}\label{class_arbre_a22ed424b44fa6d5977d1a18085f4113d}} 
+\index{Arbre@{Arbre}!chercheSexePerso@{chercheSexePerso}}
+\index{chercheSexePerso@{chercheSexePerso}!Arbre@{Arbre}}
+\doxysubsubsection{\texorpdfstring{chercheSexePerso()}{chercheSexePerso()}}
+{\footnotesize\ttfamily public function cherche\+Sexe\+Perso (\begin{DoxyParamCaption}\item[{int}]{\$id }\end{DoxyParamCaption})}
+
+
+
+Cherche dans la bdd le sexe d\textquotesingle{}un personnage donné pour lui faire correspondre la bonne image sur l\textquotesingle{}arbre généalogique. 
+
+\begin{DoxyPrecond}{Precondition}
+id contient l\textquotesingle{}id du personnage dont on souhaite connaitre le sexe. 
+\end{DoxyPrecond}
+\begin{DoxyReturn}{Returns}
+Revoie le sexe du personnage sous forme de chaine de charactères. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_arbre_a7bed7ee905fdebd5715edd14b2c1cc90}\label{class_arbre_a7bed7ee905fdebd5715edd14b2c1cc90}} 
+\index{Arbre@{Arbre}!remplissageArbre@{remplissageArbre}}
+\index{remplissageArbre@{remplissageArbre}!Arbre@{Arbre}}
+\doxysubsubsection{\texorpdfstring{remplissageArbre()}{remplissageArbre()}}
+{\footnotesize\ttfamily public function remplissage\+Arbre (\begin{DoxyParamCaption}\item[{int}]{\$id\+Parent,  }\item[{array}]{\$table\+Parent\+Enfants }\end{DoxyParamCaption})}
+
+
+
+Créer une sous partie de l\textquotesingle{}arbre généalogique en forme de liste H\+T\+ML. On ajoute à l\textquotesingle{}arbre tout les enfants d\textquotesingle{}un parent donné. 
+
+\begin{DoxyPrecond}{Precondition}
+id\+Parent contient l\textquotesingle{}id d\textquotesingle{}un personnage. 
+
+table\+Parent\+Enfants contient en clé un parent, en valeur un tableau contenant son propre id puis ceux de ses enfants. 
+\end{DoxyPrecond}
+\mbox{\Hypertarget{class_arbre_a86c7957e2a1a8d2b11fe51800a28e2cc}\label{class_arbre_a86c7957e2a1a8d2b11fe51800a28e2cc}} 
+\index{Arbre@{Arbre}!triParFratrie@{triParFratrie}}
+\index{triParFratrie@{triParFratrie}!Arbre@{Arbre}}
+\doxysubsubsection{\texorpdfstring{triParFratrie()}{triParFratrie()}}
+{\footnotesize\ttfamily public function tri\+Par\+Fratrie (\begin{DoxyParamCaption}\item[{array}]{\$tab\+Perso\+Parents }\end{DoxyParamCaption})}
+
+
+
+Tri nos personnages sous formes de frateries en regroupant les enfants d\textquotesingle{}un même parent. 
+
+\begin{DoxyPrecond}{Precondition}
+tab\+Perso\+Parents contient en clé l\textquotesingle{}id d\textquotesingle{}un personnage et en valeur celui de son parent. 
+\end{DoxyPrecond}
+\begin{DoxyReturn}{Returns}
+Renvoie un tableau de tableaux. En clé un parent, en valeur un tableau contenant son propre id puis ceux de ses enfants. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/sarah/\+One\+Drive/\+Documents/études/dut/semestre 3/\+T3/\+T3\+\_\+sources/\+T3\+\_\+pour\+\_\+doc/acces\+B\+D\+D/classes\+P\+H\+P/Arbre.\+php\end{DoxyCompactItemize}

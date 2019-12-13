@@ -313,7 +313,7 @@ class Heritage {
 
     /**
     *\fn public function choisiRoi () : int
-    * \brief Cherche l'héritier le plus légitime et le fait devenir roi.
+    * \brief Cherche l'héritier le plus légitime et le fait devenir roi.  Puis met à jours les jauges ainsi que les nouveaux héritiers.
     * \return Renvoie l'identifant du nouveau roi.
     */
     public function choisiRoi () : int {
@@ -429,6 +429,10 @@ class Heritage {
         }
     }
 
+    /**
+    *\fn public function majHeritiersSansJauges() : void
+    * \brief Met à jour les héritiers mais pas les relations afin d'éviter un doublon.
+    */
     public function majHeritiersSansJauges() : void {
         /*On compte le nombre d'héritier possible */
         $heritiers = $this->chercherHeritiers();

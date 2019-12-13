@@ -1,0 +1,199 @@
+\hypertarget{class_personnage}{}\doxysection{Personnage Class Reference}
+\label{class_personnage}\index{Personnage@{Personnage}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_personnage_a3868e1bd162f33bb167d8f9f33c4b504}{choix\+Religion}} ()
+\begin{DoxyCompactList}\small\item\em Choisit aléatoirement une religion pour la creation d\textquotesingle{}un personnage selon différentes probabilitées. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_personnage_a90e324afac731d9f710b024095d2a5e9}{choix\+Prenom\+Femme}} ()
+\begin{DoxyCompactList}\small\item\em Choisit aléatoirement un prénom féminin pour la creation d\textquotesingle{}un personnage selon différentes probabilitées. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_personnage_ac1b9bb0dcd6b79387053a66150e999dd}{choix\+Prenom\+Homme}} ()
+\begin{DoxyCompactList}\small\item\em Choisit aléatoirement un prénom masculin pour la creation d\textquotesingle{}un personnage selon différentes probabilitées. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_personnage_ad38138bd16c1a809bb22604f444bd1b4}{choix\+Nationnalite}} ()
+\begin{DoxyCompactList}\small\item\em Choisit aléatoirement une nationnalité pour la creation d\textquotesingle{}un personnage selon différentes probabilitées. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_personnage_a9e04867fff14e940d83628e0962b6074}{chercher\+Ordre\+Naissance}} (int \$parent)
+\begin{DoxyCompactList}\small\item\em Cherche combientième de sa fraterie est le nouveau personnage. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_personnage_a16cb1afb473812bafdf2aa808b5a4975}{choix\+Sexe}} ()
+\begin{DoxyCompactList}\small\item\em Choisit aléatoirement un sexe pour la creation d\textquotesingle{}un personnage. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_personnage_a5fc2c2a4c67f3c68398bdb226f3fdea4}{choix\+Richesse}} ()
+\begin{DoxyCompactList}\small\item\em Choisit aléatoirement un niveau de richesse faible ou élevé pour la creation d\textquotesingle{}un personnage. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_personnage_aed60d59077b50f17442d95c0610ba8cb}{choix\+Etat\+Sante}} ()
+\begin{DoxyCompactList}\small\item\em Choisit aléatoirement un état de santé pour la creation d\textquotesingle{}un personnage selon différentes probabilitées. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_personnage_aae565e13c9299963216c4ca386c3814c}{choix\+Affinite}} ()
+\begin{DoxyCompactList}\small\item\em Choisit aléatoirement une affinité avec l\textquotesingle{}un des 3 ordres pour la creation d\textquotesingle{}un personnage selon différentes probabilitées. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_personnage_aef0f10beacc7a7b74ddc285f5b78bff1}{choix\+Parent}} ()
+\begin{DoxyCompactList}\small\item\em Choisit aléatoirement un parent pour la creation d\textquotesingle{}un personnage. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_personnage_a2b0620cb323542c9c5cbc448aafaae5f}{creer\+Personnage}} ()
+\begin{DoxyCompactList}\small\item\em Creer un nouveau personnage dans la famille à l\textquotesingle{}aide de caractéristiques aléatoires. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_personnage_a9a9a46127d76207c21f5eaf31b9f1bc2}\label{class_personnage_a9a9a46127d76207c21f5eaf31b9f1bc2}} 
+\mbox{\hyperlink{class_personnage_a9a9a46127d76207c21f5eaf31b9f1bc2}{vieillir\+Perso}} ()
+\begin{DoxyCompactList}\small\item\em Les personnages encore en vie viellissent après chaque tour de jeu. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_personnage_a96a6d0098b15e5de7f0213d064843ba3}{mort\+Perso}} ()
+\begin{DoxyCompactList}\small\item\em Fait mourir des personnages de la famille de manière aléatoire. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_personnage_a9e04867fff14e940d83628e0962b6074}\label{class_personnage_a9e04867fff14e940d83628e0962b6074}} 
+\index{Personnage@{Personnage}!chercherOrdreNaissance@{chercherOrdreNaissance}}
+\index{chercherOrdreNaissance@{chercherOrdreNaissance}!Personnage@{Personnage}}
+\doxysubsubsection{\texorpdfstring{chercherOrdreNaissance()}{chercherOrdreNaissance()}}
+{\footnotesize\ttfamily public function chercher\+Ordre\+Naissance (\begin{DoxyParamCaption}\item[{int}]{\$parent }\end{DoxyParamCaption})}
+
+
+
+Cherche combientième de sa fraterie est le nouveau personnage. 
+
+\begin{DoxyPrecond}{Precondition}
+parent contient l\textquotesingle{}identifiant du parent du nouveau personnage. 
+\end{DoxyPrecond}
+\begin{DoxyReturn}{Returns}
+Renvoie sa position dans la fraterie 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_personnage_aae565e13c9299963216c4ca386c3814c}\label{class_personnage_aae565e13c9299963216c4ca386c3814c}} 
+\index{Personnage@{Personnage}!choixAffinite@{choixAffinite}}
+\index{choixAffinite@{choixAffinite}!Personnage@{Personnage}}
+\doxysubsubsection{\texorpdfstring{choixAffinite()}{choixAffinite()}}
+{\footnotesize\ttfamily public function choix\+Affinite (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Choisit aléatoirement une affinité avec l\textquotesingle{}un des 3 ordres pour la creation d\textquotesingle{}un personnage selon différentes probabilitées. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie l\textquotesingle{}affinité sous forme de chaine de caractères. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_personnage_aed60d59077b50f17442d95c0610ba8cb}\label{class_personnage_aed60d59077b50f17442d95c0610ba8cb}} 
+\index{Personnage@{Personnage}!choixEtatSante@{choixEtatSante}}
+\index{choixEtatSante@{choixEtatSante}!Personnage@{Personnage}}
+\doxysubsubsection{\texorpdfstring{choixEtatSante()}{choixEtatSante()}}
+{\footnotesize\ttfamily public function choix\+Etat\+Sante (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Choisit aléatoirement un état de santé pour la creation d\textquotesingle{}un personnage selon différentes probabilitées. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie l\textquotesingle{}état de santé sous forme de chaine de caractères. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_personnage_ad38138bd16c1a809bb22604f444bd1b4}\label{class_personnage_ad38138bd16c1a809bb22604f444bd1b4}} 
+\index{Personnage@{Personnage}!choixNationnalite@{choixNationnalite}}
+\index{choixNationnalite@{choixNationnalite}!Personnage@{Personnage}}
+\doxysubsubsection{\texorpdfstring{choixNationnalite()}{choixNationnalite()}}
+{\footnotesize\ttfamily public function choix\+Nationnalite (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Choisit aléatoirement une nationnalité pour la creation d\textquotesingle{}un personnage selon différentes probabilitées. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie la nationnalité sous forme de chaine de caractères. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_personnage_aef0f10beacc7a7b74ddc285f5b78bff1}\label{class_personnage_aef0f10beacc7a7b74ddc285f5b78bff1}} 
+\index{Personnage@{Personnage}!choixParent@{choixParent}}
+\index{choixParent@{choixParent}!Personnage@{Personnage}}
+\doxysubsubsection{\texorpdfstring{choixParent()}{choixParent()}}
+{\footnotesize\ttfamily public function choix\+Parent (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Choisit aléatoirement un parent pour la creation d\textquotesingle{}un personnage. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie l\textquotesingle{}identifiant du parent. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_personnage_a90e324afac731d9f710b024095d2a5e9}\label{class_personnage_a90e324afac731d9f710b024095d2a5e9}} 
+\index{Personnage@{Personnage}!choixPrenomFemme@{choixPrenomFemme}}
+\index{choixPrenomFemme@{choixPrenomFemme}!Personnage@{Personnage}}
+\doxysubsubsection{\texorpdfstring{choixPrenomFemme()}{choixPrenomFemme()}}
+{\footnotesize\ttfamily public function choix\+Prenom\+Femme (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Choisit aléatoirement un prénom féminin pour la creation d\textquotesingle{}un personnage selon différentes probabilitées. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie le prénom sous forme de chaine de caractères. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_personnage_ac1b9bb0dcd6b79387053a66150e999dd}\label{class_personnage_ac1b9bb0dcd6b79387053a66150e999dd}} 
+\index{Personnage@{Personnage}!choixPrenomHomme@{choixPrenomHomme}}
+\index{choixPrenomHomme@{choixPrenomHomme}!Personnage@{Personnage}}
+\doxysubsubsection{\texorpdfstring{choixPrenomHomme()}{choixPrenomHomme()}}
+{\footnotesize\ttfamily public function choix\+Prenom\+Homme (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Choisit aléatoirement un prénom masculin pour la creation d\textquotesingle{}un personnage selon différentes probabilitées. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie le prénom sous forme de chaine de caractères. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_personnage_a3868e1bd162f33bb167d8f9f33c4b504}\label{class_personnage_a3868e1bd162f33bb167d8f9f33c4b504}} 
+\index{Personnage@{Personnage}!choixReligion@{choixReligion}}
+\index{choixReligion@{choixReligion}!Personnage@{Personnage}}
+\doxysubsubsection{\texorpdfstring{choixReligion()}{choixReligion()}}
+{\footnotesize\ttfamily public function choix\+Religion (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Choisit aléatoirement une religion pour la creation d\textquotesingle{}un personnage selon différentes probabilitées. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie la religion sous forme de chaine de caractères. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_personnage_a5fc2c2a4c67f3c68398bdb226f3fdea4}\label{class_personnage_a5fc2c2a4c67f3c68398bdb226f3fdea4}} 
+\index{Personnage@{Personnage}!choixRichesse@{choixRichesse}}
+\index{choixRichesse@{choixRichesse}!Personnage@{Personnage}}
+\doxysubsubsection{\texorpdfstring{choixRichesse()}{choixRichesse()}}
+{\footnotesize\ttfamily public function choix\+Richesse (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Choisit aléatoirement un niveau de richesse faible ou élevé pour la creation d\textquotesingle{}un personnage. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie la richesse sous forme d\textquotesingle{}entier. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_personnage_a16cb1afb473812bafdf2aa808b5a4975}\label{class_personnage_a16cb1afb473812bafdf2aa808b5a4975}} 
+\index{Personnage@{Personnage}!choixSexe@{choixSexe}}
+\index{choixSexe@{choixSexe}!Personnage@{Personnage}}
+\doxysubsubsection{\texorpdfstring{choixSexe()}{choixSexe()}}
+{\footnotesize\ttfamily public function choix\+Sexe (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Choisit aléatoirement un sexe pour la creation d\textquotesingle{}un personnage. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie le sexe sous forme de chaine de caractères. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_personnage_a2b0620cb323542c9c5cbc448aafaae5f}\label{class_personnage_a2b0620cb323542c9c5cbc448aafaae5f}} 
+\index{Personnage@{Personnage}!creerPersonnage@{creerPersonnage}}
+\index{creerPersonnage@{creerPersonnage}!Personnage@{Personnage}}
+\doxysubsubsection{\texorpdfstring{creerPersonnage()}{creerPersonnage()}}
+{\footnotesize\ttfamily public function creer\+Personnage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Creer un nouveau personnage dans la famille à l\textquotesingle{}aide de caractéristiques aléatoires. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie le nombre de lignes modifiées dans la base. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_personnage_a96a6d0098b15e5de7f0213d064843ba3}\label{class_personnage_a96a6d0098b15e5de7f0213d064843ba3}} 
+\index{Personnage@{Personnage}!mortPerso@{mortPerso}}
+\index{mortPerso@{mortPerso}!Personnage@{Personnage}}
+\doxysubsubsection{\texorpdfstring{mortPerso()}{mortPerso()}}
+{\footnotesize\ttfamily public function mort\+Perso (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Fait mourir des personnages de la famille de manière aléatoire. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie le nombre de morts. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/sarah/\+One\+Drive/\+Documents/études/dut/semestre 3/\+T3/\+T3\+\_\+sources/\+T3\+\_\+pour\+\_\+doc/acces\+B\+D\+D/classes\+P\+H\+P/Personnage.\+php\end{DoxyCompactItemize}

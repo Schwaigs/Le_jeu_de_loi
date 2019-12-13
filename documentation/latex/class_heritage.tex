@@ -1,0 +1,179 @@
+\hypertarget{class_heritage}{}\doxysection{Heritage Class Reference}
+\label{class_heritage}\index{Heritage@{Heritage}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_heritage_a36fad0297d68719d1dc95851344865a5}{cherche\+Plus\+Age\+Jeune}} (array \$personnages, int \$loi\+Ordre\+Naissance)
+\begin{DoxyCompactList}\small\item\em Cherche le personnage le plus agé ou le plus jeune d\textquotesingle{}une fraterie selon la loi sur l\textquotesingle{}odre de naissance qui est mise en place. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_heritage_a03b14c128fbb0de71544b1836d1a3313}{choisi\+Ordre\+Naissance\+Heritiers}} (array \$heritiers, int \$loi\+Ordre\+Naissance)
+\begin{DoxyCompactList}\small\item\em Cherche les personnages des différentes frateries qui correspondent selon la loi sur l\textquotesingle{}odre de naissance qui est mise en place. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_heritage_acce38ffec77018a061a981628245be7e}{chercher\+Heritiers\+Lois}} ()
+\begin{DoxyCompactList}\small\item\em Cherche les personnages qui sont héritiers en comparant leurs caractéristiques aux lois mises en place. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_heritage_abc5b64ddb98dd5fd4542738fa3ea809a}{chercher\+Heritiers}} ()
+\begin{DoxyCompactList}\small\item\em Cherche les héritiers ayant le lien de parenté le plus proche avec le roi. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_heritage_a0a93677fcbd919d83e195960b0962995}{classe\+Perso\+Heritier}} (array \$heritiers)
+\begin{DoxyCompactList}\small\item\em Met à jour dans la base la classe des personnages qui sont des héritiers. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_heritage_a67b918061e3f32f3d8accba2be0972b8}{classe\+Perso\+Non\+Heritier}} (array \$heritiers)
+\begin{DoxyCompactList}\small\item\em Met à jour dans la base la classe des personnages qui ne sont pas des héritiers. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_heritage_aaa5cb272cc2c5109ea6a084d458ca721}{choisi\+Roi}} ()
+\begin{DoxyCompactList}\small\item\em Cherche l\textquotesingle{}héritier le plus légitime et le fait devenir roi. Puis met à jours les jauges ainsi que les nouveaux héritiers. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_heritage_a18c01561535a69bfd1a58e9eba0a6d5c}\label{class_heritage_a18c01561535a69bfd1a58e9eba0a6d5c}} 
+\mbox{\hyperlink{class_heritage_a18c01561535a69bfd1a58e9eba0a6d5c}{maj\+Heritiers}} ()
+\begin{DoxyCompactList}\small\item\em Met à jour les héritiers et les relations suite à un tour de jeu. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_heritage_a0f412750585b224aa58f4b8155329d62}\label{class_heritage_a0f412750585b224aa58f4b8155329d62}} 
+\mbox{\hyperlink{class_heritage_a0f412750585b224aa58f4b8155329d62}{maj\+Heritiers\+Sans\+Jauges}} ()
+\begin{DoxyCompactList}\small\item\em Met à jour les héritiers mais pas les relations afin d\textquotesingle{}éviter un doublon. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_heritage_a326a43370580d95aed4b72510e33e0a4}{maj\+Jauges}} (int \$id\+Roi)
+\begin{DoxyCompactList}\small\item\em Met à jour les jauges de relations avec les différents ordres en fonction de l\textquotesingle{}héritier le plus légitime ou du nouveau roi. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_heritage_a7e19797df085577b7f6d5a296316d373}{meilleur\+Sante}} (array \$heritiers)
+\begin{DoxyCompactList}\small\item\em Cherche l\textquotesingle{}héritier qui a le meilleur état de santé \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_heritage_ae4355e855bb0674604dbf22766667069}{meilleur\+Sante\+Liste}} (array \$heritiers)
+\begin{DoxyCompactList}\small\item\em Cherche les heritiers qui ont le meilleur état de santé \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_heritage_a36fad0297d68719d1dc95851344865a5}\label{class_heritage_a36fad0297d68719d1dc95851344865a5}} 
+\index{Heritage@{Heritage}!cherchePlusAgeJeune@{cherchePlusAgeJeune}}
+\index{cherchePlusAgeJeune@{cherchePlusAgeJeune}!Heritage@{Heritage}}
+\doxysubsubsection{\texorpdfstring{cherchePlusAgeJeune()}{cherchePlusAgeJeune()}}
+{\footnotesize\ttfamily public function cherche\+Plus\+Age\+Jeune (\begin{DoxyParamCaption}\item[{array}]{\$personnages,  }\item[{int}]{\$loi\+Ordre\+Naissance }\end{DoxyParamCaption})}
+
+
+
+Cherche le personnage le plus agé ou le plus jeune d\textquotesingle{}une fraterie selon la loi sur l\textquotesingle{}odre de naissance qui est mise en place. 
+
+\begin{DoxyPrecond}{Precondition}
+personnages contient les frères et soeurs d\textquotesingle{}une même fraterie. 
+
+loi\+Ordre\+Naissance permet d\textquotesingle{}identifier la loi sur l\textquotesingle{}ordre de naissance. 0 pour l\textquotesingle{}ultimogéniture et 1 pour la primogéniture. 
+\end{DoxyPrecond}
+\begin{DoxyReturn}{Returns}
+Renvoie l\textquotesingle{}identifiant du personnage qui correspond à la loi pour cette fraterie. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_heritage_abc5b64ddb98dd5fd4542738fa3ea809a}\label{class_heritage_abc5b64ddb98dd5fd4542738fa3ea809a}} 
+\index{Heritage@{Heritage}!chercherHeritiers@{chercherHeritiers}}
+\index{chercherHeritiers@{chercherHeritiers}!Heritage@{Heritage}}
+\doxysubsubsection{\texorpdfstring{chercherHeritiers()}{chercherHeritiers()}}
+{\footnotesize\ttfamily public function chercher\+Heritiers (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Cherche les héritiers ayant le lien de parenté le plus proche avec le roi. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie un tableau avec pour valeurs les identifiants des héritiers. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_heritage_acce38ffec77018a061a981628245be7e}\label{class_heritage_acce38ffec77018a061a981628245be7e}} 
+\index{Heritage@{Heritage}!chercherHeritiersLois@{chercherHeritiersLois}}
+\index{chercherHeritiersLois@{chercherHeritiersLois}!Heritage@{Heritage}}
+\doxysubsubsection{\texorpdfstring{chercherHeritiersLois()}{chercherHeritiersLois()}}
+{\footnotesize\ttfamily public function chercher\+Heritiers\+Lois (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Cherche les personnages qui sont héritiers en comparant leurs caractéristiques aux lois mises en place. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie un tableau avec pour clé l\textquotesingle{}identifiant du personnages et en valeur l\textquotesingle{}identifiant de son parent. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_heritage_a03b14c128fbb0de71544b1836d1a3313}\label{class_heritage_a03b14c128fbb0de71544b1836d1a3313}} 
+\index{Heritage@{Heritage}!choisiOrdreNaissanceHeritiers@{choisiOrdreNaissanceHeritiers}}
+\index{choisiOrdreNaissanceHeritiers@{choisiOrdreNaissanceHeritiers}!Heritage@{Heritage}}
+\doxysubsubsection{\texorpdfstring{choisiOrdreNaissanceHeritiers()}{choisiOrdreNaissanceHeritiers()}}
+{\footnotesize\ttfamily public function choisi\+Ordre\+Naissance\+Heritiers (\begin{DoxyParamCaption}\item[{array}]{\$heritiers,  }\item[{int}]{\$loi\+Ordre\+Naissance }\end{DoxyParamCaption})}
+
+
+
+Cherche les personnages des différentes frateries qui correspondent selon la loi sur l\textquotesingle{}odre de naissance qui est mise en place. 
+
+\begin{DoxyPrecond}{Precondition}
+heritiers contient la liste de tout les héritiers possibles dans la famille. 
+
+loi\+Ordre\+Naissance permet d\textquotesingle{}identifier la loi sur l\textquotesingle{}ordre de naissance. 0 pour l\textquotesingle{}ultimogéniture et 1 pour la primogéniture. 
+\end{DoxyPrecond}
+\begin{DoxyReturn}{Returns}
+Renvoie un tableau avec pour clé l\textquotesingle{}identifiant des personnages qui correspondent à la loi et en valeur l\textquotesingle{}id de leur parent. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_heritage_aaa5cb272cc2c5109ea6a084d458ca721}\label{class_heritage_aaa5cb272cc2c5109ea6a084d458ca721}} 
+\index{Heritage@{Heritage}!choisiRoi@{choisiRoi}}
+\index{choisiRoi@{choisiRoi}!Heritage@{Heritage}}
+\doxysubsubsection{\texorpdfstring{choisiRoi()}{choisiRoi()}}
+{\footnotesize\ttfamily public function choisi\+Roi (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Cherche l\textquotesingle{}héritier le plus légitime et le fait devenir roi. Puis met à jours les jauges ainsi que les nouveaux héritiers. 
+
+\begin{DoxyReturn}{Returns}
+Renvoie l\textquotesingle{}identifant du nouveau roi. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_heritage_a0a93677fcbd919d83e195960b0962995}\label{class_heritage_a0a93677fcbd919d83e195960b0962995}} 
+\index{Heritage@{Heritage}!classePersoHeritier@{classePersoHeritier}}
+\index{classePersoHeritier@{classePersoHeritier}!Heritage@{Heritage}}
+\doxysubsubsection{\texorpdfstring{classePersoHeritier()}{classePersoHeritier()}}
+{\footnotesize\ttfamily public function classe\+Perso\+Heritier (\begin{DoxyParamCaption}\item[{array}]{\$heritiers }\end{DoxyParamCaption})}
+
+
+
+Met à jour dans la base la classe des personnages qui sont des héritiers. 
+
+\begin{DoxyPrecond}{Precondition}
+heritiers contient la liste de tout les héritiers possibles dans la famille. 
+\end{DoxyPrecond}
+\mbox{\Hypertarget{class_heritage_a67b918061e3f32f3d8accba2be0972b8}\label{class_heritage_a67b918061e3f32f3d8accba2be0972b8}} 
+\index{Heritage@{Heritage}!classePersoNonHeritier@{classePersoNonHeritier}}
+\index{classePersoNonHeritier@{classePersoNonHeritier}!Heritage@{Heritage}}
+\doxysubsubsection{\texorpdfstring{classePersoNonHeritier()}{classePersoNonHeritier()}}
+{\footnotesize\ttfamily public function classe\+Perso\+Non\+Heritier (\begin{DoxyParamCaption}\item[{array}]{\$heritiers }\end{DoxyParamCaption})}
+
+
+
+Met à jour dans la base la classe des personnages qui ne sont pas des héritiers. 
+
+\begin{DoxyPrecond}{Precondition}
+heritiers contient la liste de tout les héritiers possibles dans la famille. 
+\end{DoxyPrecond}
+\mbox{\Hypertarget{class_heritage_a326a43370580d95aed4b72510e33e0a4}\label{class_heritage_a326a43370580d95aed4b72510e33e0a4}} 
+\index{Heritage@{Heritage}!majJauges@{majJauges}}
+\index{majJauges@{majJauges}!Heritage@{Heritage}}
+\doxysubsubsection{\texorpdfstring{majJauges()}{majJauges()}}
+{\footnotesize\ttfamily public function maj\+Jauges (\begin{DoxyParamCaption}\item[{int}]{\$id\+Roi }\end{DoxyParamCaption})}
+
+
+
+Met à jour les jauges de relations avec les différents ordres en fonction de l\textquotesingle{}héritier le plus légitime ou du nouveau roi. 
+
+\begin{DoxyPrecond}{Precondition}
+id\+Roi l\textquotesingle{}identfiant de l\textquotesingle{}héritier le plus légitime ou le nouveau roi 
+\end{DoxyPrecond}
+\mbox{\Hypertarget{class_heritage_a7e19797df085577b7f6d5a296316d373}\label{class_heritage_a7e19797df085577b7f6d5a296316d373}} 
+\index{Heritage@{Heritage}!meilleurSante@{meilleurSante}}
+\index{meilleurSante@{meilleurSante}!Heritage@{Heritage}}
+\doxysubsubsection{\texorpdfstring{meilleurSante()}{meilleurSante()}}
+{\footnotesize\ttfamily public function meilleur\+Sante (\begin{DoxyParamCaption}\item[{array}]{\$heritiers }\end{DoxyParamCaption})}
+
+
+
+Cherche l\textquotesingle{}héritier qui a le meilleur état de santé 
+
+\begin{DoxyPrecond}{Precondition}
+heritiers contient la liste des héritiers possibles. 
+\end{DoxyPrecond}
+\mbox{\Hypertarget{class_heritage_ae4355e855bb0674604dbf22766667069}\label{class_heritage_ae4355e855bb0674604dbf22766667069}} 
+\index{Heritage@{Heritage}!meilleurSanteListe@{meilleurSanteListe}}
+\index{meilleurSanteListe@{meilleurSanteListe}!Heritage@{Heritage}}
+\doxysubsubsection{\texorpdfstring{meilleurSanteListe()}{meilleurSanteListe()}}
+{\footnotesize\ttfamily public function meilleur\+Sante\+Liste (\begin{DoxyParamCaption}\item[{array}]{\$heritiers }\end{DoxyParamCaption})}
+
+
+
+Cherche les heritiers qui ont le meilleur état de santé 
+
+\begin{DoxyPrecond}{Precondition}
+heritiers contient la liste des héritiers possibles. 
+\end{DoxyPrecond}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/sarah/\+One\+Drive/\+Documents/études/dut/semestre 3/\+T3/\+T3\+\_\+sources/\+T3\+\_\+pour\+\_\+doc/acces\+B\+D\+D/classes\+P\+H\+P/Heritage.\+php\end{DoxyCompactItemize}

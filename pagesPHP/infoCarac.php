@@ -2,7 +2,13 @@
 require_once '../accesBDD/classesPHP/Arbre.php';
 
 //Si le joueur a cliquer sur un des personnages on affiche ses caractéristiques
-if ($_SESSION['idCarac'] != -1){
+//On vérifie que le personnage est bien dans la table
+$result = MyPDO::pdo()->prepare("SELECT * FROM persoDe". $_SESSION['login'] ." WHERE id = :id");
+$idSucces = $result->bindValue(':id',$_SESSION['idCarac'], PDO::PARAM_INT);
+$result->execute();
+$nbLignes = $result->rowCount();
+
+if ($nbLignes == 1){
     //chercheCaracPerso() Cherche les différentes caractéristiques d'un personnage et les mets en forme.
     $carac = caracPerso($_SESSION['idCarac']);
     $sexe;
