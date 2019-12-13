@@ -63,7 +63,7 @@ Les derniers écrans de jeux possibles sont ceux de victoire et de défaite, en 
 **III - Lancement**
 
 Le jeu est facilement accessible à l'adresse web suivante : 
-→ https://webetu.iutrs.unistra.fr/~fgander/le_jeu_de_lois/pageDeLancement/lancement.php 
+→ https://webetu.iutrs.unistra.fr/~fgander/ProjetT/le_jeu_de_lois/pageDeLancement/acceuil.php
 
 Pour des questions de visibilité, sur certaines résolutions il est préférable de règler le zoom à 70%.
 
