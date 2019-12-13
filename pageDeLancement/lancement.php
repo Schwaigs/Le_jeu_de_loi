@@ -28,7 +28,7 @@
       /*
       * \var année est une variable de session qui contient l'année courante dans le jeu.
       */
-      $_SESSION['annee'] = 1730;
+      $_SESSION['annee'] = 1500;
   }
 
   if (!isset($_SESSION['idCarac'])){

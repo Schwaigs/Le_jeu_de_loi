@@ -152,13 +152,13 @@ class Loi {
         $nouveauScoreClerge= $_SESSION['clerge'];
         $nouveauScoreTE= $_SESSION['tiersEtat'];
         if($affinite == 'noblesse'){
-            $nouveauScoreNoblesse +=10;
+            $nouveauScoreNoblesse +=15;
         }
         elseif($affinite == 'tiers état'){
-            $nouveauScoreTE +=10;
+            $nouveauScoreTE +=15;
         }
         else{
-            $nouveauScoreClerge +=10;
+            $nouveauScoreClerge +=15;
         }
         //On remplace les jauges par les nouvelles valeurs et on verifie qu'on ne dépassse pas 100 qui est le max
         if($nouveauScoreClerge > 100){
@@ -185,7 +185,7 @@ class Loi {
     public function tourSuivantLois() : void {
         //Remettre le compteur du délai avant de perdre
         $_SESSION['delaisMortInit'] = false;
-
+        
         //Puis on passe à la section suvante, 5 ans plus tard
         $_SESSION['annee'] = $_SESSION['annee'] +5;
         //On test si le joueur a gagné
@@ -201,7 +201,7 @@ class Loi {
         $perso->vieillirPerso();
 
         //Chaque tour de jeu il y a des morts et une à 5 naissance(s)
-        $nbNaissance = rand(1,5);
+        $nbNaissance = rand(1,6);
         for ($i=0; $i < $nbNaissance; $i++) {
             $perso->creerPersonnage();
         }
