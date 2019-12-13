@@ -308,10 +308,10 @@ class Personnage {
         //En fonction de son état de santé et de son âge chaque personnage se voit attribué une certaine probabilité de mourir
         foreach ($result as $row){
             if ($row['age'] <5){
-                $probaMort = 40;
+                $probaMort = 20;
             }
             else if ($row['age'] >= 5  && $row['age'] < 30){
-                $probaMort = 15;
+                $probaMort = 12;
             }
             else if ($row['age'] >= 30  && $row['age'] < 60){
                 $probaMort = 40;
