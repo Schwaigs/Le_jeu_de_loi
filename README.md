@@ -73,7 +73,9 @@ Il n'y a aucune installation préalable à réaliser, il suffit juste de jouer !
 
 **IV - Réutilisation**
 
-Une archive du projet est disponible sur ce dépôt Git, elle regroupe les pages utilisées pour le projet.
+Une archive du projet est disponible en téléchargeant depuis Git le projet, elle regroupe les pages utilisées pour le projet.
+
+La documentation de ce projet se trouve [ici.](https://webetu.iutrs.unistra.fr/~fgander/ProjetT/le_jeu_de_lois/documentation/html/annotated.html) 
 
 Du côté de l'hébergement, nous avons utilisé celui fourni par l'IUT via webetu. 
 Afin de reproduire ce lien entre la base PHP MyAdmin et le serveur, il faut que votre page web soit héberger, voici un hébergeur que vous pouvez choisir : https://www.one.com. 
