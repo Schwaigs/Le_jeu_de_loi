@@ -195,7 +195,7 @@ class Personnage {
         //choisi aléatoirement un parent pour la creation d'un personnage
         //parmis les perso la bdd
         //on récupère les id de chaque parent potentiel
-       $resultParents = MyPDO::pdo()->prepare("SELECT id FROM persoDe". $_SESSION['login'] ." WHERE age < 50 AND age > 15 AND classe!='mort'");
+       $resultParents = MyPDO::pdo()->prepare("SELECT id FROM persoDe". $_SESSION['login'] ." WHERE age < 50 AND age > 9 AND classe!='mort'");
 
         $resultParents->execute();
         $nbLigne = $resultParents->rowCount();
@@ -225,23 +225,23 @@ class Personnage {
         /*On met null pour l'id car la base gère l'auto-incrémentation
          age toujours 0 vu qu'il s'agit de naissances
          la classe est nonHeritier car à la naissance il est trop jeune*/
-        $result = MyPDO::pdo()->prepare("INSERT INTO perso VALUES(null,:prenom,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,'heritier',:richesse,:affinite)");
+        $result = MyPDO::pdo()->prepare("INSERT INTO persoDe". $_SESSION['login'] ." VALUES(null,:prenom,:religion,:nationnalite,:ordreNaissance,0,:sexe,:etatSante,:parent,'heritier',:richesse,:affinite)");
 
         //chaque caractéristique est choisit aléatoirement à l'aide des différentes fonctions
         $religion = $this->choixReligion();
-        //echo'religion = '.$religion.'<br>';
+        echo'religion = '.$religion.'<br>';
         $religionSucces = $result->bindValue(':religion',$religion, PDO::PARAM_STR);
 
         $nationnalite = $this->choixNationnalite();
-        //echo'nationnalite = '.$nationnalite.'<br>';
+        echo'nationnalite = '.$nationnalite.'<br>';
         $nationnaliteSucces = $result->bindValue(':nationnalite',$nationnalite, PDO::PARAM_STR);
 
         $sexe = $this->choixSexe();
-        //echo'sexe = '.$sexe.'<br>';
+        echo'sexe = '.$sexe.'<br>';
         $sexeSucces = $result->bindValue(':sexe',$sexe, PDO::PARAM_STR);
 
         $richesse = $this->choixRichesse();
-        //echo'richesse = '.$richesse.'<br>';
+        echo'richesse = '.$richesse.'<br>';
         $richesseSucces = $result->bindValue(':richesse',$richesse, PDO::PARAM_INT);
 
         //Le choix du prénom se fait en fonction du sexe
@@ -253,14 +253,14 @@ class Personnage {
             $prenom = $this->choixPrenomFemme();
         }
         $prenomSucces = $result->bindValue(':prenom',$prenom, PDO::PARAM_STR);
-        //echo'prenom = '.$prenom.'<br>';
+        echo'prenom = '.$prenom.'<br>';
 
         $etatSante = $this->choixEtatSante();
-        //echo'etatSante = '.$etatSante.'<br>';
+        echo'etatSante = '.$etatSante.'<br>';
         $etatSanteSucces = $result->bindValue(':etatSante',$etatSante, PDO::PARAM_STR);
 
         $affinite = $this->choixAffinite();
-        //echo'affinite = '.$affinite.'<br>';
+        echo'affinite = '.$affinite.'<br>';
         $affiniteSucces = $result->bindValue(':affinite',$affinite, PDO::PARAM_STR);
 
         $parent = $this->choixParent();
@@ -269,11 +269,11 @@ class Personnage {
             $_SESSION['message'] = "Aucun membre de votre famille ne peut avoir d'enfant actuellement";
             return 0;
         }
-        //echo'parent = '.$parent.'<br>';
+        echo'parent = '.$parent.'<br>';
         $parentSucces = $result->bindValue(':parent',$parent, PDO::PARAM_INT);
 
         $ordreNaissance = $this->chercherOrdreNaissance($parent);
-        //echo'ordreNaissance = '.$ordreNaissance.'<br>';
+        echo'ordreNaissance = '.$ordreNaissance.'<br>';
         $ordreNaissanceSucces = $result->bindValue(':ordreNaissance',$ordreNaissance, PDO::PARAM_INT);
 
         $result->execute();
@@ -308,13 +308,13 @@ class Personnage {
         //En fonction de son état de santé et de son âge chaque personnage se voit attribué une certaine probabilité de mourir
         foreach ($result as $row){
             if ($row['age'] <5){
-                $probaMort = 20;
+                $probaMort = 30;
             }
             else if ($row['age'] >= 5  && $row['age'] < 30){
                 $probaMort = 12;
             }
             else if ($row['age'] >= 30  && $row['age'] < 60){
-                $probaMort = 40;
+                $probaMort = 35;
             }
             else{
                 $probaMort = 90;
@@ -324,7 +324,7 @@ class Personnage {
                 $probaMort *= 1;
             }
             else if ($row['etatSante'] == 'moyen'){
-                $probaMort *= 1.25;
+                $probaMort *= 1.2;
             }
             else{
                 $probaMort *= 1.5;

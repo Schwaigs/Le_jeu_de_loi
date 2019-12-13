@@ -55,7 +55,7 @@ require_once '../accesBDD/classesPHP/Heritage.php';
         $nouveauScoreOrdre1= 0;
     }
     $_SESSION[$_SESSION['choix']['ordreConcerneOui']] = $nouveauScoreOrdre1;
-
+    
     $nouveauScoreOrdre2 = $_SESSION[$_SESSION['choix']['ordreConcerneNon']] + ($_SESSION['choix']['actionNon']);
     if($nouveauScoreOrdre2 > 100){
       $nouveauScoreOrdre2 = 100;
@@ -66,8 +66,8 @@ require_once '../accesBDD/classesPHP/Heritage.php';
     $_SESSION[$_SESSION['choix']['ordreConcerneNon']] = $nouveauScoreOrdre2;
   }
 
-  //Remettre le compteur du délai avant de perdre
-  $_SESSION['delaisMortInit'] = false;
+   //Remettre le compteur du délai avant de perdre
+   $_SESSION['delaisMortInit'] = false;
 
   //Retour au formulaire de choix entre events ou lois
   unset($_SESSION['row']);
@@ -81,12 +81,12 @@ require_once '../accesBDD/classesPHP/Heritage.php';
   $perso->vieillirPerso();
 
   //Chaque tour de jeu il y a des morts et une à 5 naissance(s)
-  $nbNaissance = rand(1,5);
+  $nbNaissance = rand(1,6);
   for ($i=0; $i < $nbNaissance; $i++) {
     $perso->creerPersonnage();
   }
   $perso->mortPerso();
-
+  
   //On peut passer à la suite
   $_SESSION['action'] = 'lois';
 
