@@ -12,18 +12,18 @@
           Vous devez garder votre ligné le plus longtemps sur le trône. <br>
           Pour cela, il faudra garder de bonnes relations avec les différents
           ordres et orienter l'héritage vers la branche la plus stratégique de la
-          famille à l'aide des lois.
+          famille à l'aide des lois.<br>
         </p>
 
       <h1> 2.  Conditions de victoire : </h1>
         <p>
-          Lorsqu'une certaine date est atteinte, le joueur gagnera la partie (1789).
-          Sinon, il peut perdre avant s'il fait de mauvais choix :
+          Lorsqu'une certaine date est atteinte, le joueur gagnera la partie (1789).<br>
+          Sinon, il peut perdre avant s'il fait de mauvais choix !<br><br><br>
 
-          Il peut n'avoir aucun héritier car les lois sont trop strictes
-          Une mauvaise relations avec les 3 ordres peut bloquer la modification des lois et entraîner une défaite
-          Un coup d'état peut arriver si l'un des 3 ordres a une très mauvaise relation avec le pouvoir
-          Si des enfants de la famille sont mariés à des étrangers et qu'ils deviennent roi, un autre pays prend le contrôle du royaume
+          Il peut n'avoir aucun héritier car les lois sont trop strictes et donc perdre la main.<br>
+          Une mauvaise relations avec les 3 ordres peut bloquer la modification des lois et entraîner une défaite. <br>
+          Un coup d'état peut arriver si l'un des 3 ordres a une très mauvaise relation avec le pouvoir. <br>
+          Si des enfants de la famille sont mariés à des étrangers et qu'ils deviennent roi, un autre pays prend le contrôle du royaume.<br>
         </p>
       <h1> 3.  Interaction : </h1>
         <h2> Partie Menu : </h2>
