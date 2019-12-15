@@ -65,6 +65,8 @@ Les derniers écrans de jeux possibles sont ceux de victoire et de défaite, en 
 Le jeu est facilement accessible à l'adresse web suivante : 
 → https://webetu.iutrs.unistra.fr/~fgander/ProjetT/le_jeu_de_lois/pageDeLancement/acceuil.php
 
+Ce dernier étant hébergé sur webetu, il est donc uniquement accessible depuis l'IUT ou depuis l'extérieur à condition que ce soit par connexion à distance ou via le VPN unistra.
+
 Pour des questions de visibilité, sur certaines résolutions il est préférable de règler le zoom à 70%.
 
 Il n'y a aucune installation préalable à réaliser, il suffit juste de jouer !
